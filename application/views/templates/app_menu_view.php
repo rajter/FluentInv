@@ -166,21 +166,20 @@
               <span>Inventura</span>
             </a>
           </li>
+          <!--SIFRARNICI-->
+          <li class="treeview">
+              <a href="#"><i class="fa fa-database"></i> <span>Šifrarnici</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                  <li><a href=<?php echo base_url()."index.php/clients"; ?> ><i class="fa fa-user"></i> Klijenti</a></li>
+                  <li><a href=<?php echo base_url()."index.php/locations"; ?> ><i class="fa fa-map-pin"></i> Lokacije</a></li>
+              </ul>
+          </li>
+          <!--LJUDSKI RESURSI-->
           <li class="treeview">
             <a href="#"><i class="fa fa-users"></i> <span>Ljudski resursi</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user-plus"></i>
-                    <span>Administratori</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="<?php echo base_url(); ?>index.php/employees">
-                    <i class="fa fa-user"></i>
-                    <span>Zaposlenici</span>
-                  </a>
-                </li>
+                <li><a href="#"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/employees"><i class="fa fa-user"></i><span>Zaposlenici</span></a></li>
             </ul>
           </li>
           <li>
