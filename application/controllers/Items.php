@@ -22,7 +22,8 @@ class Items extends My_Controller {
         $headerscripts['header_scripts'] = array();
 
         $footerscripts['footer_scripts'] = array(
-            '<script src="'.base_url().'assets/appjs/Items/modals.js"></script>'
+            '<script src="'.base_url().'assets/appjs/Items/modals.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Items/deleteItem.js"></script>'
         );
 
         $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/items_view');
@@ -37,9 +38,21 @@ class Items extends My_Controller {
         $headerscripts['header_scripts'] = array();
         $footerscripts['footer_scripts'] = array();
 
-        $item = $this->item->get($id);
+        $viewData['item'] = $this->item->get($id);
+        $viewData['quantities'] = $this->item->getQuantitiesByLocation($id);
+        $viewData['transactions'] = $this->item->getTransactions($id);
 
-        $this->load_views($headerscripts, $footerscripts, $data, $item, 'Items/view');
+        //Izracunaj sveukupnu kolicinu
+        $totalQuantity = 0;
+        for ($i = 0; $i < count($viewData['quantities']); $i++) {
+            $n = $viewData['quantities'][$i]->SUM;
+            $totalQuantity += $n;
+        }
+        $viewData['totalQuantity'] = $totalQuantity;
+        $viewData['totalTransactions'] = count($viewData['transactions']);      
+
+
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/view');
     }
 
     public function newItem()
@@ -113,9 +126,10 @@ class Items extends My_Controller {
 
             $viewData['alert'] = form_input($alertData);
 
-            $viewData['query'] = $this->item->getAll();
-
-            $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/items_view');
+            redirect('/items');
+            // $viewData['query'] = $this->item->getAll();
+            //
+            // $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/items_view');
         }
     }
 
@@ -130,7 +144,7 @@ class Items extends My_Controller {
         );
 
         $footerscripts['footer_scripts'] = array(
-            '<script src="'.base_url().'assets/appjs/Items/barcode.js"></script>',
+            '<script src="'.base_url().'assets/appjs/barcode.js"></script>',
             '<script src="'.base_url().'assets/appjs/dropzone.js"></script>',
             '<script src="'.base_url().'assets/appjs/Items/editItem.js"></script>'
         );
@@ -159,12 +173,28 @@ class Items extends My_Controller {
        }
     }
 
+    public function getItemFromCode()
+    {
+        $code = $this->input->post('code');
+        $item['data'] = $this->item->getFromCode($code);
+
+        echo json_encode($item['data'], JSON_UNESCAPED_UNICODE);
+    }
+
     public function checkCode()
     {
         $code = $this->input->get('code');
         $trans['data'] = $this->item->CheckCodeForDuplicate($code);
 
         echo json_encode($trans['data'], JSON_UNESCAPED_UNICODE);
+    }
+
+    public function delete()
+    {
+        $id = $this->input->post('id');
+        $result = $this->item->delete($id);
+
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
 }

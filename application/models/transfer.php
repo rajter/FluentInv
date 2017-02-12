@@ -3,8 +3,9 @@
 if(!defined("ITEM_TRANS")) define("ITEM_TRANS", "item_transaction", true);
 if(!defined("TRANSACTIONS")) define("TRANSACTIONS", "inventory_transactions", true);
 
-Class Receipt extends CI_Model
+Class Transfer extends CI_Model
 {
+    private $transType = 3;
 
     public function __contruct()
     {
@@ -18,19 +19,21 @@ Class Receipt extends CI_Model
         $this->db->select('U.name AS user');
         $this->db->select('C.name AS client');
         $this->db->select('L.name AS location');
+        $this->db->select('FL.name AS from_location');
         $this->db->from(TRANSACTIONS.' AS T');
         $this->db->join('users AS U', 'T.user_id = U.id');
         $this->db->join('clients AS C', 'T.client_id = C.id');
         $this->db->join('locations AS L', 'T.location_id = L.id');
+        $this->db->join('locations AS FL', 'T.from_location_id = FL.id');
         $this->db->order_by('T.transaction_number', 'DESC');
-        $this->db->where('transaction_type_id', 1);
+        $this->db->where('transaction_type_id', $this->transType);
         $query = $this->db->get();
 
         return $query->result();
     }
 
     /*
-    *   Return the receipt without the item data
+    *   Return the transfer without the item data
     */
     public function get($id)
     {
@@ -38,16 +41,19 @@ Class Receipt extends CI_Model
         {
             $this->db->select('I.id AS trans_id, I.transaction_number, I.user_id, I.date, I.footnote');
             $this->db->select('L.name AS location');
+            $this->db->select('FL.name AS from_location');
             $this->db->select('I.location_id AS location_id');
+            $this->db->select('I.from_location_id AS from_location_id');
             $this->db->select('C.*');
             $this->db->select('I.client_id AS client_id');
             $this->db->select('A.*');
             $this->db->from('inventory_transactions AS I');
             $this->db->join('locations AS L', 'L.id = I.location_id');
+            $this->db->join('locations AS FL', 'FL.id = I.from_location_id');
             $this->db->join('clients AS C', 'C.id = I.client_id');
             $this->db->join('address AS A', 'A.id = C.address_id');
             $this->db->where('I.transaction_number =', $id);
-            $this->db->where('I.transaction_type_id =', 1);
+            $this->db->where('I.transaction_type_id =', $this->transType);
             $query = $this->db->get();
 
             return $query->result();
@@ -55,7 +61,7 @@ Class Receipt extends CI_Model
     }
 
     /*
-    *   Return all the items from a specific receipt
+    *   Return all the items from a specific transfer
     */
     public function getData($inventory_transactions_id, $transaction_number)
     {
@@ -74,15 +80,19 @@ Class Receipt extends CI_Model
         }
     }
 
+    /*
+    *   Creates a new transfer
+    */
     public function create($session_id)
     {
         $this->load->helper('url');
 
-        $transaction_number = $this->modelHelper->returnMaxTransNumber(1);
+        $transaction_number = $this->modelHelper->returnMaxTransNumber(3);
         $user_id = $session_id;
         $client_id = $this->input->post('client');
         $date = $this->input->post('date');
         $location = $this->input->post('location');
+        $from_location = $this->input->post('from_location');
         $items = $this->input->post('item_id');         //  hidden input element
         $quantities = $this->input->post('item_qnt');   //  hidden input element
         $footnote = $this->input->post('footnote');
@@ -98,9 +108,10 @@ Class Receipt extends CI_Model
 
         $data = array(
             'transaction_number' => $transaction_number,
-            'transaction_type_id' => 1,
+            'transaction_type_id' => 3,
             'client_id' => $client_id,
             'location_id' => $location,
+            'from_location_id' => $from_location,
             'from_location_id' => $location,
             'user_id' => $user_id,
             'date' => $date,
@@ -108,7 +119,7 @@ Class Receipt extends CI_Model
         );
 
         $this->db->insert(TRANSACTIONS, $data);
-        $trans_id = $this->receipt->get($transaction_number)[0]->trans_id;
+        $trans_id = $this->transfer->get($transaction_number)[0]->trans_id;
 
         // Dodajemo artkikle
         foreach ($items as $item) {
@@ -121,9 +132,11 @@ Class Receipt extends CI_Model
             $this->db->insert(ITEM_TRANS, $transaction);
 
         }
-
     }
 
+    /*
+    *   Updates the transferdata
+    */
     public function update($session_id)
     {
         $this->load->helper('url');
@@ -133,6 +146,7 @@ Class Receipt extends CI_Model
         $client_id = $this->input->post('client');
         $date = $this->input->post('date');
         $location = $this->input->post('location');
+        $from_location = $this->input->post('from_location');
         $items = $this->input->post('item_id');         //  hidden input element
         $quantities = $this->input->post('item_qnt');   //  hidden input element
         $footnote = $this->input->post('footnote');
@@ -149,7 +163,7 @@ Class Receipt extends CI_Model
         $data = array(
             'client_id' => $client_id,
             'location_id' => $location,
-            'from_location_id' => $location,
+            'from_location_id' => $from_location,
             'user_id' => $user_id,
             'date' => $date,
             'footnote' => $footnote
@@ -176,10 +190,13 @@ Class Receipt extends CI_Model
         }
     }
 
+    /*
+    *   Deletes the transfer
+    */
     public function delete($transaction_number)
     {
         $this->db->where('transaction_number', $transaction_number);
-        $this->db->where('transaction_type_id', 1);
+        $this->db->where('transaction_type_id', 3);
         return $this->db->delete('inventory_transactions');
     }
 }

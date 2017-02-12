@@ -6,16 +6,18 @@ $(document).ready(function() {
         |ID|Ime     |Opis   |Tip    |Kod    |Kol    |
         ---------------------------------------------
     */
-    var dt = $('#receipts_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
+    var dt = $('#transfers_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
     dt     // Sortira tablicu po prvoj vidljivoj koloni
         .column( '0:visible' )
         .order( 'desc' )
         .draw();
 
-    //------------------------------------------
-    //   Prikazuje dialog sa pregledom primke
-    //------------------------------------------
-    $('#receipts_table').on('click', 'td, tr', function()
+    var tbody = $("#info-table-body");
+
+    /*
+    *   Prikazuje dialog sa pregledom mešuskladiša
+    */
+    $('#transfers_table').on('click', 'td, tr', function()
     {
       var cell = dt.cell( this );
       var row = dt.row( this );
@@ -27,7 +29,7 @@ $(document).ready(function() {
             var TRANS_NUMBER = row.data()[0];
             $.ajax({
                 type: "GET",
-                url: BASE_URL + "index.php/Receipts/getReceiptInfo",
+                url: BASE_URL + "index.php/Transfers/getTransferInfo",
                 data: { "transaction_number": TRANS_NUMBER },
                 dataType: "text",
                 success:
@@ -95,7 +97,6 @@ $(document).ready(function() {
         $("#hidden-item-qnt-"+id).remove();
     });
 
-
     //--------------------------------------------------
     // Dodavanje artikala putem modalnog dialoga artikala
     // gumb - Dodaj Artikl
@@ -155,15 +156,15 @@ $(document).ready(function() {
         $('#footnote').wysihtml5({locale: "hr-HR"});
     }
 
-    //---------------------------------------------
-    //     Modalni dialog za brisanje primki
-    //---------------------------------------------
-    $("#receipts_table").on("click", ".receipt_modal_delete", function(){
+    /*
+    *     Modalni dialog za brisanje međuskladišnica
+    */
+    $("#transfers_table").on("click", ".transfer_modal_delete", function(){
 
         var transNumber = $(this).attr('data');
         alertify.confirm(
             'Brisanje primke',
-            'Jeste li sigurni da želite obrisati primku ' + transNumber + ' ?',
+            'Jeste li sigurni da želite obrisati međuskladišnicu ' + transNumber + ' ?',
             function(){
 
                 var BASE_URL = $("#base_url").text();
@@ -173,7 +174,7 @@ $(document).ready(function() {
 
                 $.ajax({
                   type: "POST",
-                  url: BASE_URL + "index.php/Receipts/delete",
+                  url: BASE_URL + "index.php/Transfers/delete",
                   data: _form,
                   dataType: "text",
                   success:
@@ -181,8 +182,9 @@ $(document).ready(function() {
                         //alert(result);
                          var obj = JSON.parse(result);
 
-                         $('#receipt-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
-                         $("#receipt-number").text("Primka: ");
+                         $('#transfer-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
+                         tbody.children().remove();                 // brisemo podatke ako je tablica bila oznacena
+                         $("#transfer-number").text("Primka: ");
 
                          if(result)
                          {

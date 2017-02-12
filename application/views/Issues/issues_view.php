@@ -4,13 +4,13 @@
 
     <section class="content-header">
         <h1>
-          <i class="fa fa-book"></i>
-          Primke
+          <i class="fa fa-external-link"></i>
+          Izdatnice
           <small>- <?php // TODO: fali opis ?></small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-ticket"></i> FluentInventory</a></li>
-          <li class="active">Primke</li>
+          <li><a href="#"><i class="fa fa-exchange"></i> FluentInventory</a></li>
+          <li class="active">Izdatnice</li>
         </ol>
     </section>
 
@@ -21,11 +21,11 @@
                 <div class="box box-info">
                     <div class="box-header">
                         <!-- <h3 class="box-title"><i class="fa fa-ticket"></i> Primke</h3> -->
-                        <a href=<?php echo current_url().'/newReceipt' ?> class="btn btn-primary"><i class="fa fa-plus"></i> Nova Primka</a>
+                        <a href=<?php echo current_url().'/newIssue' ?> class="btn btn-primary"><i class="fa fa-plus"></i> Nova Izdatnica</a>
                     </div>
                     <div class="box-body">
                         <div class="col-md-12">
-                            <table id="receipts_table" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
+                            <table id="issues_table" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th style="width: 100px"><i class="fa fa-file-o"></i> Broj</th>
@@ -39,7 +39,7 @@
                                 <tbody>
 
                                     <?php foreach ($query as $trans): ?>
-                                        <tr id=<?php echo "receipt-row-".$trans->transaction_number; ?>>
+                                        <tr id=<?php echo "issue-row-".$trans->transaction_number; ?>>
                                             <td><?php echo $trans->transaction_number; ?></td>
                                             <td><?php echo $trans->user; ?></td>
                                             <td><?php echo $trans->client; ?></td>
@@ -50,7 +50,7 @@
                                                     <a href=<?php echo current_url().'/view/'.$trans->transaction_number; ?> data-toggle="modal"
                                                         type="button" class="btn btn-info"><i class="fa fa-search"></i> Pregled</a>
                                                         <a href=<?php echo current_url().'/edit/'.$trans->transaction_number; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
-                                                        <button type="button" class="btn btn-danger receipt_modal_delete" data=<?php echo $trans->transaction_number; ?>>
+                                                        <button type="button" class="btn btn-danger issue_modal_delete" data=<?php echo $trans->transaction_number; ?>>
                                                             <i class="fa fa-trash-o"></i> Obriši</button>
                                                     </div>
                                                 </td>
@@ -64,26 +64,6 @@
                                   echo form_close();
                                 ?>
                         </div>
-
-                        <!-- <div class="col-md-4">
-                            <div class="box box-solid" style="margin-top: 25px;">
-                                <div class="box-header">
-                                    <h3 class="box-titles" id="receipt-number"></h3>
-                                    <table class="table table-bordered table-condensed table-hover">
-                                        <thead>
-                                            <th>#</th>
-                                            <th>Ime</th>s
-                                            <th>Kod</th>
-                                            <th>Kol</th>
-                                        </thead>
-                                        <tbody id="info-table-body">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> -->
-
                     </div><!--box body-->
                 </div><!--box-->
             </div><!--col-md-12-->

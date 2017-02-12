@@ -3,42 +3,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Knp\Snappy\Pdf;
 
-class Receipts extends My_Controller {
+class Transfers extends My_Controller {
 
     function __construct()
      {
        parent::__construct();
        $this->load->helper('url');
        $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'receipt', 'dbQueries', 'modelHelper'));
+       $this->load->model(array('item', 'transfer', 'dbQueries', 'modelHelper'));
      }
 
      /*
-     *  Prikazuje sve primke
+     *  Prikazuje sve medjuskladisnice
      */
     public function index()
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
         $data['username'] = $session_data['username'];
-        $viewData['query'] = $this->receipt->getAll();
+        $viewData['query'] = $this->transfer->getAll();
 
         $headerscripts['header_scripts'] = array(
             '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> '
         );
 
         $footerscripts['footer_scripts'] = array(
-            '<script src="'.base_url().'assets/appjs/Receipts/receipts.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transfers/transfers.js"></script>',
             '<script src="'.base_url().'assets/appjs/modals.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Receipts/receipt_view');
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transfers/transfer_view');
     }
 
     /*
-    *   Nova primka
+    *   Nova medjuskladisnica
     */
-    public function newReceipt()
+    public function newTransfer()
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
@@ -59,14 +59,14 @@ class Receipts extends My_Controller {
             '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
             '<script src="'.base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>',
             '<script src="'.base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.hr-HR.js"></script>',
-            '<script src="'.base_url().'assets/appjs/Receipts/receipts.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transfers/transfers.js"></script>',
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Receipts/new_receipt_view');
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transfers/new_transfer_view');
     }
 
     /*
-    *   Pregled odredjene primke
+    *   Pregled odredjene medjuskladisnice
     */
     public function view($id = null)
     {
@@ -77,23 +77,23 @@ class Receipts extends My_Controller {
         $headerscripts['header_scripts'] = array();
         $footerscripts['footer_scripts'] = array();
 
-        $viewData['receipt'] = $this->receipt->get($id);
+        $viewData['transfer'] = $this->transfer->get($id);
 
-        $trans_id = (int)$viewData['receipt'][0]->trans_id;
-        $trans_number = $viewData['receipt'][0]->transaction_number;
+        $trans_id = (int)$viewData['transfer'][0]->trans_id;
+        $trans_number = $viewData['transfer'][0]->transaction_number;
 
-        $viewData['receiptData'] = $this->receipt->getData($trans_id, $trans_number);
+        $viewData['transferData'] = $this->transfer->getData($trans_id, $trans_number);
         $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(1, $trans_id);
         $viewData['company'] = $this->dbQueries->getCompanyInfo();
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Receipts/view');
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transfers/view');
     }
 
     //ajax called function
     /*
-    *   Vraca formatiran view odredjene primke u pregledu primki
+    *   Vraca formatiran view odredjene medjuskladisnice u pregledu medjuskladisnica
     */
-    public function getReceiptInfo()
+    public function getTransferInfo()
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
@@ -103,22 +103,22 @@ class Receipts extends My_Controller {
         $footerscripts['footer_scripts'] = array();
 
         $id = $this->input->get('transaction_number');
-        $viewData['receipt'] = $this->receipt->get($id);
+        $viewData['transfer'] = $this->transfer->get($id);
 
-        $trans_id = (int)$viewData['receipt'][0]->trans_id;
-        $trans_number = $viewData['receipt'][0]->transaction_number;
+        $trans_id = (int)$viewData['transfer'][0]->trans_id;
+        $trans_number = $viewData['transfer'][0]->transaction_number;
 
-        $viewData['receiptData'] = $this->receipt->getData($trans_id, $trans_number);
-        $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(1, $trans_id);
+        $viewData['transferData'] = $this->transfer->getData($trans_id, $trans_number);
+        $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(3, $trans_id);
         $viewData['company'] = $this->dbQueries->getCompanyInfo();
 
-        $formatedReceipt = $this->return_transaction_preview($data, $viewData, 'Receipts/receipt_preview');
-        echo $formatedReceipt;
+        $formatedtransfer = $this->return_transaction_preview($data, $viewData, 'Transfers/transfer_preview');
+        echo $formatedtransfer;
     }
 
     // AJAX
     /*
-    *   Dodavanje artikala u tablicu za kreiranje nove primke
+    *   Dodavanje artikala u tablicu za kreiranje nove medjuskladisnice
     */
     public function addItem()
     {
@@ -135,26 +135,26 @@ class Receipts extends My_Controller {
 
     // AJAX
     /*
-    *   Brisanje primke
+    *   Brisanje medjuskladisnice
     */
     public function delete()
     {
         $transaction_number = $this->input->post('transaction_number');
-        $result = $this->receipt->delete($transaction_number);
+        $result = $this->transfer->delete($transaction_number);
 
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     /*
-    *   Kreira novu primku
+    *   Kreira novu medjuskladisnicu
     */
     public function create()
     {
         $session_data = $this->session->userdata('logged_in');
         $user_id = $session_data['id'];
-        $this->receipt->create($user_id);
+        $this->transfer->create($user_id);
 
-        redirect('/Receipts');
+        redirect('/Transfers');
     }
 
 
@@ -164,9 +164,9 @@ class Receipts extends My_Controller {
         $data['id'] = $session_data['id'];
         $data['username'] = $session_data['username'];
 
-        $viewData['receipt'] = $this->receipt->get($id);
-        $trans_id = (int)$viewData['receipt'][0]->trans_id;
-        $trans_number = $viewData['receipt'][0]->transaction_number;
+        $viewData['transfer'] = $this->transfer->get($id);
+        $trans_id = (int)$viewData['transfer'][0]->trans_id;
+        $trans_number = $viewData['transfer'][0]->transaction_number;
 
         $viewData['locations'] = $this->dbQueries->getLocations();
         $viewData['clients'] = $this->dbQueries->getClients(1);
@@ -184,15 +184,15 @@ class Receipts extends My_Controller {
             '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
             '<script src="'.base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>',
             '<script src="'.base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.hr-HR.js"></script>',
-            '<script src="'.base_url().'assets/appjs/Receipts/receipts.js"></script>',
-            '<script src="'.base_url().'assets/appjs/Receipts/editReceipts.js"></script>'
+            '<script src="'.base_url().'assets/appjs/Transfers/transfers.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transfers/editTransfers.js"></script>'
         );
 
-        $viewData['receiptData'] = $this->receipt->getData($trans_id, $trans_number);
-        $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(1, $trans_id);
+        $viewData['transferData'] = $this->transfer->getData($trans_id, $trans_number);
+        $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(3, $trans_id);
         $viewData['company'] = $this->dbQueries->getCompanyInfo();
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Receipts/edit_view');
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transfers/edit_view');
     }
 
     public function update()
@@ -200,15 +200,15 @@ class Receipts extends My_Controller {
         // echo "<h1>UPDATE </h1>";
         $session_data = $this->session->userdata('logged_in');
         $user_id = $session_data['id'];
-        $this->receipt->update($user_id);
+        $this->transfer->update($user_id);
 
-        redirect('/Receipts');
+        redirect('/Transfers');
     }
 
     /*
-    *   Printanje primke
+    *   Printanje medjuskladisnice
     */
-    public function printReceipt($id = null)
+    public function printTransfer($id = null)
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
@@ -219,22 +219,22 @@ class Receipts extends My_Controller {
 
         // echo var_dump($data);
 
-        //$receiptData[] =
-        $viewData['receipt'] = $this->receipt->get($id);
+        //$transferData[] =
+        $viewData['transfer'] = $this->transfer->get($id);
 
-        $trans_id = (int)$viewData['receipt'][0]->trans_id;
-        $trans_number = $viewData['receipt'][0]->transaction_number;
+        $trans_id = (int)$viewData['transfer'][0]->trans_id;
+        $trans_number = $viewData['transfer'][0]->transaction_number;
 
-        $viewData['receiptData'] = $this->receipt->getData($trans_id, $trans_number);
+        $viewData['transferData'] = $this->transfer->getData($trans_id, $trans_number);
         $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(1, $trans_id);
         $viewData['company'] = $this->dbQueries->getCompanyInfo();
-        // array_push($this->receipt->getReceiptData($id), $viewData['receipt']);
+        // array_push($this->transfer->gettransferData($id), $viewData['transfer']);
 
-        $this->load_print_view($headerscripts, $footerscripts, $data, $viewData, 'Print/receipt_print_view');
+        $this->load_print_view($headerscripts, $footerscripts, $data, $viewData, 'Print/transfer_print_view');
     }
 
     /*
-    *   Generira pdf primke za download
+    *   Generira pdf medjuskladisnice za download
     */
     public function generatePDF($id = null)
     {
@@ -245,17 +245,17 @@ class Receipts extends My_Controller {
         $headerscripts['header_scripts'] = array();
         $footerscripts['footer_scripts'] = array();
 
-        $viewData['receipt'] = $this->receipt->get($id);
+        $viewData['transfer'] = $this->transfer->get($id);
 
-        $trans_id = (int)$viewData['receipt'][0]->trans_id;
-        $trans_number = $viewData['receipt'][0]->transaction_number;
+        $trans_id = (int)$viewData['transfer'][0]->trans_id;
+        $trans_number = $viewData['transfer'][0]->transaction_number;
 
-        $viewData['receiptData'] = $this->receipt->getData($trans_id, $trans_number);
+        $viewData['transferData'] = $this->transfer->getData($trans_id, $trans_number);
         $viewData['maxQuantity'] = $this->modelHelper->returnMaxQuantity(1, $trans_id);
         $viewData['company'] = $this->dbQueries->getCompanyInfo();
 
         $snappy = new Pdf('C:/wkhtmltopdf/bin/wkhtmltopdf');
-        $PDF = $this->return_print_view($headerscripts, $footerscripts, $data, $viewData, 'Print/receipt_print_view');
+        $PDF = $this->return_print_view($headerscripts, $footerscripts, $data, $viewData, 'Print/transfer_print_view');
 
         $filename = "Primka_".$id;
         header("Content-Type: application/pdf");

@@ -17,7 +17,7 @@ Class ModelHelper extends CI_Model
     *  (ovisno o tipu) uvecanu za jedan
     *  Nema provjere ako vrijednost prelazi 9999999
     */
-    public function returnMaxTransID($trans_type_id)
+    public function returnMaxTransNumber($trans_type_id)
     {
         $this->db->select_max('transaction_number')->where('transaction_type_id', $trans_type_id);
         $query = $this->db->get('inventory_transactions');
@@ -39,10 +39,12 @@ Class ModelHelper extends CI_Model
     {
         $this->db->select_max('I.quantity');
         $this->db->from('item_transaction AS I');
-        $this->db->join('inventory_transactions AS T', 'T.transaction_number = I.transaction_number');
-        $this->db->where('I.transaction_number', $trans_id);
+        $this->db->join('inventory_transactions AS T', 'T.id = I.inventory_transaction_id');
+        $this->db->where('T.id', $trans_id);
         $query = $this->db->get();
 
+        $lastQuery = $this->db->last_query();
+        $r = $query->result();
         return $query->result();
     }
 }

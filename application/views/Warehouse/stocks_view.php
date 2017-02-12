@@ -3,8 +3,7 @@
 
     <section class="content-header">
         <h1>
-          Stanje Zaliha
-          <small>- <?php // TODO: fali opis ?></small>
+          <i class="fa fa-bar-chart"></i> Stanje Zaliha - <strong><?php echo $locations[$this->uri->segment('3')-1]->name; ?></strong>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-ticket"></i> FluentInventory</a></li>
@@ -18,69 +17,196 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-ticket"></i> Stanje Zaliha</h3>
+                        <!-- <h1 class="box-title"><?php echo $locations[$this->uri->segment('3')+1]->name; ?></h1>
+                        <button class="btn btn-primary pull-right" type="button" name="button" id="change-warehouse-btn">Promjeni Skladište</button> -->
                     </div>
                     <div class="box-body">
                         <div class="row">
-
                             <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label for="Warehouse">Skladište:</label>
-                                    <select  class="form-control" name="location">
-                                        <?php foreach ($locations as $location) {?>
-                                            <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
-                                            <?php } ?>
-                                    </select>
-                                </div>
+                                <select class="form-control" name="warehouse-select" id="stocks-warehouse-select">
+                                    <?php foreach ($locations as $location) {?>
+                                        <option value=<?php echo $location->id; ?>><?php echo $location->name; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <p class="hidden" id="current-location"><?php echo $this->uri->segment('3'); ?></p>
                             </div>
                             <div class="col-xs-6">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <div class="form-group">
-                                            <label for="Date">Od: </label>
-                                            <input class="form-control pull-right datepicker" id="from_datepicker" type="text" name="date"
-                                            value=<?php echo date('Y-m-d'); ?>>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <div class="form-group">
-                                            <label for="Date">Do: </label>
-                                            <input class="form-control pull-right datepicker" id="to_datepicker" type="text" name="date"
-                                            value=<?php echo date('Y-m-d'); ?>>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <!-- <div class="form-group"> -->
-                                        <label for="">Komande:</label>
-                                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-primary form-control" type="button" name="button"><i class="fa fa-search"></i></button>
-                                            </div>
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-warning form-control" type="button" name="button"><i class="fa fa-ban"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="btn btn-primary" type="button" name="button" id="stocks-refresh-btn">Osvježi</button>
                             </div>
-                        </div><!--row-->
+                        </div>
                         <br>
                         <div class="row">
                             <div class="col-xs-12">
-                                <table class="table table-hover table-striped" id="stocks_table">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Datum</th>
-                                        <th>Korisnik</th>
-                                        <th>Opcije</th>
-                                    </thead>
-                                    <tbody>
-                                        <td>16-000001</td>
-                                        <td>2016-11-05</td>
-                                        <td>Admin</td>
-                                        <td></td>
-                                    </tbody>
-                                </table>
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-items" data-toggle="tab" aria-expanded="true">Artikli</a></li>
+                                        <li class=""><a href="#tab-in" data-toggle="tab" aria-expanded="false">Ulaz</a></li>
+                                        <li class=""><a href="#tab-out" data-toggle="tab" aria-expanded="false">Izlaz</a></li>
+                                        <li class=""><a href="#tab-transfer" data-toggle="tab" aria-expanded="false">Premještaj</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab-items">
+                                            <table class="table table-hover table-striped" id="stocks_table">
+                                                <thead>
+                                                    <th>#</th>
+                                                    <th>Slika</th>
+                                                    <th>Kod</th>
+                                                    <th>Artikl</th>
+                                                    <th>Opis</th>
+                                                    <th>Cijena</th>
+                                                    <th class="text-center">Kolicina</th>
+                                                    <th>Opcije</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($itemStocks as $item): ?>
+                                                    <tr>
+                                                        <td><?php echo $item->item_id; ?></td>
+                                                        <td class="text-center">
+                                                            <?php if(!empty($item->image)){ ?>
+                                                                  <img class="img img-responsive center-block" style="width: 30px; " id="image"
+                                                                  <?php
+                                                                  echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                                                  ?>>
+                                                            <?php }else {?>
+                                                                  <i class="fa fa-ban"></i>
+                                                            <?php }; ?>
+                                                        </td>
+                                                        <td><?php echo $item->code; ?></td>
+                                                        <td><?php echo $item->name; ?></td>
+                                                        <td><?php echo substr($item->description, 0, 75)."..."; ?></td>
+                                                        <td><?php echo $item->price; ?> kn</td>
+                                                        <td class="text-center">
+                                                            <?php
+                                                                $label = "class='label label-primary'";
+                                                                if($item->quantity < 0){
+                                                                    $label = "class='label label-danger'";
+                                                                }
+                                                             ?>
+                                                            <span <?php echo $label; ?>><?php echo $item->quantity; ?></span> </td>
+                                                        <td>options</td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="tab-in">
+                                            <!-- <?php var_dump($itemEntrance); ?> -->
+                                            <table class="table table-hover table-striped" id="">
+                                                <thead>
+                                                    <th style="width: 40px;">#</th>
+                                                    <th style="width: 40px;">Slika</th>
+                                                    <th style="width: 40px;">Kod</th>
+                                                    <th style="width: 250px;">Artikl</th>
+                                                    <th>Label</th>
+                                                    <th class="text-center" style="width: 40px;">Kolicina</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($itemEntrance as $item): ?>
+                                                    <tr>
+                                                        <td><?php echo $item->item_id; ?></td>
+                                                        <td class="text-center">
+                                                            <?php if(!empty($item->image)){ ?>
+                                                                  <img class="img img-responsive center-block" style="width: 30px; " id="image"
+                                                                  <?php
+                                                                  echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                                                  ?>>
+                                                            <?php }else {?>
+                                                                  <i class="fa fa-ban"></i>
+                                                            <?php }; ?>
+                                                        </td>
+                                                        <td><?php echo $item->code; ?></td>
+                                                        <td><?php echo $item->name; ?></td>
+                                                        <td>
+                                                            <div class="progress progress-xs">
+                                                                <div class="progress-bar progress-bar-green" style=<?php echo "width:".round($item->total/$itemEntrance[0]->total, 2)*100 . "%"; ?>></div>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge bg-green"><?php echo $item->total; ?></span></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="tab-out">
+                                            <!-- <?php var_dump($itemExits); ?> -->
+                                            <table class="table table-hover table-striped" id="">
+                                                <thead>
+                                                    <th style="width: 40px;">#</th>
+                                                    <th style="width: 40px;">Slika</th>
+                                                    <th style="width: 40px;">Kod</th>
+                                                    <th style="width: 250px;">Artikl</th>
+                                                    <th>Label</th>
+                                                    <th class="text-center" style="width: 40px;">Kolicina</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($itemExits as $item): ?>
+                                                    <tr>
+                                                        <td><?php echo $item->item_id; ?></td>
+                                                        <td class="text-center">
+                                                            <?php if(!empty($item->image)){ ?>
+                                                                  <img class="img img-responsive center-block" style="width: 30px; " id="image"
+                                                                  <?php
+                                                                  echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                                                  ?>>
+                                                            <?php }else {?>
+                                                                  <i class="fa fa-ban"></i>
+                                                            <?php }; ?>
+                                                        </td>
+                                                        <td><?php echo $item->code; ?></td>
+                                                        <td><?php echo $item->name; ?></td>
+                                                        <td>
+                                                            <div class="progress progress-xs">
+                                                                <div class="progress-bar progress-bar-red" style=<?php echo "width:".round($item->total/$itemExits[0]->total, 2)*100 . "%"; ?>></div>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge bg-red">-<?php echo $item->total; ?></span></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="tab-pane" id="tab-transfer">
+                                            <!-- <?php var_dump($itemTransfers); ?> -->
+                                            <table class="table table-hover table-striped" id="">
+                                                <thead>
+                                                    <th style="width: 40px;">#</th>
+                                                    <th style="width: 40px;">Slika</th>
+                                                    <th style="width: 40px;">Kod</th>
+                                                    <th style="width: 250px;">Artikl</th>
+                                                    <th>Label</th>
+                                                    <th class="text-center" style="width: 40px;">Kolicina</th>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($itemTransfers as $item): ?>
+                                                    <tr>
+                                                        <td><?php echo $item->item_id; ?></td>
+                                                        <td class="text-center">
+                                                            <?php if(!empty($item->image)){ ?>
+                                                                  <img class="img img-responsive center-block" style="width: 30px; " id="image"
+                                                                  <?php
+                                                                  echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                                                  ?>>
+                                                            <?php }else {?>
+                                                                  <i class="fa fa-ban"></i>
+                                                            <?php }; ?>
+                                                        </td>
+                                                        <td><?php echo $item->code; ?></td>
+                                                        <td><?php echo $item->name; ?></td>
+                                                        <td>
+                                                            <div class="progress progress-xs">
+                                                                <div class="progress-bar progress-bar-blue" style=<?php echo "width:".round($item->total/$itemTransfers[0]->total, 2)*100 . "%"; ?>></div>
+                                                            </div>
+                                                        </td>
+                                                        <td><span class="badge bg-blue"><?php echo $item->total; ?></span></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div><!--row-->
 
@@ -89,6 +215,16 @@
             </div><!--col-md-12-->
         </div><!--row-->
 
+        <!--Dialog koji se ne koristi al sam ostavio kao primjer-->
+        <div class="row hidden" id="hidden-locations-select">
+            <select class="form-control" name="warehouse-select" id="stocks-warehouse-select">
+                <?php foreach ($locations as $location) {?>
+                    <option value=<?php echo $location->id; ?>><?php echo $location->name; ?></option>
+                <?php } ?>
+            </select>
+            <br>
+            <button class="btn btn-primary" type="button" name="button" id="stocks-refresh-btn">Osvježi</button>
+        </div>
 
     </section>
 

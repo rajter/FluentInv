@@ -64,7 +64,8 @@
                                 <?php $totalPrice += $item->price * $item->quantity; ?>
                                 <?php $totalQuantity += $item->quantity; ?>
                                 <tr>
-                                    <td><?php echo $key+1; ?></td>
+                                    <!-- <td><?php echo $key+1; ?></td> -->
+                                    <td><?php echo $item->id; ?></td>
                                     <td class="text-center">
                                         <?php if(!empty($item->image)){ ?>
                                               <img class="img img-responsive center-block" style="width: 40px; " id="image"
@@ -90,7 +91,7 @@
                                     <!-- <?php echo $percent; ?> -->
                                 </td>
                                     <td><?php echo $item->name; ?></td>
-                                    <td><?php echo $item->description; ?></td>
+                                    <td><?php echo substr($item->description, 0, 100)."..."; ?></td>
                                     <td><?php echo $item->code; ?></td>
                                     <td><?php echo $item->price; ?> kn</td>
                                 </tr>
@@ -132,7 +133,7 @@
                     <a href=<?php echo base_url().'index.php/Receipts/generatePDF/'.$receipt[0]->transaction_number; ?>
                         class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
                     <a href=<?php echo base_url().'index.php/Receipts/printReceipt/'.$receipt[0]->transaction_number; ?>
-                        class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
+                        target="blank" class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
                 </div>
             </div>
         </section>

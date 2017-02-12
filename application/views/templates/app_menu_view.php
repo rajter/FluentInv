@@ -142,22 +142,22 @@
             </a>
           </li>
           <li class="treeview">
-            <a href="#"><i class="fa fa-tags"></i> <span>Artikli</span> <i class="fa fa-angle-left pull-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-tags"></i>Svi Artikli</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-check"></i>Artikli na skladištu</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Izdani artikli</a></li>
-            </ul>
+            <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-tags"></i>Artikli</a></li>
+            <!-- <a href="#"><i class="fa fa-tags"></i> <span>Artikli</span> <i class="fa fa-angle-left pull-right"></i></a> -->
+            <!-- <ul class="treeview-menu"> -->
+              <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-check"></i>Artikli na skladištu</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Izdani artikli</a></li> -->
+            <!-- </ul> -->
           </li>
           <li class="treeview">
             <a href="#"><i class="fa fa-archive"></i> <span>Dokumenti</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
               <li><a href="<?php echo base_url(); ?>index.php/Receipts"><i class="fa fa-book"></i>Primke</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-external-link"></i>Izdatnice</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Otpis</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-eraser"></i>Ispravci</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/warehouse/stocks"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/Issues"><i class="fa fa-external-link"></i>Izdatnice</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/Transfers"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
+              <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Otpis</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-eraser"></i>Ispravci</a></li> -->
+              <li><a href="<?php echo base_url(); ?>index.php/warehouse/stocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
             </ul>
           </li>
           <li>
@@ -170,8 +170,9 @@
           <li class="treeview">
               <a href="#"><i class="fa fa-database"></i> <span>Šifrarnici</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
+                  <li><a href=<?php echo base_url()."index.php/itemTypes"; ?> ><i class="fa fa-tags"></i> Tipovi Artikala</a></li>
                   <li><a href=<?php echo base_url()."index.php/clients"; ?> ><i class="fa fa-user"></i> Klijenti</a></li>
-                  <li><a href=<?php echo base_url()."index.php/locations"; ?> ><i class="fa fa-map-pin"></i> Lokacije</a></li>
+                  <li><a href=<?php echo base_url()."index.php/warehouses"; ?> ><i class="fa fa-map-pin"></i> Skladišta</a></li>
               </ul>
           </li>
           <!--LJUDSKI RESURSI-->

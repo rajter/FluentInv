@@ -3,13 +3,13 @@
 
     <section class="content-header">
         <h1>
-          <i class="fa fa-book"></i>
-          Nova Primka
+          <i class="fa fa-external-link"></i>
+          Nova Izdatnica
           <small><?php // TODO: fali opis ?></small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-ticket"></i> Fluent Inventory</a></li>
-          <li class="active">Nova Primka</li>
+          <li class="active">Nova Izdatnica</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-body">
-                    <?php echo form_open('receipts/Create'); ?>
+                    <?php echo form_open('issues/Create'); ?>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -206,6 +206,7 @@
             </div>
           </div>
         </div>
+
 
 
     </section>

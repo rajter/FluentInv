@@ -1,13 +1,25 @@
-<body onload="window.print();">
-<!-- <body> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
 
-    <div class="wrapper">
+    <section class="content">
+        <section class="content-header">
+            <h1>
+                <i class="fa fa-external-link"></i>
+                Izdatnica
+                <small> <?php echo "#".$issue[0]->transaction_number; ?></small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="#"><i class="fa fa-dashboard"></i> FluentInventory</a></li>
+              <li class="active">Template</li>
+            </ol>
+        </section>
+
         <section class="invoice">
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> <?php echo $company[0]->name; ?>
-                        <small class="pull-right">Datum: <?php echo $receipt[0]->date; ?></small>
+                        <small class="pull-right">Datum: <?php echo $issue[0]->date; ?></small>
                         <small><?php echo $company[0]->address; ?></small>
                         <small><?php echo $company[0]->city.", ".$company[0]->zipcode; ?></small>
                     </h2>
@@ -16,20 +28,20 @@
 
 
             <div class="row invoice-info">
-                <div class="col-xs-8 invoice-col">
+                <div class="col-sm-8 invoice-col">
                     <br>
                     <address>
-                        <strong><?php echo $receipt[0]->name; ?></strong> - <?php echo $receipt[0]->description; ?><br>
-                        <?php echo $receipt[0]->address; ?><br>
-                        <?php echo $receipt[0]->city.", ".$receipt[0]->zipcode; ?><br>
-                        Tel: <?php echo $receipt[0]->tel; ?><br>
-                        Email: <?php echo $receipt[0]->email; ?>
+                        <strong><?php echo $issue[0]->name; ?></strong> - <?php echo $issue[0]->description; ?><br>
+                        <?php echo $issue[0]->address; ?><br>
+                        <?php echo $issue[0]->city.", ".$issue[0]->zipcode; ?><br>
+                        Tel: <?php echo $issue[0]->tel; ?><br>
+                        Email: <?php echo $issue[0]->email; ?>
                     </address>
                 </div><!-- /.col -->
-                <div class="col-xs-4 invoice-col">
-                    <h3>Primka: <strong><?php echo $receipt[0]->transaction_number; ?></strong></h3>
-                    <b>Lokacija</b> <?php echo $receipt[0]->location; ?><br>
-                    <b>Datum:</b> <?php echo $receipt[0]->date; ?><br>
+                <div class="col-sm-4 invoice-col">
+                    <h3>Primka: <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
+                    <b>Lokacija</b> <?php echo $issue[0]->location; ?><br>
+                    <b>Datum:</b> <?php echo $issue[0]->date; ?><br>
                 </div><!-- /.col -->
             </div>
 
@@ -37,7 +49,8 @@
                 <div class="col-xs-12 table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
-                            <th>#</th>
+                            <th style="width: 40px;">#</th>
+                            <th style="width: 50px;">Slika</th>
                             <th>Kol</th>
                             <th>Ime</th>
                             <th>Opis</th>
@@ -47,11 +60,21 @@
                         <tbody>
                             <?php $totalPrice = 0; ?>
                             <?php $totalQuantity = 0; ?>
-                            <?php foreach ($receiptData as $key=>$item): ?> <!-- $key je index -->
+                            <?php foreach ($issueData as $key=>$item): ?> <!-- $key je index -->
                                 <?php $totalPrice += $item->price * $item->quantity; ?>
                                 <?php $totalQuantity += $item->quantity; ?>
                                 <tr>
                                     <td><?php echo $key+1; ?></td>
+                                    <td class="text-center">
+                                        <?php if(!empty($item->image)){ ?>
+                                              <img class="img img-responsive center-block" style="width: 40px; " id="image"
+                                              <?php
+                                              echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                              ?>>
+                                        <?php }else {?>
+                                              <i class="fa fa-ban"></i>
+                                        <?php }; ?>
+                                    </td>
                                     <td>
                                         <?php
                                         $max = (int)$maxQuantity[0]->quantity;
@@ -67,7 +90,7 @@
                                     <!-- <?php echo $percent; ?> -->
                                 </td>
                                     <td><?php echo $item->name; ?></td>
-                                    <td><?php echo substr($item->description, 0, 30)."..."; ?></td>
+                                    <td><?php echo substr($item->description, 0, 100)."..."; ?></td>
                                     <td><?php echo $item->code; ?></td>
                                     <td><?php echo $item->price; ?> kn</td>
                                 </tr>
@@ -81,7 +104,7 @@
                 <div class="col-xs-6">
                     <h2>Napomena:</h2>
                     <div class="well well-sm text-muted">
-                        <?php echo $receipt[0]->footnote; ?>
+                        <?php echo $issue[0]->footnote; ?>
                     </div>
                 </div>
                 <div class="col-xs-5 col-xs-offset-1">
@@ -103,14 +126,16 @@
                 </div>
             </div>
 
-            <!-- <div class="row no-print">
+            <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href=<?php echo base_url().'index.php/Receipts/edit/'.$receipt[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
-                    <a class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
-                    <a href=<?php echo base_url().'index.php/Receipts/printReceipt/'.$receipt[0]->transaction_number; ?>
-                        class="btn btn-default pull-right" style="margin-right: 5px;"
-                        target="blank"><i class="fa fa-print"></i> Print</a>
+                    <a href=<?php echo base_url().'index.php/issues/edit/'.$issue[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
+                    <a href=<?php echo base_url().'index.php/issues/generatePDF/'.$issue[0]->transaction_number; ?>
+                        class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
+                    <a href=<?php echo base_url().'index.php/issues/printissue/'.$issue[0]->transaction_number; ?>
+                        target="blank" class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
                 </div>
-            </div> -->
+            </div>
         </section>
-    </div>
+    </section>
+
+</div>

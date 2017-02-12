@@ -65,6 +65,11 @@ class MY_Controller extends CI_Controller {
         $footer = $this->load->view('Print/app_footer_view', $footerscripts, true);
         return $header.$view.$footer;
     }
+
+    public function return_transaction_preview($mainData, $viewData, $viewName)
+    {
+        return $this->load->view($viewName, $viewData, true);
+    }
 }
 
 ?>

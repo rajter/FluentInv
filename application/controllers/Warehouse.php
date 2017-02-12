@@ -1,8 +1,5 @@
 <?php
-/**
- * Date: 15.7.2016.
- * Time: 18:49
- */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Warehouse extends My_Controller {
@@ -12,7 +9,7 @@ class Warehouse extends My_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->helper(array("form", "security", "date"));
-        $this->load->model(array('item', 'receipt', 'dbQueries', 'modelHelper'));
+        $this->load->model(array('item', 'receipt', 'issue', 'stocks', 'dbQueries', 'modelHelper'));
     }
 
     public function index()
@@ -23,13 +20,16 @@ class Warehouse extends My_Controller {
     /*
     *   STANJE ZALIHA
     */
-    public function stocks()
+    public function stocks($location_id = 1)
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
         $data['username'] = $session_data['username'];
         $viewData[] = null;
-        // $viewData['query'] = $this->warehouse->getStocks();
+        $viewData['itemStocks'] = $this->stocks->getItemStocks($location_id);
+        $viewData['itemEntrance'] = $this->stocks->getTotalItemCount(1, $location_id);
+        $viewData['itemExits'] = $this->stocks->getTotalItemCount(2, $location_id);
+        $viewData['itemTransfers'] = $this->stocks->getTotalItemCount(3, $location_id);
         $viewData['locations'] = $this->dbQueries->getLocations();
 
         $headerscripts['header_scripts'] = array(
@@ -41,7 +41,7 @@ class Warehouse extends My_Controller {
         $footerscripts['footer_scripts'] = array(
             '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
             '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
-            '<script src="'.base_url().'assets/appjs/Receipts/stocks.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Warehouse/stocks.js"></script>',
             '<script src="'.base_url().'assets/appjs/modals.js"></script>'
         );
 

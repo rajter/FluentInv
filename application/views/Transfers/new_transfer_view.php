@@ -3,13 +3,13 @@
 
     <section class="content-header">
         <h1>
-          <i class="fa fa-book"></i>
-          Nova Primka
+          <i class="fa fa-exchange"></i>
+          Nova međuskladišnica
           <small><?php // TODO: fali opis ?></small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-ticket"></i> Fluent Inventory</a></li>
-          <li class="active">Nova Primka</li>
+          <li><a href="#"><i class="fa fa-exchange"></i> Fluent Inventory</a></li>
+          <li class="active">Nova Izdatnica</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-body">
-                    <?php echo form_open('receipts/Create'); ?>
+                    <?php echo form_open('transfers/Create'); ?>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -39,7 +39,16 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Lokacija:</label>
+                                            <label>Iz Lokacije:</label>
+                                            <select  class="form-control" name="from_location">
+                                                <?php foreach ($locations as $location) {?>
+                                                    <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
+                                                    <?php } ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>U Lokaciju:</label>
                                             <select  class="form-control" name="location">
                                                 <?php foreach ($locations as $location) {?>
                                                     <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
@@ -206,7 +215,6 @@
             </div>
           </div>
         </div>
-
 
     </section>
 

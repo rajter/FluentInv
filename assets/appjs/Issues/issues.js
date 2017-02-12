@@ -6,16 +6,17 @@ $(document).ready(function() {
         |ID|Ime     |Opis   |Tip    |Kod    |Kol    |
         ---------------------------------------------
     */
-    var dt = $('#receipts_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
+    var dt = $('#issues_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
     dt     // Sortira tablicu po prvoj vidljivoj koloni
         .column( '0:visible' )
         .order( 'desc' )
         .draw();
+    var tbody = $("#info-table-body");
 
-    //------------------------------------------
+    //--------------------------------------------
     //   Prikazuje dialog sa pregledom primke
-    //------------------------------------------
-    $('#receipts_table').on('click', 'td, tr', function()
+    //--------------------------------------------
+    $('#issues_table').on('click', 'td, tr', function()
     {
       var cell = dt.cell( this );
       var row = dt.row( this );
@@ -27,7 +28,7 @@ $(document).ready(function() {
             var TRANS_NUMBER = row.data()[0];
             $.ajax({
                 type: "GET",
-                url: BASE_URL + "index.php/Receipts/getReceiptInfo",
+                url: BASE_URL + "index.php/Issues/getIssueInfo",
                 data: { "transaction_number": TRANS_NUMBER },
                 dataType: "text",
                 success:
@@ -95,7 +96,6 @@ $(document).ready(function() {
         $("#hidden-item-qnt-"+id).remove();
     });
 
-
     //--------------------------------------------------
     // Dodavanje artikala putem modalnog dialoga artikala
     // gumb - Dodaj Artikl
@@ -156,9 +156,9 @@ $(document).ready(function() {
     }
 
     //---------------------------------------------
-    //     Modalni dialog za brisanje primki
+    //     Modalni dialog za brisanje izdatnici
     //---------------------------------------------
-    $("#receipts_table").on("click", ".receipt_modal_delete", function(){
+    $("#issues_table").on("click", ".issue_modal_delete", function(){
 
         var transNumber = $(this).attr('data');
         alertify.confirm(
@@ -173,7 +173,7 @@ $(document).ready(function() {
 
                 $.ajax({
                   type: "POST",
-                  url: BASE_URL + "index.php/Receipts/delete",
+                  url: BASE_URL + "index.php/Issues/delete",
                   data: _form,
                   dataType: "text",
                   success:
@@ -181,8 +181,8 @@ $(document).ready(function() {
                         //alert(result);
                          var obj = JSON.parse(result);
 
-                         $('#receipt-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
-                         $("#receipt-number").text("Primka: ");
+                         $('#issue-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
+                         $("#issue-number").text("Izdatnica: ");
 
                          if(result)
                          {
@@ -196,10 +196,11 @@ $(document).ready(function() {
 
             },
             function(){
-                alertify.error('Dogodila se greška!');
+                alertify.error('Prekid brisanja izdatnice!');
             }
         );
     });
+
 
     // -----------------------------------------------------
     // Zapis napomene dodaje u skriti element za submitanje
@@ -316,6 +317,5 @@ $(document).ready(function() {
         }
 
     });
-
 
 });

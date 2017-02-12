@@ -7,15 +7,15 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-edit"></i> Primka <?php echo $receipt[0]->transaction_number; ?></h3>
+                        <h3 class="box-title"><i class="fa fa-edit"></i> Primka <?php echo $issue[0]->transaction_number; ?></h3>
                     </div>
                     <div class="box-body">
-                        <!-- <?php echo var_dump($receiptData); ?>
-                        <?php echo var_dump($receipt); ?>
+                        <!-- <?php echo var_dump($issueData); ?>
+                        <?php echo var_dump($issue); ?>
                         <?php echo var_dump($query); ?> -->
 
-                        <?php echo form_open('receipts/Update'); ?>
-                            <input class="hidden" type="text" name="transaction_id" value=<?php echo $receipt[0]->trans_id; ?>>
+                        <?php echo form_open('issues/Update'); ?>
+                            <input class="hidden" type="text" name="transaction_id" value=<?php echo $issue[0]->trans_id; ?>>
                             <div class="row">
 
                                 <div class="col-md-6">
@@ -29,13 +29,13 @@
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     <input class="form-control pull-right datepicker" id="datepicker" type="text" name="date"
-                                                    value=<?php echo $receipt[0]->date; ?>>
+                                                    value=<?php echo $issue[0]->date; ?>>
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
 
                                             <div class="form-group">
-                                                <label>Lokacija:</label><p class="hidden" id="current-location"><?php echo $receipt[0]->location_id; ?></p>
+                                                <label>Lokacija:</label><p class="hidden" id="current-location"><?php echo $issue[0]->location_id; ?></p>
                                                 <select  class="form-control" name="location" id="location-select">
                                                     <?php foreach ($locations as $location) {?>
                                                         <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
@@ -44,7 +44,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label>Dobavljač:</label><p class="hidden" id="current-client"><?php echo $receipt[0]->client_id; ?></p>
+                                                <label>Dobavljač:</label><p class="hidden" id="current-client"><?php echo $issue[0]->client_id; ?></p>
                                                 <select  class="form-control" name="client" id="client-select">
                                                     <?php foreach ($clients as $client) {?>
                                                         <option value=<?php echo $client->id; ?>><?php echo $client->name;?></option>
@@ -77,7 +77,7 @@
                                         <tbody id="selected_items_table_body">
                                             <?php $totalPrice = 0; ?>
                                             <?php $totalQuantity = 0; ?>
-                                            <?php foreach ($receiptData as $key=>$item): ?> <!-- $key je index -->
+                                            <?php foreach ($issueData as $key=>$item): ?> <!-- $key je index -->
                                                 <?php $totalPrice += $item->price * $item->quantity; ?>
                                                 <?php $totalQuantity += $item->quantity; ?>
                                                 <tr id=<?php echo "row-".$item->id; ?>>
@@ -110,7 +110,7 @@
                                         </tbody>
                                     </table>
                                     <a href="#modal_code" data-toggle="modal"
-                                          type="button" class="btn btn-default"><i class="fa fa-barcode"></i>  Učitaj kod</a>
+                                        type="button" class="btn btn-default"><i class="fa fa-barcode"></i>  Učitaj kod</a>
 
                                     <a href="#modal_add_item" data-toggle="modal"
                                     data-id=""
@@ -119,12 +119,12 @@
 
                                     <div class="form-group">
                                         <label>Napomena:</label>
-                                        <textarea class="form-control" id="footnote" placeholder="Tekst Napomene"><?php echo $receipt[0]->footnote; ?></textarea>
-                                        <textarea id="hidden-footnote" name="footnote" rows="8" cols="40" class="hidden"><?php echo $receipt[0]->footnote; ?></textarea>
+                                        <textarea class="form-control" id="footnote" placeholder="Tekst Napomene"><?php echo $issue[0]->footnote; ?></textarea>
+                                        <textarea id="hidden-footnote" name="footnote" rows="8" cols="40" class="hidden"><?php echo $issue[0]->footnote; ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 hidden" id="hidden_id">
-                                    <?php foreach ($receiptData as $key=>$item): ?> <!-- $key je index -->
+                                    <?php foreach ($issueData as $key=>$item): ?> <!-- $key je index -->
                                             <input id=<?php echo "hidden-item-id-".$item->id ?> class='' name='item_id[]' value=<?php echo $item->id; ?>>
                                             <input id=<?php echo "hidden-item-qnt-".$item->id ?> class='' name='item_qnt[]' value=<?php echo $item->quantity; ?>>
                                             <br>
@@ -201,22 +201,22 @@
                               <tbody>
                                   <?php foreach ($query as $item): ?>
                                       <tr class="item_row">
-                                        <td id="item_id"><?php echo $item->id; ?></td>
-                                        <td id="item-image" class="text-center">
-                                            <?php if(!empty($item->image)){ ?>
-                                                  <img class="img img-responsive center-block" style="width: 40px; " id="image"
-                                                  <?php
-                                                  echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
-                                                  ?>>
-                                            <?php }else {?>
-                                                  <i class="fa fa-ban"></i>
-                                            <?php }; ?>
-                                        </td>
-                                        <td id="item_name"><?php echo $item->name; ?></td>
-                                        <td id="item_description"><?php echo substr($item->description, 0, 50); ?></td>
-                                        <td id="item_type"><?php echo $item->type; ?></td>
-                                        <td id="item_code"><?php echo $item->code; ?></td>
-                                        <td id="item_price"><?php echo $item->price; ?></td>
+                                          <td id="item_id"><?php echo $item->id; ?></td>
+                                          <td id="item-image" class="text-center">
+                                              <?php if(!empty($item->image)){ ?>
+                                                    <img class="img img-responsive center-block" style="width: 40px; " id="image"
+                                                    <?php
+                                                    echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                                    ?>>
+                                              <?php }else {?>
+                                                    <i class="fa fa-ban"></i>
+                                              <?php }; ?>
+                                          </td>
+                                          <td id="item_name"><?php echo $item->name; ?></td>
+                                          <td id="item_description"><?php echo substr($item->description, 0, 50); ?></td>
+                                          <td id="item_type"><?php echo $item->type; ?></td>
+                                          <td id="item_code"><?php echo $item->code; ?></td>
+                                          <td id="item_price"><?php echo $item->price; ?></td>
                                       </tr>
                                   <?php endforeach; ?>
                               </tbody>

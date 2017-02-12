@@ -1,24 +1,13 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-          Artikli
-          <small>- <?php // TODO: fali opis ?></small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> LogTrack</a></li>
-          <li class="active">Artikli</li>
-        </ol>
-    </section>
-
     <section class="content">
 
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-users"></i> Artikli</h3>
+                        <h1 class="box-title"><i class="fa fa-tag"></i> Artikli</h1>
                         <a href=<?php echo current_url().'/newItem' ?> class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Novi Artikl</a>
                     </div>
                     <!-- <?php echo var_dump($query); ?> -->
@@ -26,6 +15,7 @@
                       <table id="items_table" class="table table-striped table-bordered" width="100%">
                               <thead>
                                   <tr>
+                                      <th>#</th>
                                       <th style="width: 75px">Slika</th>
                                       <th style="width: 150px"><i class="fa fa-book" aria-hidden="true"></i> Ime</th>
                                       <th style="width: 400px"><i class="fa fa-binoculars" aria-hidden="true"></i> Opis</th>
@@ -40,6 +30,7 @@
 
                                   <?php foreach ($query as $item): ?>
                                       <tr>
+                                          <td><?php echo $item->id; ?></td>
                                           <td class="text-center">
                                               <?php if(!empty($item->image)){ ?>
                                                     <img class="img img-responsive center-block" style="width: 75px; " id="image"
@@ -51,7 +42,7 @@
                                               <?php }; ?>
                                           </td>
                                           <td><?php echo $item->name; ?></td>
-                                          <td><?php echo $item->description; ?></td>
+                                          <td><?php echo substr($item->description, 0, 50); ?></td>
                                           <td><?php echo $item->price; ?></td>
                                           <td><?php echo $item->type; ?></td>
                                           <td><span <?php
@@ -71,9 +62,10 @@
                                                   <a href=<?php echo current_url().'/view/'.$item->id; ?> data-toggle="modal"
                                                     type="button" class="btn btn-info"><i class="fa fa-search"></i> Pregled</a>
                                                   <a href=<?php echo current_url().'/edit/'.$item->id; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
-                                                  <a href="#modal_delete_item" data-toggle="modal"
+                                                  <button class="btn btn-danger item" id=<?php echo "item-".$item->id; ?> type="button" name="button"><i class="fa fa-trash-o"></i> Obriši</button>
+                                                  <!-- <a href="#modal_delete_item" data-toggle="modal"
                                                     data-id=<?php echo $item->id; ?>
-                                                    type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Obriši</a>
+                                                    type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Obriši</a> -->
                                               </div>
                                           </td>
                                       </tr>
@@ -85,10 +77,17 @@
             </div><!--col-md-12-->
         </div><!--row-->
 
-        <div class="row">
+        <p class="hidden" id="base_url"><?php echo base_url(); ?></p>
+        <?php
+          $attributes = array('id' => 'ajaxform');
+          echo form_open('', $attributes);
+          echo form_close();
+        ?>
+
+        <!-- <div class="row">
           <div class="modal fade" id="modal_delete_item" role="dialog">
             <div class="modal-dialog">
-              <!-- Modal content-->
+              <!-- Modal content
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -111,7 +110,7 @@
 
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="row">
           <div class="modal fade" id="modal_view" role="dialog">

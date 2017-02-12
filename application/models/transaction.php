@@ -81,18 +81,7 @@ Class Transaction extends CI_Model
             );
 
             $this->db->insert(TRANS_ITEM, $transaction);
-
-            //Po potrebi mjenjati status artikla
-            // if($location == 1)
-            // {
-            //     $this->db->set('item_status_id', 1);
-            // }
-            // else {
-            //     $this->db->set('item_status_id', 2);
-            // }
-
-            // $this->db->where('id', $item);
-            // $this->db->update('items');
+            
         }
 
     }

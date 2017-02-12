@@ -3,7 +3,7 @@
 if(!defined("ITEM_TRANS")) define("ITEM_TRANS", "item_transaction", true);
 if(!defined("TRANSACTIONS")) define("TRANSACTIONS", "inventory_transactions", true);
 
-Class Receipt extends CI_Model
+Class Issue extends CI_Model
 {
 
     public function __contruct()
@@ -23,7 +23,7 @@ Class Receipt extends CI_Model
         $this->db->join('clients AS C', 'T.client_id = C.id');
         $this->db->join('locations AS L', 'T.location_id = L.id');
         $this->db->order_by('T.transaction_number', 'DESC');
-        $this->db->where('transaction_type_id', 1);
+        $this->db->where('transaction_type_id', 2);
         $query = $this->db->get();
 
         return $query->result();
@@ -47,7 +47,7 @@ Class Receipt extends CI_Model
             $this->db->join('clients AS C', 'C.id = I.client_id');
             $this->db->join('address AS A', 'A.id = C.address_id');
             $this->db->where('I.transaction_number =', $id);
-            $this->db->where('I.transaction_type_id =', 1);
+            $this->db->where('I.transaction_type_id =', 2);
             $query = $this->db->get();
 
             return $query->result();
@@ -78,7 +78,7 @@ Class Receipt extends CI_Model
     {
         $this->load->helper('url');
 
-        $transaction_number = $this->modelHelper->returnMaxTransNumber(1);
+        $transaction_number = $this->modelHelper->returnMaxTransNumber(2);
         $user_id = $session_id;
         $client_id = $this->input->post('client');
         $date = $this->input->post('date');
@@ -98,7 +98,7 @@ Class Receipt extends CI_Model
 
         $data = array(
             'transaction_number' => $transaction_number,
-            'transaction_type_id' => 1,
+            'transaction_type_id' => 2,
             'client_id' => $client_id,
             'location_id' => $location,
             'from_location_id' => $location,
@@ -108,7 +108,7 @@ Class Receipt extends CI_Model
         );
 
         $this->db->insert(TRANSACTIONS, $data);
-        $trans_id = $this->receipt->get($transaction_number)[0]->trans_id;
+        $trans_id = $this->issue->get($transaction_number)[0]->trans_id;
 
         // Dodajemo artkikle
         foreach ($items as $item) {
@@ -176,10 +176,11 @@ Class Receipt extends CI_Model
         }
     }
 
+
     public function delete($transaction_number)
     {
         $this->db->where('transaction_number', $transaction_number);
-        $this->db->where('transaction_type_id', 1);
+        $this->db->where('transaction_type_id', 2);
         return $this->db->delete('inventory_transactions');
     }
 }
