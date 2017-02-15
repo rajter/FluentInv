@@ -100,4 +100,10 @@
    fixed layout. -->
 </body>
 
+<script type="text/javascript">
+    $("#remove-sidebar").click(function(){
+        $(".main-sidebar").remove();
+    });
+</script>
+
 </html>

@@ -12,8 +12,8 @@ $(document).ready(function(){
     /*
     *   DELETES THE ITEM TYPE
     */
-    $(".item_type_modal_delete").on("click", function (event) {
-        var id = $(this).attr("id").substr(5); // id="type-id" - treba nam samo id
+    $(".warehouse_modal_delete").on("click", function (event) {
+        var id = $(this).attr("id").substr(3); // id="type-id" - treba nam samo id
         // alert(id);
 
         var BASE_URL = $("#base_url").text();
@@ -25,21 +25,22 @@ $(document).ready(function(){
 
         $.ajax({
           type: "POST",
-          url: BASE_URL + "index.php/ItemTypes/delete",
+          url: BASE_URL + "index.php/warehouses/delete",
           data: _form,
           dataType: "text",
           success:
             function(result){
 
                 var obj = JSON.parse(result);                   //parsira text u polje objekata
+                // alertify.success(result);
                 // alertify.success('RESULT: ' + obj);
                 if(obj==="TRUE")
                 {
-                    alertify.success('Uspješno obrisan TIP sa id-em ' + id + '.');
-                    $("#item-type-" + id).remove();
+                    alertify.success('Uspješno obrisano skladište sa id-em ' + id + '.');
+                    $("#warehouse-" + id).remove();
                 }
                 else {
-                    alertify.error('Tip sa id-em ' + id + ' se ne može obrisati jer barem jedan artikl ima pridružem taj TIP artikla.');
+                    alertify.error('Skladište sa id-em ' + id + ' se ne može obrisati jer barem jedna transakcija ima zapis tog skladišta.');
                 }
 
             },

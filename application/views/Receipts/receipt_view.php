@@ -49,20 +49,20 @@
                                                 <div class="btn-group btn-group-xs">
                                                     <a href=<?php echo current_url().'/view/'.$trans->transaction_number; ?> data-toggle="modal"
                                                         type="button" class="btn btn-info"><i class="fa fa-search"></i> Pregled</a>
-                                                        <a href=<?php echo current_url().'/edit/'.$trans->transaction_number; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
-                                                        <button type="button" class="btn btn-danger receipt_modal_delete" data=<?php echo $trans->transaction_number; ?>>
-                                                            <i class="fa fa-trash-o"></i> Obriši</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    <a href=<?php echo current_url().'/edit/'.$trans->transaction_number; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
+                                                    <button type="button" class="btn btn-danger receipt_modal_delete" data=<?php echo $trans->transaction_number; ?>>
+                                                        <i class="fa fa-trash-o"></i> Obriši</button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <?php endforeach; ?>
                                     </tbody>
-                                </table>
-                                <?php
-                                  $attributes = array('id' => 'ajaxform');
-                                  echo form_open('', $attributes);
-                                  echo form_close();
-                                ?>
+                            </table>
+                            <?php
+                              $attributes = array('id' => 'ajaxform');
+                              echo form_open('', $attributes);
+                              echo form_close();
+                            ?>
                         </div>
 
                         <!-- <div class="col-md-4">

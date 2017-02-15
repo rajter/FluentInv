@@ -157,7 +157,7 @@
               <li><a href="<?php echo base_url(); ?>index.php/Transfers"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
               <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Otpis</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-eraser"></i>Ispravci</a></li> -->
-              <li><a href="<?php echo base_url(); ?>index.php/warehouse/stocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/stocks/viewStocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
             </ul>
           </li>
           <li>
@@ -190,6 +190,7 @@
             </a>
           </li>
         </ul><!-- /.sidebar-menu -->
+        <button type="button" name="button" id="remove-sidebar">makni sidebar</button>
       </section>
       <!-- /.sidebar -->
     </aside>

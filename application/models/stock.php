@@ -1,6 +1,6 @@
 <?php
 
-Class stocks extends CI_Model
+Class Stock extends CI_Model
 {
     public function __contruct()
     {

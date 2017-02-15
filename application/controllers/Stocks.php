@@ -1,35 +1,34 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Warehouse extends My_Controller {
+class Stocks extends My_Controller {
 
     function __construct()
     {
         parent::__construct();
         $this->load->helper('url');
         $this->load->helper(array("form", "security", "date"));
-        $this->load->model(array('item', 'receipt', 'issue', 'stocks', 'dbQueries', 'modelHelper'));
+        $this->load->model(array('item', 'receipt', 'issue', 'stock', 'dbQueries', 'modelHelper'));
     }
 
     public function index()
     {
-
+        echo "Stocks";
     }
 
     /*
     *   STANJE ZALIHA
     */
-    public function stocks($location_id = 1)
+    public function viewStocks($location_id = 1)
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
         $data['username'] = $session_data['username'];
         $viewData[] = null;
-        $viewData['itemStocks'] = $this->stocks->getItemStocks($location_id);
-        $viewData['itemEntrance'] = $this->stocks->getTotalItemCount(1, $location_id);
-        $viewData['itemExits'] = $this->stocks->getTotalItemCount(2, $location_id);
-        $viewData['itemTransfers'] = $this->stocks->getTotalItemCount(3, $location_id);
+        $viewData['itemStocks'] = $this->stock->getItemStocks($location_id);
+        $viewData['itemEntrance'] = $this->stock->getTotalItemCount(1, $location_id);
+        $viewData['itemExits'] = $this->stock->getTotalItemCount(2, $location_id);
+        $viewData['itemTransfers'] = $this->stock->getTotalItemCount(3, $location_id);
         $viewData['locations'] = $this->dbQueries->getLocations();
 
         $headerscripts['header_scripts'] = array(
@@ -41,11 +40,11 @@ class Warehouse extends My_Controller {
         $footerscripts['footer_scripts'] = array(
             '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
             '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
-            '<script src="'.base_url().'assets/appjs/Warehouse/stocks.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Stocks/stocks.js"></script>',
             '<script src="'.base_url().'assets/appjs/modals.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Warehouse/stocks_view');
+        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Stocks/stocks_view');
     }
 
 }

@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-edit"></i> Primka <?php echo $issue[0]->transaction_number; ?></h3>
+                        <h3 class="box-title"><i class="fa fa-edit"></i> Izdatnica <?php echo $issue[0]->transaction_number; ?></h3>
                     </div>
                     <div class="box-body">
                         <!-- <?php echo var_dump($issueData); ?>

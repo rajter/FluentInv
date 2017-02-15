@@ -198,4 +198,77 @@ Class Item extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update('items', $data);
     }
+
+    //----------------------------
+    //  Vraca sve tipove artikala
+    //----------------------------
+    public function getAllTypes()
+    {
+        $this->db->select('*', FALSE);
+        $this->db->from('item_type');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    //----------------------------
+    //  Vraca odredjeni tip
+    //----------------------------
+    public function getType($id)
+    {
+        $this->db->select('*', FALSE);
+        $this->db->from('item_type');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result()[0];
+    }
+
+    //---------------------------
+    // Kreira novi tip artikala
+    //---------------------------
+    public function createItemType($user_id)
+    {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description'),
+        );
+
+        return $this->db->insert('item_type', $data);
+    }
+
+    //---------------------------
+    // Nadogradjuje novi tip artikala
+    //---------------------------
+    public function updateItemType($user_id)
+    {
+        $id = $this->input->post('id');
+        $data = array(
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description'),
+        );
+
+        $this->db->where('id', $id);
+        return $this->db->update('item_type', $data);
+    }
+
+    //----------------------------------------------------------
+    // Brise Tip ako niti jedan artikl nema pridruzeni taj tip
+    //----------------------------------------------------------
+    public function deleteType($id)
+    {
+        $this->db->select('COUNT(*) AS count');
+        $this->db->from('items');
+        $this->db->where('item_type_id', $id);
+        $query = $this->db->get();
+
+        $result = $query->result()[0];
+        if($result->count > 0)
+        {
+            return 'FALSE';
+        }
+        else {
+            $this->db->where('id', $id);
+            $this->db->delete('item_type');
+            return 'TRUE';
+        }
+    }
 }

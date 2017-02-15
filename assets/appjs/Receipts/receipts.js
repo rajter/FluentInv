@@ -226,6 +226,29 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // Button that triggered the modal
     });
 
+    // $.fn.blink = function (count) {
+    // var $this = $(this);
+    //
+    // count = count - 1 || 0;
+    //
+    // $this.animate({opacity: 0.25}, 100, function () {
+    //     $this.animate({opacity: 1}, 100, function () {
+    //         if (count > 0) {
+    //             $this.blink(count);
+    //         }
+    //     });
+    // });
+    // };
+
+    // $.fn.blink = function(e) {
+    //     var $this = $(this);
+    //     e.preventDefault();
+    //     for (var i = 0; i < 3; i++ ) {
+    //             $this.animate( { backgroundColor: "#f00" }, 2000 );
+    //             $this.animate( { backgroundColor: "transparent" }, 2000 );
+    //     }
+    // };
+
     inputCode.keypress(function(e){
         if(e.which == 13) {
             // alert(inputCode.val());
@@ -271,6 +294,10 @@ $(document).ready(function() {
 
                                         $("#input-code").val('');
                                         $("#modal_code").modal('toggle');
+
+                                        //Animacija promjene
+                                        // $("#selected_items_table_body > tr > td.item_quantity > strong#qnt-"+ item_id).parent().css({"background-color":"red", "-webkit-animation-duration":"4s"});
+                                        // $("#selected_items_table_body > tr > td.item_quantity > strong#qnt-"+ item_id).parent().blink(3);
                                         return;
                                     }
                                 }
