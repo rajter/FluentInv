@@ -11,6 +11,7 @@
         <span class="logo-mini"><b>F</b> I</span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>Fluent</b> Inventory</span>
+        <!-- <img class="img-responsive pull-left" width="30" height="30" src=<?php echo base_url().'assets/images/FL-icon-o.png'; ?> alt="" /> -->
       </a>
 
       <!-- Header Navbar -->
@@ -22,61 +23,6 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
-            <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu">
-              <!-- Menu toggle button -->
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-envelope-o"></i>
-                <span class="label label-success">4</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">Imate 4 poruke</li>
-                <li>
-                  <!-- inner menu: contains the messages -->
-                  <ul class="menu">
-                    <li><!-- start message -->
-                      <a href="#">
-                        <div class="pull-left">
-                          <!-- User Image -->
-                          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                        </div>
-                        <!-- Message title and timestamp -->
-                        <h4>
-                          Support Team
-                          <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Why not buy a new awesome theme?</p>
-                      </a>
-                    </li><!-- end message -->
-                  </ul><!-- /.menu -->
-                </li>
-                <li class="footer"><a href="#">Pogledajte sve poruke</a></li>
-              </ul>
-            </li><!-- /.messages-menu -->
-            <!-- Notifications Menu -->
-            <li class="dropdown notifications-menu">
-              <!-- Menu toggle button -->
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">10</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">Imate 0 obavijesti</li>
-                <li>
-                  <!-- Inner Menu: contains the notifications -->
-                  <ul class="menu">
-                    <li><!-- start notification -->
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> Obavijest
-                      </a>
-                    </li><!-- end notification -->
-                  </ul>
-                </li>
-                <li class="footer"><a href="#">Pogledaj sve obavijesti</a></li>
-              </ul>
-            </li>
-
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <!-- Menu Toggle Button -->
@@ -107,9 +53,9 @@
               </ul>
             </li>
             <!-- Control Sidebar Toggle Button -->
-            <li>
+            <!-- <li>
               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </nav>
@@ -141,14 +87,19 @@
             </i> <span>Kontrolna ploča</span>
             </a>
           </li>
-          <li class="treeview">
-            <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-tags"></i>Artikli</a></li>
+          <li>
+            <a href="<?php echo base_url(); ?>index.php/items">
+              <i class="fa fa-tags"></i>
+              <span>Artikli</span>
+            </a>
+          </li>
+          <!-- <li class="treeview">
             <!-- <a href="#"><i class="fa fa-tags"></i> <span>Artikli</span> <i class="fa fa-angle-left pull-right"></i></a> -->
             <!-- <ul class="treeview-menu"> -->
               <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-check"></i>Artikli na skladištu</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Izdani artikli</a></li> -->
-            <!-- </ul> -->
-          </li>
+            <!-- </ul>
+          </li> -->
           <li class="treeview">
             <a href="#"><i class="fa fa-archive"></i> <span>Dokumenti</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
@@ -161,7 +112,7 @@
             </ul>
           </li>
           <li>
-            <a href="#">
+            <a href="<?php echo base_url(); ?>index.php/stockTakings">
               <i class="fa fa-list"></i>
               <span>Inventura</span>
             </a>
@@ -179,9 +130,15 @@
           <li class="treeview">
             <a href="#"><i class="fa fa-users"></i> <span>Ljudski resursi</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/administrators"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li>
                 <li><a href="<?php echo base_url(); ?>index.php/employees"><i class="fa fa-user"></i><span>Zaposlenici</span></a></li>
             </ul>
+          </li>
+          <li>
+            <a href="<?php echo base_url(); ?>index.php/company">
+              <i class="fa fa-bank"></i>
+              <span>Poduzeće</span>
+            </a>
           </li>
           <li>
             <a href="<?php echo base_url(); ?>index.php/home/logout">
@@ -190,7 +147,7 @@
             </a>
           </li>
         </ul><!-- /.sidebar-menu -->
-        <button type="button" name="button" id="remove-sidebar">makni sidebar</button>
+
       </section>
       <!-- /.sidebar -->
     </aside>

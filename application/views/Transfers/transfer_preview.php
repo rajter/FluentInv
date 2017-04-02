@@ -23,8 +23,9 @@
             </address>
         </div><!-- /.col -->
         <div class="col-xs-4 invoice-col">
-            <h3>Primka: <strong><?php echo $transfer[0]->transaction_number; ?></strong></h3>
-            <b>Lokacija</b> <?php echo $transfer[0]->location; ?><br>
+            <h3>Međuskladišnica: <strong><?php echo $transfer[0]->transaction_number; ?></strong></h3>
+            <b>Iz Lokacije</b> <?php echo $transfer[0]->from_location; ?><br>
+            <b>U Lokaciju</b> <?php echo $transfer[0]->location; ?><br>
             <b>Datum:</b> <?php echo $transfer[0]->date; ?><br>
         </div><!-- /.col -->
     </div>

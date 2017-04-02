@@ -110,16 +110,16 @@
                                         <th>Kolicina</th>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($quantities as $location): ?>
+                                        <?php foreach ($itemStocks as $item): ?>
                                             <tr>
-                                                <td><?php echo $location->location_id; ?></td>
-                                                <td><?php echo $location->name; ?></td>
-                                                <td><?php if($location->SUM > 0)
+                                                <td><?php echo $item->locationId; ?></td>
+                                                <td><?php echo $item->locationName; ?></td>
+                                                <td><?php if($item->quantity > 0)
                                                             {
-                                                                echo "<span class='label label-success'>".$location->SUM."<span>";
+                                                                echo "<span class='label label-success'>".$item->quantity."<span>";
                                                             }
                                                             else {
-                                                                echo "<span class='label label-danger'>".$location->SUM."<span>";
+                                                                echo "<span class='label label-danger'>".$item->quantity."<span>";
                                                             }?>
                                                 </td>
                                             </tr>
@@ -136,7 +136,7 @@
                         <!-- <?php echo var_dump($transactions); ?> -->
                     </div>
                 </div>
-                
+
             </div><!--col-md-6-->
 
             <!--TIMELINE-->
@@ -148,6 +148,7 @@
                     <div class="box-body">
                         <ul class="timeline">
                             <?php foreach ($transactions as $transaction): ?>
+                                <!-- <?php echo var_dump($transaction); ?> -->
                                 <?php $label_color = 'blue';
                                       $label_icon = 'fa fa-arrow-left';
                                     switch($transaction->transaction_type_id)
@@ -164,6 +165,10 @@
                                             $label_color = 'purple';
                                             $label_icon = 'fa fa-exchange';
                                             break;
+                                        case 7:
+                                            $label_color = 'yellow';
+                                            $label_icon = 'fa fa-info';
+                                            break;
                                         default:
                                             $label_color = 'green';
                                             $label_icon = 'fa fa-arrow-left';
@@ -171,11 +176,10 @@
                                 ?>
                                 <li class="time-label">
                                   <span class=<?php echo "bg-".$label_color ?>>
-                                    <!-- <?php echo date_format(new DateTime($transaction->date), 'd.m.Y'); ?> -->
                                     <?php echo $transaction->transaction_number;; ?>
                                   </span>
                                   <div class="btn-group">
-                                      <a class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                                      <!-- <a class="btn btn-default btn-xs" href=<?php echo base_url(). "index.php/items/edit/". $item->id; ?>><i class="fa fa-eye"></i></a> -->
                                       <!-- <a class="btn btn-default btn-xs"><i class="fa fa-folder-open-o"></i></a> -->
                                   </div>
                                 </li>
@@ -185,6 +189,7 @@
                                         <span class="time"><i class="fa fa-clock-o"></i><?php echo date_format(new DateTime($transaction->date), 'd.m.Y. H:m'); ?></span>
                                         <!-- <h3 class="timeline-header"><?php echo "Transakcija br.".$transaction->transaction_number; ?></h3> -->
                                         <div class="timeline-body">
+                                            <p>Tip transakcije: <?php echo $transaction->transaction_type_id." - ".$transaction->TransactionType; ?></p>
                                             <p>Kolicina: <?php echo $transaction->quantity; ?></p>
                                             <p>Lokacija: <?php echo $transaction->Location_IN; ?></p>
                                         </div>
@@ -196,8 +201,6 @@
                 </div>
             </div>
         </div><!--row-->
-
-
 
     </section>
 

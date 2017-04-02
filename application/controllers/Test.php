@@ -11,7 +11,7 @@ class Test extends My_Controller {
        parent::__construct();
        $this->load->helper('url');
        $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stocks'));
+       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stock'));
      }
 
     public function index()
@@ -28,29 +28,21 @@ class Test extends My_Controller {
 
     public function testQuery($id = null)
     {
-        // $itemStocks = $this->stocks->getItemStocks(1);
-        //
-        // $this->db->query("CREATE TEMPORARY TABLE IF NOT EXISTS temp_table (item_id int, quantity int);");
-        // foreach ($itemStocks as $item) {
-        //     $query = "INSERT INTO temp_table VALUES(".$item->item_id.",".$item->quantity.")";
-        //     $this->db->query($query);
-        // }
-        //
-        // $this->db->select('*');
-        // $this->db->from('temp_table AS TMP');
-        // $this->db->join('items AS I', 'I.id = TMP.item_id');
-        // var_dump($this->db->get()->result());
-
-        // $receipts = $this->stocks->getReceiptStocks(1);
+        // $locationId = 1;
+        // $this->stock->getLastDateOfStockCounting($locationId);
+        // $viewData['itemTransfers'] = $this->stock->getLastStockTakingItemCount($locationId);
         // printf($this->db->last_query());
-        // var_dump($receipts);
+        $id = 1;
+        $locations = $this->dbQueries->getLocations();
 
-        // $viewData['itemStocks'] = $this->stocks->getTotalItemCunt(2, 1);
-        $viewData['totalQuantity'] = $this->item->getQuantitiesByLocation(1);
-        printf($this->db->last_query());
-        // $receiptStocks = $this->stocks->getReceiptStocks(1);
-        // var_dump($receiptStocks);
-        // printf($this->db->last_query());
+        $viewData['itemStocks'] = [];
+
+        foreach ($locations as $location) {
+            $itemStock = $this->stock->getItemStocks($location->id, $id);
+        }
+
+        $viewData['itemStocks'] = $itemStock;
+
         var_dump($viewData);
     }
 

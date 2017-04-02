@@ -85,18 +85,24 @@ Class Item extends CI_Model
     //
     //  Vraca sve transakcije za artikl
     //
-    public function getTransactions($id)
+    public function getTransactions($id, $limit=null)
     {
         if($id != null)
         {
             $this->db->select('IT.*, INV.*', FALSE);
             $this->db->select('LIN.name AS Location_IN, LOUT.name AS Location_OUT');
+            $this->db->select('TT.description AS TransactionType');
             $this->db->from('item_transaction AS IT');
             $this->db->join('inventory_transactions INV', 'IT.inventory_transaction_id = INV.id');
             $this->db->join('locations LIN', 'INV.location_id = LIN.id');
             $this->db->join('locations LOUT', 'INV.from_location_id = LOUT.id');
+            $this->db->join('transaction_type AS TT', 'TT.id = INV.transaction_type_id');
             $this->db->where('IT.item_id', $id);
             $this->db->order_by('INV.date DESC');
+            if(!is_null($limit))
+            {
+                $this->db->limit($limit);
+            }
             $query = $this->db->get();
             return $query->result();
         }

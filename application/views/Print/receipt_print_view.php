@@ -38,6 +38,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <th>#</th>
+                            <th style="width: 50px;">Slika</th>
                             <th>Kol</th>
                             <th>Ime</th>
                             <th>Opis</th>
@@ -52,6 +53,16 @@
                                 <?php $totalQuantity += $item->quantity; ?>
                                 <tr>
                                     <td><?php echo $key+1; ?></td>
+                                    <td class="text-center">
+                                        <?php if(!empty($item->image)){ ?>
+                                            <img class="img img-responsive center-block" style="width: 40px; " id="image"
+                                            <?php
+                                            echo "src=".base_url()."assets/dropzone/uploads/".$item->image;
+                                            ?>>
+                                            <?php }else {?>
+                                                <i class="fa fa-ban"></i>
+                                                <?php }; ?>
+                                    </td>
                                     <td>
                                         <?php
                                         $max = (int)$maxQuantity[0]->quantity;
@@ -62,10 +73,10 @@
                                             <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"
                                             style="<?php echo "min-width: 1em; width: ".$percent."%;" ?>">
                                             <?php echo $item->quantity; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- <?php echo $percent; ?> -->
-                                </td>
+                                        <!-- <?php echo $percent; ?> -->
+                                    </td>
                                     <td><?php echo $item->name; ?></td>
                                     <td><?php echo substr($item->description, 0, 30)."..."; ?></td>
                                     <td><?php echo $item->code; ?></td>

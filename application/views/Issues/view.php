@@ -10,7 +10,7 @@
             </h1>
             <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i> FluentInventory</a></li>
-              <li class="active">Template</li>
+              <li class="active">Izdatnica</li>
             </ol>
         </section>
 
@@ -39,7 +39,7 @@
                     </address>
                 </div><!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <h3>Primka: <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
+                    <h3>Izdatnica: <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
                     <b>Lokacija</b> <?php echo $issue[0]->location; ?><br>
                     <b>Datum:</b> <?php echo $issue[0]->date; ?><br>
                 </div><!-- /.col -->
@@ -131,7 +131,7 @@
                     <a href=<?php echo base_url().'index.php/issues/edit/'.$issue[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
                     <a href=<?php echo base_url().'index.php/issues/generatePDF/'.$issue[0]->transaction_number; ?>
                         class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
-                    <a href=<?php echo base_url().'index.php/issues/printissue/'.$issue[0]->transaction_number; ?>
+                    <a href=<?php echo base_url().'index.php/issues/printIssue/'.$issue[0]->transaction_number; ?>
                         target="blank" class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
                 </div>
             </div>

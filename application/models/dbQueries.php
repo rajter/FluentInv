@@ -49,10 +49,17 @@ Class DBQueries extends CI_Model
         return $query->result();
     }
 
-    //All clients based on their type
-    public function getClients($type)
+    //All clients
+    public function getClients()
     {
-        $query = $this->db->where('client_type_id', $type)->get('clients');
+        $query = $this->db->get('clients');
+        return $query->result();
+    }
+
+    //All client types
+    public function getClientTypes()
+    {
+        $query = $this->db->get('client_type');
         return $query->result();
     }
 }

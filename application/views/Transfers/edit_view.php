@@ -35,7 +35,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label>Lokacija:</label><p class="hidden" id="current-from-location"><?php echo $transfer[0]->from_location_id; ?></p>
+                                                <label>Iz Lokacije:</label><p class="hidden" id="current-from-location"><?php echo $transfer[0]->from_location_id; ?></p>
                                                 <select  class="form-control" name="from_location" id="from-location-select">
                                                     <?php foreach ($locations as $location) {?>
                                                         <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
@@ -44,7 +44,7 @@
                                                 </div>
 
                                             <div class="form-group">
-                                                <label>Lokacija:</label><p class="hidden" id="current-location"><?php echo $transfer[0]->location_id; ?></p>
+                                                <label>U Lokaciju:</label><p class="hidden" id="current-location"><?php echo $transfer[0]->location_id; ?></p>
                                                 <select  class="form-control" name="location" id="location-select">
                                                     <?php foreach ($locations as $location) {?>
                                                         <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
@@ -132,7 +132,7 @@
                                         <textarea id="hidden-footnote" name="footnote" rows="8" cols="40" class="hidden"><?php echo $transfer[0]->footnote; ?></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-12" id="hidden_id">
+                                <div class="col-md-12 hidden" id="hidden_id">
                                     <?php foreach ($transferData as $key=>$item): ?> <!-- $key je index -->
                                             <input id=<?php echo "hidden-item-id-".$item->id ?> class='' name='item_id[]' value=<?php echo $item->id; ?>>
                                             <input id=<?php echo "hidden-item-qnt-".$item->id ?> class='' name='item_qnt[]' value=<?php echo $item->quantity; ?>>

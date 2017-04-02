@@ -196,7 +196,7 @@ $(document).ready(function() {
 
             },
             function(){
-                alertify.error('Prekid brisanja izdatnice!');
+                //alertify.error('Prekid brisanja izdatnice!');
             }
         );
     });

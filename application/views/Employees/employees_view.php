@@ -26,6 +26,7 @@
                               <thead>
                                   <tr>
                                       <th style="width: 75px">ID</th>
+                                      <th style="width: 75px">Slika</th>
                                       <th>Ime</th>
                                       <th>Prezime</th>
                                       <th>Funkcija</th>
@@ -37,6 +38,16 @@
                                   <?php foreach ($query as $employee): ?>
                                       <tr>
                                           <td><?php echo $employee->id; ?></td>
+                                          <td class="text-center">
+                                              <?php if(!empty($employee->image)){ ?>
+                                                    <img class="img img-responsive center-block" style="width: 75px; " id="image"
+                                                    <?php
+                                                    echo "src=".base_url()."assets/dropzone/uploads/".$employee->image;
+                                                    ?>>
+                                              <?php }else {?>
+                                                    <i class="fa fa-ban"></i>
+                                              <?php }; ?>
+                                          </td>
                                           <td><?php echo $employee->name; ?></td>
                                           <td><?php echo $employee->surname; ?></td>
                                           <td><?php echo $employee->role; ?></td>

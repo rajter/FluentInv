@@ -198,7 +198,7 @@ $(document).ready(function() {
 
             },
             function(){
-                alertify.error('Dogodila se greška!');
+                //alertify.error('Prekid!');
             }
         );
     });

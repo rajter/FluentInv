@@ -44,7 +44,7 @@
                                         <td>
                                             <div class="btn-group btn-group-xs">
                                                 <a href=<?php echo current_url().'/edit/'.$warehouse->id; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
-                                                <button type="button" class="btn btn-danger warehouse_modal_delete" id=<?php echo 'id-'.$warehouse->id  ?>>
+                                                <button type="button" class="btn btn-danger warehouse_modal_delete" id=<?php echo 'id-'.$warehouse->id  ?> data-name="<?php echo $warehouse->name; ?>">
                                                     <i class="fa fa-trash-o"></i> Obriši</button>
                                                 </div>
                                         </td>

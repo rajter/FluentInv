@@ -133,7 +133,7 @@
                     <a href=<?php echo base_url().'index.php/transfers/edit/'.$transfer[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
                     <a href=<?php echo base_url().'index.php/transfers/generatePDF/'.$transfer[0]->transaction_number; ?>
                         class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
-                    <a href=<?php echo base_url().'index.php/transfers/printtransfer/'.$transfer[0]->transaction_number; ?>
+                    <a href=<?php echo base_url().'index.php/transfers/printTransfer/'.$transfer[0]->transaction_number; ?>
                         target="blank" class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
                 </div>
             </div>

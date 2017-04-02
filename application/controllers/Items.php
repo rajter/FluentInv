@@ -7,7 +7,7 @@ class Items extends My_Controller {
      {
        parent::__construct();
        $this->load->helper(array('form', 'security', 'url'));
-       $this->load->model(array('item', 'dbQueries'));
+       $this->load->model(array('item', 'dbQueries', 'stock'));
      }
 
     public function index()
@@ -39,18 +39,27 @@ class Items extends My_Controller {
         $footerscripts['footer_scripts'] = array();
 
         $viewData['item'] = $this->item->get($id);
-        $viewData['quantities'] = $this->item->getQuantitiesByLocation($id);
-        $viewData['transactions'] = $this->item->getTransactions($id);
+        // $viewData['quantities'] = $this->item->getQuantitiesByLocation($id);
+        $viewData['transactions'] = $this->item->getTransactions($id, 50);
+
+
+        $locations = $this->dbQueries->getLocations();
+        $viewData['itemStocks'] = [];
+
+        foreach ($locations as $location) {
+            $itemStocks = $this->stock->getItemStocks($location->id, $id);
+        }
+
+        $viewData['itemStocks'] = $itemStocks;
 
         //Izracunaj sveukupnu kolicinu
         $totalQuantity = 0;
-        for ($i = 0; $i < count($viewData['quantities']); $i++) {
-            $n = $viewData['quantities'][$i]->SUM;
+        for ($i = 0; $i < count($itemStocks); $i++) {
+            $n = $itemStocks[$i]->quantity;
             $totalQuantity += $n;
         }
         $viewData['totalQuantity'] = $totalQuantity;
-        $viewData['totalTransactions'] = count($viewData['transactions']);      
-
+        $viewData['totalTransactions'] = count($viewData['transactions']);
 
         $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/view');
     }

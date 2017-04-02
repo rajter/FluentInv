@@ -19,16 +19,19 @@ class Stocks extends My_Controller {
     /*
     *   STANJE ZALIHA
     */
-    public function viewStocks($location_id = 1)
+    public function viewStocks($locationId = 1)
     {
         $session_data = $this->session->userdata('logged_in');
         $data['id'] = $session_data['id'];
         $data['username'] = $session_data['username'];
         $viewData[] = null;
-        $viewData['itemStocks'] = $this->stock->getItemStocks($location_id);
-        $viewData['itemEntrance'] = $this->stock->getTotalItemCount(1, $location_id);
-        $viewData['itemExits'] = $this->stock->getTotalItemCount(2, $location_id);
-        $viewData['itemTransfers'] = $this->stock->getTotalItemCount(3, $location_id);
+        $this->stock->getLastDateOfStockCounting($locationId);
+        $viewData['itemStocks'] = $this->stock->getItemStocks($locationId);
+        $viewData['itemStockCount'] = $this->stock->getLastStockTakingItemCount($locationId);
+        $viewData['itemEntrance'] = $this->stock->getTotalItemCount(1, $locationId);
+        $viewData['itemExits'] = $this->stock->getTotalItemCount(2, $locationId);
+        $viewData['itemToLocationsTransfers'] = $this->stock->getTotalItemCount(3, $locationId);
+        $viewData['itemFromLocationsTransfers'] = $this->stock->getTotalItemCount(3, $locationId, FALSE);
         $viewData['locations'] = $this->dbQueries->getLocations();
 
         $headerscripts['header_scripts'] = array(

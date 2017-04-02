@@ -40,20 +40,30 @@
 
                                         <div class="form-group">
                                             <label>Lokacija:</label>
-                                            <select  class="form-control" name="location">
-                                                <?php foreach ($locations as $location) {?>
-                                                    <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
-                                                    <?php } ?>
-                                            </select>
+                                            <div class="input-group location">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-map-pin"></i>
+                                                </div>
+                                                <select  class="form-control" name="location">
+                                                    <?php foreach ($locations as $location) {?>
+                                                        <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Dobavljač:</label>
-                                            <select  class="form-control" name="client">
-                                                <?php foreach ($clients as $client) {?>
-                                                    <option value=<?php echo $client->id; ?>><?php echo $client->name;?></option>
-                                                    <?php } ?>
-                                            </select>
+                                            <div class="input-group location">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <select  class="form-control" name="client">
+                                                    <?php foreach ($clients as $client) {?>
+                                                        <option value=<?php echo $client->id; ?>><?php echo $client->name;?></option>
+                                                        <?php } ?>
+                                                </select>
+                                            </div>
                                         </div>
 
                                     </div>

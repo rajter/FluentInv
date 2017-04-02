@@ -258,7 +258,7 @@ class Issues extends My_Controller {
         $snappy = new Pdf('C:/wkhtmltopdf/bin/wkhtmltopdf');
         $PDF = $this->return_print_view($headerscripts, $footerscripts, $data, $viewData, 'Print/issue_print_view');
 
-        $filename = "Primka_".$id;
+        $filename = "Izdatnica_".$id;
         header("Content-Type: application/pdf");
         header("Content-Disposition: attachment; filename=$filename.pdf");
         echo $snappy->getOutputFromHtml($PDF);

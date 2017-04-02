@@ -23,7 +23,7 @@
             </address>
         </div><!-- /.col -->
         <div class="col-xs-4 invoice-col">
-            <h3>Primka: <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
+            <h3>Izdatnica: <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
             <b>Lokacija</b> <?php echo $issue[0]->location; ?><br>
             <b>Datum:</b> <?php echo $issue[0]->date; ?><br>
         </div><!-- /.col -->

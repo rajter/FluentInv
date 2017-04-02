@@ -13,6 +13,7 @@
   top: 15%;
   width: 100%;
   padding: 0;
+  padding-top: 5px;
   max-width: 400px;
   margin: auto auto auto auto;
 }
@@ -21,10 +22,11 @@
   /*height: 100%;
   display:table-cell;
   vertical-align: middle;*/
-  padding: 100px 35px 35px 35px;
+  /*padding: 50px 35px 35px 35px;
   margin: 0px 0px;
-  background-color: #3498DB;
-  border-radius: 8px;
+  background-color: #222D32;
+  /*background-color: #3498DB;*/
+  /*border-radius: 8px;*/
 }
 
 .centering {
@@ -55,19 +57,20 @@ hr{
             $attributes = array('class' => 'form-signin', 'role' => 'form');
             echo form_open('verifylogin', $attributes);
           ?>
+            <img class="img-responsive center-block" style="width:75%;" src=<?php echo base_url().'assets/images/Logo.png'; ?> alt="" />
           <!--<form class="form-signin" role="form" method="POST" action="<?php echo base_url();?>index.php/verifylogin">-->
-            <h1 class="form-signin-heading" style="text-align: center; color: #FFFFFF;"><b>Fluent</b> Inventory</h1>
+            <h1 class="form-signin-heading" style="text-align: center; color: #37779D;"><b>Fluent</b> Inventory</h1>
             <hr>
             <label for="username" class="sr-only">Email address</label>
             <input class="form-control" id="username" name="username" type="text" value="" placeholder="Username" required="" autofocus=""  >
             <label for="password" class="sr-only">Password</label>
             <input class="form-control" type="password" id="password" name="password" placeholder="Password" required="">
-            <div class="checkbox pull-left">
+            <!-- <div class="checkbox pull-left">
               <label  style="color: #FFFFFF;">
                 <input value="remember-me" type="checkbox"> Remember me
               </label>
-            </div>
-            <button style="background-color: #357CA5;" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            </div> -->
+            <button style="background-color: #3C8DBC;" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
           </form>
         </div>
     </div>

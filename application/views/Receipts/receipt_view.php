@@ -33,7 +33,7 @@
                                         <th><i class="fa fa-address-card-o"></i> Klijent</th>
                                         <th><i class="fa fa-map-marker"></i> Lokacija</th>
                                         <th style="width: 200px"><i class="fa fa-calendar"></i> Datum</th>
-                                        <th style="width: 200px"><i class="fa fa-calendar"></i> Opcije</th>
+                                        <th style="width: 200px"><i class="fa fa-gears"></i> Opcije</th>
                                     </tr>
                                 </thead>
                                 <tbody>

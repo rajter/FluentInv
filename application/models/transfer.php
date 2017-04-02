@@ -112,7 +112,6 @@ Class Transfer extends CI_Model
             'client_id' => $client_id,
             'location_id' => $location,
             'from_location_id' => $from_location,
-            'from_location_id' => $location,
             'user_id' => $user_id,
             'date' => $date,
             'footnote' => $footnote

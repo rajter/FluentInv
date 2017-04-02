@@ -3,11 +3,11 @@
 
     <section class="content-header">
         <h1>
-          <i class="fa fa-tag"></i>  Novi Tip
+          <i class="fa fa-tag"></i> Promjeni Tip
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-tag"></i> LogTrack</a></li>
-          <li class="active">Novi Tip</li>
+          <li class="active"> Promjeni Tip</li>
         </ol>
     </section>
 
@@ -42,7 +42,7 @@
                 </div><!--box-->
             </div><!--col-md-12-->
         </div><!--row-->
-        <?php echo var_dump($item_type) ?>
+        <!-- <?php echo var_dump($item_type) ?> -->
 
         <div class="row">
           <div class="modal fade" id="modal_code" role="dialog">

@@ -41,7 +41,7 @@
                                         <td>
                                             <div class="btn-group btn-group-xs">
                                                 <a href=<?php echo current_url().'/editItemType/'.$type->id; ?> type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Uredi</a>
-                                                <button type="button" class="btn btn-danger item_type_modal_delete" id=<?php echo 'type-'.$type->id  ?>>
+                                                <button type="button" class="btn btn-danger item_type_modal_delete" id=<?php echo 'type-'.$type->id  ?> data-name="<?php echo $type->name; ?>">
                                                     <i class="fa fa-trash-o"></i> Obriši</button>
                                                 </div>
                                         </td>
