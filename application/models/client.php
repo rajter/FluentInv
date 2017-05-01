@@ -71,9 +71,9 @@ Class Client extends CI_Model
         return $this->db->insert('clients', $clientData);
     }
 
-    //----------------------
+    //--------------------------------
     //  Nadogradjuje podatke klijenta
-    //----------------------
+    //--------------------------------
     public function update()
     {
         $address_id = $this->input->post('address_id');
@@ -119,6 +119,11 @@ Class Client extends CI_Model
             return 'FALSE';
         }
         else {
+            // Brisemo sve kontakte jer bi javilo gresku Internal Server error
+            // zbog foreign key constrainta
+            $this->db->where('clients_id', $id);
+            $this->db->delete('clients_has_contacts');
+            //Brisemo klijenta
             $this->db->where('id', $id);
             $this->db->delete('clients');
             return 'TRUE';

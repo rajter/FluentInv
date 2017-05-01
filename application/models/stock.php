@@ -290,5 +290,30 @@ Class Stock extends CI_Model
         // echo($this->db->last_query());
         return $query->result();
     }
+
+    // ZA HOME KONTROLER
+    //----------------------------------------------
+    //  Vraca sveukupni broj odredjenih transakcija
+    //----------------------------------------------
+    public function getTransactionCount($transType = 1, $year, $month)
+    {
+        $startOfMonth = $year."-".$month."-01 00:00:00";
+        $endOfMonth = $year."-".($month+1)."-01 00:00:00";
+
+        $this->db->select('COUNT(*) AS COUNT');
+        $this->db->from('inventory_transactions');
+        $this->db->where('transaction_type_id', $transType);
+        $this->db->where('date >=', $startOfMonth);
+        $this->db->where('date <', $endOfMonth);
+        $query = $this->db->get();
+
+        $result = $query->result()[0];
+        $monthlyData = new stdClass;
+        $monthlyData->year = $year;
+        $monthlyData->month = $month;
+        $monthlyData->totalTransactions = $result->COUNT;
+
+        return $monthlyData;
+    }
 }
 ?>

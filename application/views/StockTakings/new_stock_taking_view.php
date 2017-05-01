@@ -41,7 +41,7 @@
 
                                         <div class="form-group">
                                             <label>Lokacija:</label>
-                                            <div class="input-group location">
+                                            <div class="input-group">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-map-pin"></i>
                                                 </div>

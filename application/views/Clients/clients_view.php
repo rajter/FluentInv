@@ -27,7 +27,7 @@
                             <table id="clients_table" class="table table-bordered table-hover table-striped" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50px"><i class="fa fa-info"></i> ID</th>
+                                        <th style="width: 75px"><i class="fa fa-info"></i> ID</th>
                                         <th style="width: 200px"><i class="fa fa-book"></i> Ime</th>
                                         <th style="width: 350px"><i class="fa fa-map-marker"></i> Adresa</th>
                                         <th><i class="fa fa-phone"></i> Tel</th>

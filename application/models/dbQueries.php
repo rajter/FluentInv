@@ -62,4 +62,11 @@ Class DBQueries extends CI_Model
         $query = $this->db->get('client_type');
         return $query->result();
     }
+
+    //All contacts
+    public function getContacts()
+    {
+        $query = $this->db->get('contacts');
+        return $query->result();
+    }
 }

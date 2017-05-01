@@ -66,7 +66,7 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group btn-group-xs">
-                                                    <a href=<?php echo current_url().'/printStockTaking/'.$st->id; ?> data-toggle="modal"
+                                                    <a href=<?php echo current_url().'/printStockTaking/'.$st->id; ?> target="blank"
                                                         type="button" class="btn btn-default"><i class="fa fa-print"></i> Ispis</a>
                                                     <a href=<?php echo current_url().'/lock/'.$st->id; ?> data-toggle="modal"
                                                         type="button" class="<?php echo 'btn btn-warning '.$disabled; ?>"><i class="fa fa-lock"></i> Zaključaj</a>

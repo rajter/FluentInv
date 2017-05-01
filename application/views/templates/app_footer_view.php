@@ -1,5 +1,11 @@
 <!-- Main Footer -->
 <footer class="main-footer">
+    <?php
+      $attributes = array('id' => 'ajaxform');
+      echo form_open('', $attributes);
+      echo form_close();
+    ?>
+  <p class="hidden" id="base_url"><?php echo base_url(); ?></p>
   <!-- To the right -->
   <div class="pull-right hidden-xs">
     <b>Fluent</b> Inventory
@@ -81,7 +87,7 @@
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>assets/dist/js/app.min.js"></script>
 <!-- MORRIS charts -->
-<script src="<?php echo base_url(); ?>assets/plugins/morris/morris.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/morris/morris.js"></script>
 
 
 <!-- SKRIPTE -->

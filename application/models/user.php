@@ -16,7 +16,21 @@ Class User extends CI_Model
 
    if($query -> num_rows() == 1)
    {
-     return $query->result();
+       $date_array = getdate();
+       $year = $date_array['year'];
+       $month = $date_array['mon'];
+       $day = $date_array['mday'];
+       $hours = $date_array['hours'];
+       $minutes = $date_array['minutes'];
+       $seconds = $date_array['seconds'];
+
+       $date = $year."-".$month."-".$day. " " . $hours . ":" . $minutes . ":" . $seconds;
+
+       $this->db->set('login_date', $date);
+       $this->db->where('id', $query->result()[0]->id);
+       $this->db->update('users');
+
+       return $query->result();
    }
    else
    {

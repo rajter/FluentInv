@@ -11,7 +11,7 @@ class Test extends My_Controller {
        parent::__construct();
        $this->load->helper('url');
        $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stock'));
+       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stock', 'homeModel'));
      }
 
     public function index()
@@ -28,20 +28,27 @@ class Test extends My_Controller {
 
     public function testQuery($id = null)
     {
-        // $locationId = 1;
-        // $this->stock->getLastDateOfStockCounting($locationId);
-        // $viewData['itemTransfers'] = $this->stock->getLastStockTakingItemCount($locationId);
-        // printf($this->db->last_query());
-        $id = 1;
-        $locations = $this->dbQueries->getLocations();
 
-        $viewData['itemStocks'] = [];
+        $date_array = getdate();
+        $year = $date_array['year'];
+        $month = $date_array['mon'];
+        $day = $date_array['mday'];
+        $hours = $date_array['hours'];
+        $minutes = $date_array['minutes'];
+        $seconds = $date_array['seconds'];
 
-        foreach ($locations as $location) {
-            $itemStock = $this->stock->getItemStocks($location->id, $id);
+        $date = $year."-".$month."-".$day. " " . $hours . ":" . $minutes . ":" . $seconds;
+
+        for ($i = 1; $i < ($month+1); $i++) {
+            $primke = $this->stock->getTransactionCount(1, '2017', $i);
+            $izdatnice = $this->stock->getTransactionCount(2, '2017', $i);
+            $medjuskladisnice = $this->stock->getTransactionCount(3, '2017', $i);
+
+            $viewData['trans'.$i] = array();
+            array_push($viewData['trans'.$i], $primke);
+            array_push($viewData['trans'.$i], $izdatnice);
+            array_push($viewData['trans'.$i], $medjuskladisnice);
         }
-
-        $viewData['itemStocks'] = $itemStock;
 
         var_dump($viewData);
     }
