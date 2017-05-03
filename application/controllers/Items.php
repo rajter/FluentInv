@@ -85,7 +85,7 @@ class Items extends My_Controller {
 
         $this->load->view('templates/app_head_view', $headerscripts);
         $this->load->view('templates/app_menu_view', $data);
-        $this->load->view('Items/new_Item_view', $item_data);
+        $this->load->view('Items/new_item_view', $item_data);
         $this->load->view('templates/app_footer_view', $footerscripts);
     }
 

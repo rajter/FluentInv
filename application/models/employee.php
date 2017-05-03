@@ -13,9 +13,10 @@ Class Employee extends CI_Model
         parent::__construct();
     }
 
-    public function getAll()
+    public function getAll($id)
     {
         $query = $this->db->where('user_type_id', 2)
+                        ->where('id !=', $id)
                         ->get('users');
         return $query->result();
     }
@@ -25,7 +26,6 @@ Class Employee extends CI_Model
       if($id != null)
       {
           $query = $this->db->where('id', $id)
-                            ->where('user_type_id', 2)
                             ->limit(1)
                             ->get('users');
           return $query->result()[0];//result je uvijek array a zelimo samo prvi i jedini objekt
@@ -42,6 +42,7 @@ Class Employee extends CI_Model
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
             'password' => md5($this->input->post('password')),
+            'image' => 'avatar.png',
             'role' => $this->input->post('role'),
             'user_type_id' => 2,
             'login_date' => null

@@ -44,7 +44,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profil</a>
+                    <a href="<?php echo base_url(); ?>index.php/employees/view/<?php echo $id; ?>" class="btn btn-default btn-flat">Profil</a>
                   </div>
                   <div class="pull-right">
                     <a href="<?php echo base_url(); ?>index.php/home/logout" class="btn btn-default btn-flat">Odlogiraj</a>
@@ -106,8 +106,6 @@
               <li><a href="<?php echo base_url(); ?>index.php/Receipts"><i class="fa fa-book"></i>Primke</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/Issues"><i class="fa fa-external-link"></i>Izdatnice</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/Transfers"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
-              <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Otpis</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-eraser"></i>Ispravci</a></li> -->
               <li><a href="<?php echo base_url(); ?>index.php/stocks/viewStocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
             </ul>
           </li>
@@ -130,8 +128,8 @@
           <li class="treeview">
             <a href="#"><i class="fa fa-users"></i> <span>Ljudski resursi</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
-                <li><a href="<?php echo base_url(); ?>index.php/administrators"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li>
-                <li><a href="<?php echo base_url(); ?>index.php/employees"><i class="fa fa-user"></i><span>Zaposlenici</span></a></li>
+                <!-- <li><a href="<?php echo base_url(); ?>index.php/administrators"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li> -->
+                <li><a href="<?php echo base_url(); ?>index.php/employees"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
             </ul>
           </li>
           <li>

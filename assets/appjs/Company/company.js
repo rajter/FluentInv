@@ -169,7 +169,7 @@ $(document).ready(function(){
 
             var content = "";
             alertify.helper('Novi Kontakt',
-            "<form id='contactForm' action='http://localhost/FluentInv/index.php/company/addNewContact' enctype='multipart/form-data' method='post' accept-charset='utf-8'>"+
+            "<form id='contactForm' action='" + BASE_URL + "index.php/company/addNewContact' enctype='multipart/form-data' method='post' accept-charset='utf-8'>"+
             "<input name='"+TOKEN.trim()+"' value='"+HASH.trim()+"' style='display:none;' type='hidden'>"+
             "<div class='col-md-12'>"+
             "   <div class='form-group'>"+
@@ -290,7 +290,7 @@ $(document).ready(function(){
 
                         var content = "";
                         alertify.helper('Uredi Kontakt',
-                        "<form id='contactForm' action='http://localhost/FluentInv/index.php/company/updateContacts' enctype='multipart/form-data' method='post' accept-charset='utf-8'>"+
+                        "<form id='contactForm' action='" + BASE_URL + "index.php/company/updateContacts' enctype='multipart/form-data' method='post' accept-charset='utf-8'>"+
                         "<input name='"+TOKEN.trim()+"' value='"+HASH.trim()+"' style='display:none;' type='hidden'>"+
                         "<input name='contact_id' value='"+contactData.id+"' style='display:none;' type='hidden'>"+
                         "<div class='col-md-12'>"+
