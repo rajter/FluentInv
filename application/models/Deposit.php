@@ -3,7 +3,7 @@
 if(!defined("ITEM_TRANS")) define("ITEM_TRANS", "item_transaction", true);
 if(!defined("TRANSACTIONS")) define("TRANSACTIONS", "inventory_transactions", true);
 
-Class Issue extends CI_Model
+Class Deposit extends CI_Model
 {
 
     public function __contruct()
@@ -14,6 +14,9 @@ Class Issue extends CI_Model
 
     public function getAll()
     {
+        $this->load->model(array('StockTaking'));
+        $lastStockTaking = $this->StockTaking->getLatest(1);
+
         $this->db->select('T.*', FALSE);
         $this->db->select('U.name AS user');
         $this->db->select('C.name AS client');
@@ -23,40 +26,67 @@ Class Issue extends CI_Model
         $this->db->join('clients AS C', 'T.client_id = C.id');
         $this->db->join('locations AS L', 'T.location_id = L.id');
         $this->db->order_by('T.transaction_number', 'DESC');
-        $this->db->where('transaction_type_id', 2);
+        $this->db->where('transaction_type_id', 4);
+        if(!is_null($lastStockTaking))
+        {
+            $this->db->where('T.date <', $lastStockTaking->date);
+        }
         $query = $this->db->get();
 
         return $query->result();
     }
 
-    /*
-    *   Return the receipt without the item data
-    */
+    public function getForLocation($location_id)
+    {
+        $this->load->model(array('StockTaking'));
+        $lastStockTaking = $this->StockTaking->getLatest(1);
+
+        $this->db->select('T.*', FALSE);
+        $this->db->select('U.name AS user');
+        $this->db->select('C.name AS client');
+        $this->db->select('L.name AS location');
+        $this->db->from(TRANSACTIONS.' AS T');
+        $this->db->join('users AS U', 'T.user_id = U.id');
+        $this->db->join('clients AS C', 'T.client_id = C.id');
+        $this->db->join('locations AS L', 'T.location_id = L.id');
+        $this->db->order_by('T.transaction_number', 'DESC');
+        $this->db->where('transaction_type_id', 4);
+        $this->db->where('T.location_id', $location_id);
+        if(!is_null($lastStockTaking))
+        {
+            $this->db->where('T.date <', $lastStockTaking->date);
+        }
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    //-------------------------------------------
+    //  Return the deposit without the item data
+    //-------------------------------------------
     public function get($id)
     {
         if($id != null)
         {
             $this->db->select('I.id AS trans_id, I.transaction_number, I.user_id, I.date, I.footnote');
-            $this->db->select('L.name AS location');
+            $this->db->select('L.name AS location, L.description AS description');
             $this->db->select('I.location_id AS location_id');
-            $this->db->select('C.*');
             $this->db->select('I.client_id AS client_id');
             $this->db->select('A.*');
             $this->db->from('inventory_transactions AS I');
             $this->db->join('locations AS L', 'L.id = I.location_id');
-            $this->db->join('clients AS C', 'C.id = I.client_id');
-            $this->db->join('address AS A', 'A.id = C.address_id');
+            $this->db->join('address AS A', 'A.id = L.address_id');
             $this->db->where('I.transaction_number =', $id);
-            $this->db->where('I.transaction_type_id =', 2);
+            $this->db->where('I.transaction_type_id =', 4);
             $query = $this->db->get();
 
             return $query->result();
         }
     }
 
-    /*
-    *   Return all the items from a specific receipt
-    */
+    //------------------------------------------------
+    //  Return all the items from a specific deposit
+    //------------------------------------------------
     public function getData($inventory_transactions_id, $transaction_number)
     {
         if($inventory_transactions_id != null AND $transaction_number != null)
@@ -78,9 +108,9 @@ Class Issue extends CI_Model
     {
         $this->load->helper('url');
 
-        $transaction_number = $this->modelHelper->returnMaxTransNumber(2);
+        $transaction_number = $this->modelHelper->returnMaxTransNumber(4);
         $user_id = $session_id;
-        $client_id = $this->input->post('client');
+        $client_id = 1;
         $date = $this->input->post('date');
         $location = $this->input->post('location');
         $items = $this->input->post('item_id');         //  hidden input element
@@ -98,7 +128,7 @@ Class Issue extends CI_Model
 
         $data = array(
             'transaction_number' => $transaction_number,
-            'transaction_type_id' => 2,
+            'transaction_type_id' => 4,
             'client_id' => $client_id,
             'location_id' => $location,
             'from_location_id' => $location,
@@ -108,7 +138,7 @@ Class Issue extends CI_Model
         );
 
         $this->db->insert(TRANSACTIONS, $data);
-        $trans_id = $this->issue->get($transaction_number)[0]->trans_id;
+        $trans_id = $this->deposit->get($transaction_number)[0]->trans_id;
 
         // Dodajemo artkikle
         foreach ($items as $item) {
@@ -130,9 +160,9 @@ Class Issue extends CI_Model
 
         $transaction_id = $this->input->post('transaction_id');
         $user_id = $session_id;
-        $client_id = $this->input->post('client');
+        $client_id = 1;
         $date = $this->input->post('date');
-        // $location = $this->input->post('location');
+        $location = $this->input->post('location');
         $items = $this->input->post('item_id');         //  hidden input element
         $quantities = $this->input->post('item_qnt');   //  hidden input element
         $footnote = $this->input->post('footnote');
@@ -148,8 +178,8 @@ Class Issue extends CI_Model
 
         $data = array(
             'client_id' => $client_id,
-            // 'location_id' => $location,
-            // 'from_location_id' => $location,
+            'location_id' => $location,
+            'from_location_id' => $location,
             'user_id' => $user_id,
             'date' => $date,
             'footnote' => $footnote
@@ -176,11 +206,10 @@ Class Issue extends CI_Model
         }
     }
 
-
     public function delete($transaction_number)
     {
         $this->db->where('transaction_number', $transaction_number);
-        $this->db->where('transaction_type_id', 2);
+        $this->db->where('transaction_type_id', 4);
         return $this->db->delete('inventory_transactions');
     }
 }

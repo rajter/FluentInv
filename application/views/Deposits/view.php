@@ -4,13 +4,13 @@
     <section class="content">
         <section class="content-header">
             <h1>
-                <i class="fa fa-external-link"></i>
-                Izdatnica
-                <small> <?php echo "#".$issue[0]->transaction_number; ?></small>
+                <i class="fa fa-book"></i>
+                Polog
+                <small> <?php echo "#".$deposit[0]->transaction_number; ?></small>
             </h1>
             <ol class="breadcrumb">
               <li><a href="#"><i class="fa fa-dashboard"></i> FluentInventory</a></li>
-              <li class="active">Izdatnica</li>
+              <li class="active">Template</li>
             </ol>
         </section>
 
@@ -19,7 +19,7 @@
                 <div class="col-xs-12">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> <?php echo $company[0]->name; ?>
-                        <small class="pull-right"><b>Datum:</b> <?php echo $issue[0]->date; ?></small>
+                        <small class="pull-right">Datum: <?php echo $deposit[0]->date; ?></small>
                         <small><?php echo $company[0]->address; ?></small>
                         <small><?php echo $company[0]->city.", ".$company[0]->zipcode; ?></small>
                     </h2>
@@ -30,17 +30,19 @@
             <div class="row invoice-info">
                 <div class="col-sm-8 invoice-col">
                     <br>
+                    <!-- <?php echo var_dump($deposit); ?> -->
                     <address>
-                        <strong><?php echo $issue[0]->name; ?></strong> - <?php echo $issue[0]->description; ?><br>
-                        <?php echo $issue[0]->address; ?><br>
-                        <?php echo $issue[0]->city.", ".$issue[0]->zipcode; ?><br>
-                        Tel: <?php echo $issue[0]->tel; ?><br>
-                        Email: <?php echo $issue[0]->email; ?>
+                        <strong><?php echo $deposit[0]->location; ?></strong><br>
+                        <?php echo $deposit[0]->description; ?><br>
+                        <?php echo $deposit[0]->address; ?><br>
+                        <?php echo $deposit[0]->city.", ".$deposit[0]->zipcode; ?><br>
+                        <!-- Tel: <?php echo $deposit[0]->tel; ?><br>
+                        Email: <?php echo $deposit[0]->email; ?> -->
                     </address>
                 </div><!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <h3><i class="fa fa-newspaper-o"></i> <strong><?php echo $issue[0]->transaction_number; ?></strong></h3>
-                    <h3><i class="fa fa-map-marker"></i> <strong><?php echo $issue[0]->location; ?></strong></h3>
+                    <h3>Polog: <strong><?php echo $deposit[0]->transaction_number; ?></strong></h3>
+                    <b>Datum:</b> <?php echo $deposit[0]->date; ?><br>
                 </div><!-- /.col -->
             </div>
 
@@ -59,11 +61,12 @@
                         <tbody>
                             <?php $totalPrice = 0; ?>
                             <?php $totalQuantity = 0; ?>
-                            <?php foreach ($issueData as $key=>$item): ?> <!-- $key je index -->
+                            <?php foreach ($depositData as $key=>$item): ?> <!-- $key je index -->
                                 <?php $totalPrice += $item->price * $item->quantity; ?>
                                 <?php $totalQuantity += $item->quantity; ?>
                                 <tr>
-                                    <td><?php echo $key+1; ?></td>
+                                    <!-- <td><?php echo $key+1; ?></td> -->
+                                    <td><?php echo $item->id; ?></td>
                                     <td class="text-center">
                                         <?php if(!empty($item->image)){ ?>
                                               <img class="img img-responsive center-block" style="width: 40px; " id="image"
@@ -103,7 +106,7 @@
                 <div class="col-xs-6">
                     <h2>Napomena:</h2>
                     <div class="well well-sm text-muted">
-                        <?php echo $issue[0]->footnote; ?>
+                        <?php echo $deposit[0]->footnote; ?>
                     </div>
                 </div>
                 <div class="col-xs-5 col-xs-offset-1">
@@ -127,10 +130,10 @@
 
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href=<?php echo base_url().'index.php/issues/edit/'.$issue[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
-                    <a href=<?php echo base_url().'index.php/issues/generatePDF/'.$issue[0]->transaction_number; ?>
+                    <a href=<?php echo base_url().'index.php/Deposits/edit/'.$deposit[0]->transaction_number; ?> class="btn btn-success"><i class="fa fa-edit"></i> Uredi</a>
+                    <a href=<?php echo base_url().'index.php/Deposits/generatePDF/'.$deposit[0]->transaction_number; ?>
                         class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generiraj PDF</a>
-                    <a href=<?php echo base_url().'index.php/issues/printIssue/'.$issue[0]->transaction_number; ?>
+                    <a href=<?php echo base_url().'index.php/Deposits/printDeposit/'.$deposit[0]->transaction_number; ?>
                         target="blank" class="btn btn-default pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</a>
                 </div>
             </div>

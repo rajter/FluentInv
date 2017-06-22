@@ -43,6 +43,17 @@ Class DBQueries extends CI_Model
         return $query->result();
     }
 
+    public function getLocationData($id)
+    {
+        $this->db->select('L.*, A.*');
+        $this->db->from('locations AS L');
+        $this->db->join('address AS A', 'L.address_id = A.id');
+        $this->db->where('L.id', $id);
+        $this->db->limit(1);
+
+        return $this->db->get()->result()[0];
+    }
+
     public function getCompanyInfo()
     {
         $query = $this->db->get('company');

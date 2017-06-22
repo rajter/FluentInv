@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('#employee_table').DataTable();
+    $('#users_table').DataTable();
     $('#items_table').DataTable({
         "pageLength": 50
     });

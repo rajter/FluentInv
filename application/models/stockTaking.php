@@ -45,18 +45,26 @@ Class StockTaking extends CI_Model
         }
     }
 
-    //---------------------------
-    //  Vraća zadnju inventuru
-    //---------------------------
+    //----------------------------------
+    //  Vraća zadnju zavrsenu inventuru
+    //----------------------------------
     public function getLatest($locationID)
     {
-        $this->db->select('TOP 1 *');
+        $this->db->select('*');
         $this->db->from('stock_takings');
         $this->db->where('locations_id', $locationID);
+        $this->db->where('status', 1); // where STATUS is locked
         $this->db->order_by('date', 'DESC');
+        $this->db->limit(1);
         $query = $this->db->get();
 
-        return $query->result();
+        if(count($query->result()) > 0)
+        {
+            return $query->result()[0];            
+        }
+        else {
+            return null;
+        }
     }
 
     private function checkIfThereAreOpenStockTakings($locationID)
@@ -121,17 +129,17 @@ Class StockTaking extends CI_Model
                 'footnote' => $footnote
             );
 
-            $otpisnica_transaction_number = $this->modelHelper->returnMaxTransNumber(4);
-            $otpisnica = array(
-                'transaction_number' => $otpisnica_transaction_number,
-                'transaction_type_id' => 4,
-                'client_id' => 1,
-                'location_id' => $location,
-                'from_location_id' => $location,
-                'user_id' => $user_id,
-                'date' => $date,
-                'footnote' => $footnote
-            );
+            // $otpisnica_transaction_number = $this->modelHelper->returnMaxTransNumber(4);
+            // $otpisnica = array(
+            //     'transaction_number' => $otpisnica_transaction_number,
+            //     'transaction_type_id' => 4,
+            //     'client_id' => 1,
+            //     'location_id' => $location,
+            //     'from_location_id' => $location,
+            //     'user_id' => $user_id,
+            //     'date' => $date,
+            //     'footnote' => $footnote
+            // );
 
             $ispravak_transaction_number = $this->modelHelper->returnMaxTransNumber(5);
             $ispravak = array(
@@ -164,8 +172,8 @@ Class StockTaking extends CI_Model
                 $inventura_trans_id = $this->db->insert_id();
                 // $inventura_trans_id = $this->receipt->get($inventura_transaction_number)[0]->trans_id;
 
-                $this->db->insert(TRANSACTIONS, $otpisnica);
-                $otpisnica_trans_id = $this->db->insert_id();
+                // $this->db->insert(TRANSACTIONS, $otpisnica);
+                // $otpisnica_trans_id = $this->db->insert_id();
                 // $inventura_trans_id = $this->receipt->get($otpisnica_transaction_number)[0]->trans_id;
 
                 $this->db->insert(TRANSACTIONS, $ispravak);
@@ -177,7 +185,7 @@ Class StockTaking extends CI_Model
                 // $inventura_trans_id = $this->receipt->get($ispravak_transaction_number)[0]->trans_id;
 
                 $this->db->insert('inventory_stock_takings', array( 'inventory_transactions_id' => $inventura_trans_id, 'stock_takings_id' => $stock_taking_id));
-                $this->db->insert('inventory_stock_takings', array( 'inventory_transactions_id' => $otpisnica_trans_id, 'stock_takings_id' => $stock_taking_id));
+                // $this->db->insert('inventory_stock_takings', array( 'inventory_transactions_id' => $otpisnica_trans_id, 'stock_takings_id' => $stock_taking_id));
                 $this->db->insert('inventory_stock_takings', array( 'inventory_transactions_id' => $ispravak_trans_id, 'stock_takings_id' => $stock_taking_id));
                 $this->db->insert('inventory_stock_takings', array( 'inventory_transactions_id' => $zakljucak_trans_id, 'stock_takings_id' => $stock_taking_id));
 

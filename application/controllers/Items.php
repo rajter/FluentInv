@@ -61,6 +61,9 @@ class Items extends My_Controller {
         $viewData['totalQuantity'] = $totalQuantity;
         $viewData['totalTransactions'] = count($viewData['transactions']);
 
+        // Vrati sve duznike za artikl
+        // $viewData['debtors'];
+
         $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/view');
     }
 

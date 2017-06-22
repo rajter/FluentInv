@@ -15,17 +15,16 @@ $(document).ready(function() {
         |ID|Ime     |Opis   |Tip    |Kod    |Kol    |
         ---------------------------------------------
     */
-    var dt = $('#issues_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
+    var dt = $('#deposits_table').DataTable();  //Inicijalizacija tablice i spremanje reference u varijablu
     dt     // Sortira tablicu po prvoj vidljivoj koloni
         .column( '0:visible' )
         .order( 'desc' )
         .draw();
-    var tbody = $("#info-table-body");
 
-    //--------------------------------------------
-    //   Prikazuje dialog sa pregledom primke
-    //--------------------------------------------
-    $('#issues_table').on('click', 'td, tr', function()
+    //------------------------------------------
+    //   Prikazuje dialog sa pregledom pologa
+    //------------------------------------------
+    $('#deposits_table').on('click', 'td, tr', function()
     {
       var cell = dt.cell( this );
       var row = dt.row( this );
@@ -37,7 +36,7 @@ $(document).ready(function() {
             var TRANS_NUMBER = row.data()[0];
             $.ajax({
                 type: "GET",
-                url: BASE_URL + "index.php/Issues/getIssueInfo",
+                url: BASE_URL + "index.php/Receipts/getReceiptInfo",
                 data: { "transaction_number": TRANS_NUMBER },
                 dataType: "text",
                 success:
@@ -197,9 +196,9 @@ $(document).ready(function() {
     }
 
     //---------------------------------------------
-    //     Modalni dialog za brisanje izdatnici
+    //     Modalni dialog za brisanje primki
     //---------------------------------------------
-    $("#issues_table").on("click", ".issue_modal_delete", function(){
+    $("#receipts_table").on("click", ".receipt_modal_delete", function(){
 
         var transNumber = $(this).attr('data');
         alertify.confirm(
@@ -214,7 +213,7 @@ $(document).ready(function() {
 
                 $.ajax({
                   type: "POST",
-                  url: BASE_URL + "index.php/Issues/delete",
+                  url: BASE_URL + "index.php/Receipts/delete",
                   data: _form,
                   dataType: "text",
                   success:
@@ -222,8 +221,8 @@ $(document).ready(function() {
                         //alert(result);
                          var obj = JSON.parse(result);
 
-                         $('#issue-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
-                         $("#issue-number").text("Izdatnica: ");
+                         $('#receipt-row-'+ transNumber).remove();  // brisemo redak u tablici za obrisanu primku
+                         $("#receipt-number").text("Primka: ");
 
                          if(result)
                          {
@@ -237,11 +236,10 @@ $(document).ready(function() {
 
             },
             function(){
-                //alertify.error('Prekid brisanja izdatnice!');
+                //alertify.error('Prekid!');
             }
         );
     });
-
 
     // -----------------------------------------------------
     // Zapis napomene dodaje u skriti element za submitanje
@@ -267,6 +265,29 @@ $(document).ready(function() {
     $("#modal_code").on("hide.bs.modal", function (event) {
       var button = $(event.relatedTarget); // Button that triggered the modal
     });
+
+    // $.fn.blink = function (count) {
+    // var $this = $(this);
+    //
+    // count = count - 1 || 0;
+    //
+    // $this.animate({opacity: 0.25}, 100, function () {
+    //     $this.animate({opacity: 1}, 100, function () {
+    //         if (count > 0) {
+    //             $this.blink(count);
+    //         }
+    //     });
+    // });
+    // };
+
+    // $.fn.blink = function(e) {
+    //     var $this = $(this);
+    //     e.preventDefault();
+    //     for (var i = 0; i < 3; i++ ) {
+    //             $this.animate( { backgroundColor: "#f00" }, 2000 );
+    //             $this.animate( { backgroundColor: "transparent" }, 2000 );
+    //     }
+    // };
 
     inputCode.keypress(function(e){
         if(e.which == 13) {
@@ -313,6 +334,10 @@ $(document).ready(function() {
 
                                         $("#input-code").val('');
                                         $("#modal_code").modal('toggle');
+
+                                        //Animacija promjene
+                                        // $("#selected_items_table_body > tr > td.item_quantity > strong#qnt-"+ item_id).parent().css({"background-color":"red", "-webkit-animation-duration":"4s"});
+                                        // $("#selected_items_table_body > tr > td.item_quantity > strong#qnt-"+ item_id).parent().blink(3);
                                         return;
                                     }
                                 }
@@ -358,5 +383,6 @@ $(document).ready(function() {
         }
 
     });
+
 
 });

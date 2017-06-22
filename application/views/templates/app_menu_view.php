@@ -44,7 +44,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="<?php echo base_url(); ?>index.php/employees/view/<?php echo $id; ?>" class="btn btn-default btn-flat">Profil</a>
+                    <a href="<?php echo base_url(); ?>index.php/users/view/<?php echo $id; ?>" class="btn btn-default btn-flat">Profil</a>
                   </div>
                   <div class="pull-right">
                     <a href="<?php echo base_url(); ?>index.php/home/logout" class="btn btn-default btn-flat">Odlogiraj</a>
@@ -103,8 +103,9 @@
           <li class="treeview">
             <a href="#"><i class="fa fa-archive"></i> <span>Dokumenti</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
-              <li><a href="<?php echo base_url(); ?>index.php/Receipts"><i class="fa fa-book"></i>Primke</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/Deposits"><i class="fa fa-book"></i>Polozi</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/Issues"><i class="fa fa-external-link"></i>Izdatnice</a></li>
+              <li><a href="<?php echo base_url(); ?>index.php/Receipts"><i class="fa fa-reply"></i>Povratnice</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/Transfers"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
               <li><a href="<?php echo base_url(); ?>index.php/stocks/viewStocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
             </ul>
@@ -129,7 +130,7 @@
             <a href="#"><i class="fa fa-users"></i> <span>Ljudski resursi</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
                 <!-- <li><a href="<?php echo base_url(); ?>index.php/administrators"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li> -->
-                <li><a href="<?php echo base_url(); ?>index.php/employees"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
+                <li><a href="<?php echo base_url(); ?>index.php/users"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
             </ul>
           </li>
           <li>

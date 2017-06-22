@@ -3,13 +3,13 @@
 
     <section class="content-header">
         <h1>
-          <i class="fa fa-external-link"></i>
-          Nova Izdatnica
+          <i class="fa fa-book"></i>
+          Novi Polog
           <small><?php // TODO: fali opis ?></small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-ticket"></i> Fluent Inventory</a></li>
-          <li class="active">Nova Izdatnica</li>
+          <li class="active">Novi Polog</li>
         </ol>
     </section>
 
@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-body">
-                    <?php echo form_open('issues/Create'); ?>
+                    <?php echo form_open('deposits/Create'); ?>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -46,21 +46,7 @@
                                                 </div>
                                                 <select  class="form-control" name="location">
                                                     <option value=<?php echo $location->id; ?>><?php echo $location->name;?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Subjekt zaduženja:</label>
-                                            <div class="input-group location">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-user"></i>
-                                                </div>
-                                                <select  class="form-control" name="client">
-                                                    <?php foreach ($clients as $client) {?>
-                                                        <option value=<?php echo $client->id; ?>><?php echo $client->name . " - [tel: " . $client->tel.", email: ".$client->email."]";?></option>
-                                                        <?php } ?>
-                                                </select>
+                                                    </select>
                                             </div>
                                         </div>
 
@@ -214,7 +200,6 @@
             </div>
           </div>
         </div>
-
 
 
     </section>

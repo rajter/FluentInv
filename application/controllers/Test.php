@@ -11,13 +11,17 @@ class Test extends My_Controller {
        parent::__construct();
        $this->load->helper('url');
        $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stock', 'homeModel'));
+       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'stock', 'homeModel', 'StockTaking'));
      }
 
     public function index()
     {
         $data = $this->testModel->getTransWithHighestNumber(1);
         echo var_dump($data);
+
+        echo var_dump($this->StockTaking->getLatest(1));
+
+        echo var_dump($this->dbQueries->getLocationData(1));
     }
 
     public function testAJAX()

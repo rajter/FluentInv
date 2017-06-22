@@ -133,6 +133,29 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Duznici</h3>
+                            </div>
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Artikl</th>
+                                        <th>Kolicina</th>
+                                        <th>Ime</th>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <!-- <?php echo var_dump($transactions); ?> -->
                     </div>
                 </div>
@@ -192,6 +215,7 @@
                                             <p>Tip transakcije: <?php echo $transaction->transaction_type_id." - ".$transaction->TransactionType; ?></p>
                                             <p>Kolicina: <?php echo $transaction->quantity; ?></p>
                                             <p>Lokacija: <?php echo $transaction->Location_IN; ?></p>
+                                            <b><?php echo $transaction->ClientName;?></b>
                                         </div>
                                     </div>
                                 </li>

@@ -39,6 +39,15 @@ Class Item extends CI_Model
       }
     }
 
+    //---------------------------------
+    //  Vraca artikle koji su dostupni
+    //  oni artikli koji nisu izdani
+    //---------------------------------
+    public function getAvailable()
+    {
+        # code...
+    }
+
     public function getFromCode($code)
     {
       if($code != null)
@@ -92,11 +101,13 @@ Class Item extends CI_Model
             $this->db->select('IT.*, INV.*', FALSE);
             $this->db->select('LIN.name AS Location_IN, LOUT.name AS Location_OUT');
             $this->db->select('TT.description AS TransactionType');
+            $this->db->select('C.name AS ClientName');
             $this->db->from('item_transaction AS IT');
             $this->db->join('inventory_transactions INV', 'IT.inventory_transaction_id = INV.id');
             $this->db->join('locations LIN', 'INV.location_id = LIN.id');
             $this->db->join('locations LOUT', 'INV.from_location_id = LOUT.id');
             $this->db->join('transaction_type AS TT', 'TT.id = INV.transaction_type_id');
+            $this->db->join('clients as C', 'INV.client_id = C.id');
             $this->db->where('IT.item_id', $id);
             $this->db->order_by('INV.date DESC');
             if(!is_null($limit))
@@ -105,6 +116,14 @@ Class Item extends CI_Model
             }
             $query = $this->db->get();
             return $query->result();
+        }
+    }
+
+    public function getDebtors($id)
+    {
+        if($id != null)
+        {
+
         }
     }
 
