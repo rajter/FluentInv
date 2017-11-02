@@ -18,7 +18,7 @@
                 <div class="box box-info">
                     <div class="box-header">
                         <button id="btn-new-contact" class="btn btn-primary" type="button" name="button" data-toggle="tooltip"  data-placement="bottom" title="Novi Kontakt"><i class="fa fa-user-plus"></i></button>
-                        <button id="btn-add-contact" class="btn btn-info" type="button" name="button" data-toggle="tooltip" data-placement="bottom" title="Dodaj postojeći kontakt"><i class="fa fa-archive"></i></button>
+                        <!-- <button id="btn-add-contact" class="btn btn-info" type="button" name="button" data-toggle="tooltip" data-placement="bottom" title="Dodaj postojeći kontakt"><i class="fa fa-archive"></i></button> -->
 
                     </div>
                     <div class="box-body">

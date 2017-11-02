@@ -27,7 +27,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 50px"><i class="fa fa-info"></i> ID</th>
-                                        <th style="width: 350px"><i class="fa fa-book"></i> Ime</th>
+                                        <th style="width: 350px"><i class="fa fa-book"></i> Naziv</th>
                                         <th><i class="fa fa-binoculars"></i> Opis</th>
                                         <th style="width: 150px"><i class="fa fa-gears"></i> Opcije</th>
                                     </tr>

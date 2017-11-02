@@ -91,7 +91,7 @@ $(document).ready(function(){
     });
 
     //------------------------------------------------------
-    //  Mice kontact iz veze s poduzecem, ne brise kontakt
+    //  Mice kontact iz veze s poduzecem, i brise kontakt
     //------------------------------------------------------
     $('#company-contacts-list').on('click', '.btn-remove-contact', function(){
         var ID = $(this).attr("id");

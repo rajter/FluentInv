@@ -43,8 +43,8 @@
                                 <!-- /.col -->
                                 <div class="col-sm-4">
                                   <div class="description-block">
-                                    <h3 class="description-header"><?php echo count($clients); ?></h3>
-                                    <span class="description-text"><i class="fa fa-user"></i> KLIJENTi</span>
+                                    <h3 class="description-header">2017</h3>
+                                    <span class="description-text"><i class="fa fa-user"></i> God. osnivanja</span>
                                   </div>
                                   <!-- /.description-block -->
                                 </div>

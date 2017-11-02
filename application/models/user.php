@@ -3,7 +3,7 @@
 Class User extends CI_Model
 {
     function login($username, $password) {
-        $this -> db -> select('id, username, password');
+        $this -> db -> select('id, username, password, name, surname, image, role');
         $this -> db -> from('users');
         $this -> db -> where('username', $username);
         $this -> db -> where('password', MD5($password));
@@ -38,11 +38,14 @@ Class User extends CI_Model
         }
     }
 
-    public function checkIfAdmin($id)
+    public function checkIfAdmin()
     {
+        $session_data = $this->session->userdata('logged_in');
+        $userID = $session_data['id'];
+
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->where('id', $id);
+        $this->db->where('id', $userID);
 
         $query = $this->db->get();
         $result = $query->result()[0];
@@ -77,10 +80,10 @@ Class User extends CI_Model
     //----------------------------
     public function getAll()
     {
-        $this->db->select('U.id, U.username, U.password, U.image, U.email, U.name, U.surname, U.role, U.user_type_id, U.login_date, L.name AS warehouse, UT.id AS UserTypeID, UT.name AS UserType');
+        $this->db->select('U.id, U.username, U.password, U.image, U.email, U.name, U.surname, U.role, U.user_type_id, U.login_date, UT.id AS UserTypeID, UT.description AS UserType');
         $this->db->from('users AS U');
-        $this->db->join('locations AS L', 'L.id = U.location_id');
         $this->db->join('user_type AS UT', 'U.user_type_id = UT.id');
+        $this->db->order_by('U.id', 'DESC');
 
         $query = $this->db->get();
         return $query->result();
@@ -93,9 +96,8 @@ Class User extends CI_Model
     {
         if($id != null)
         {
-            $this->db->select('U.id, U.username, U.password, U.image, U.email, U.name, U.surname, U.role, U.user_type_id, U.login_date, L.name AS warehouse, UT.id AS UserTypeID, UT.name AS UserType');
+            $this->db->select('U.id, U.username, U.password, U.image, U.email, U.name, U.surname, U.role, U.user_type_id, U.login_date, UT.id AS UserTypeID, UT.description AS UserType');
             $this->db->from('users AS U');
-            $this->db->join('locations AS L', 'L.id = U.location_id');
             $this->db->join('user_type AS UT', 'U.user_type_id = UT.id');
             $this->db->where('U.id', $id);
             $this->db->limit(1);
@@ -118,9 +120,8 @@ Class User extends CI_Model
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
             'password' => md5($this->input->post('password')),
-            'image' => 'avatar.png',
-            'role' => 'Skladištar',
-            'location_id' => $this->input->post('location'),
+            'image' => $this->input->post('avatar'),
+            'role' => 'Zaposlenik',
             'user_type_id' => $this->input->post('user_type'),
             'login_date' => null
         );
@@ -140,9 +141,9 @@ Class User extends CI_Model
             'surname' => $this->input->post('surname'),
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
-            'password' => md5($this->input->post('password')),
-            'role' => 'Skladištar',
-            'location_id' => $this->input->post('location'),
+            // 'password' => md5($this->input->post('password')), - azuriranje passworda napravit posebnu funkciju
+            'image' => $this->input->post('avatar'),
+            'role' => 'Zaposlenik',
             'user_type_id' => $this->input->post('user_type')
         );
 
@@ -157,8 +158,32 @@ Class User extends CI_Model
     //----------------------------
     public function delete()
     {
-        // $id = $this->input->post('id');
-        // $this->db->delete('users', array('id' => $id));
+        $id = $this->input->post('id');
+        $this->db->where('user_id', $id);
+        $this->db->or_where('debtor_id', $id);
+        $this->db->from('item_transactions');
+        $resultCount = $this->db->count_all_results();
+
+        if($resultCount == 0)
+        {
+            $this->db->delete('users', array('id' => $id));
+        }
+    }
+
+    public function resetPassword($userId)
+    {
+        if($userId != NULL)
+        {
+            $this->load->helper('url');
+            $password = $this->input->post('password');
+            $data = array(
+                'password' => md5($password)
+            );
+
+            $this->db->where('id', $userId);
+            $this->db->update('users', $data);
+            return 'TRUE';
+        }
     }
 
 }

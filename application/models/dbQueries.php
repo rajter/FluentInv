@@ -80,4 +80,18 @@ Class DBQueries extends CI_Model
         $query = $this->db->get('contacts');
         return $query->result();
     }
+
+    // Vraca popis slika avatara
+    public function getAvatarImages()
+    {
+        $avatars = array(
+            'avatar.png',
+            'avatar2.png',
+            'avatar3.png',
+            'avatar4.png',
+            'avatar5.png'
+        );
+
+        return $avatars;
+    }
 }

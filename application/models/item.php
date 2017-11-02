@@ -7,8 +7,12 @@ Class Item extends CI_Model
     {
         // Call the CI_Model constructor
         parent::__construct();
+
     }
 
+    //---------------------
+    //  Vraca sve artikle
+    //---------------------
     public function getAll()
     {
         $this->db->select('I.*', FALSE);
@@ -22,6 +26,26 @@ Class Item extends CI_Model
         return $query->result();
     }
 
+    //------------------------------
+    //  Vraca sve slobodne artikle
+    //------------------------------
+    public function getFree()
+    {
+        $this->db->select('I.*', FALSE);
+        $this->db->select('T.name AS type');
+        $this->db->select('S.status AS status');
+        $this->db->from('items AS I');
+        $this->db->join('item_type AS T', 'T.id = I.item_type_id');
+        $this->db->join('item_status AS S', 'S.id = I.item_status_id');
+        $this->db->where('I.item_status_id', 1);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    //----------------------------
+    //  Vraca odredjeni artikl
+    //----------------------------
     public function get($id)
     {
       if($id != null)
@@ -41,13 +65,35 @@ Class Item extends CI_Model
 
     //---------------------------------
     //  Vraca artikle koji su dostupni
-    //  oni artikli koji nisu izdani
+    //  Artikle koji nisu izdani
     //---------------------------------
-    public function getAvailable()
+    public function getAvailableFromCode($code)
     {
-        # code...
+        if($code != null)
+        {
+              $this->db->select('I.*', FALSE);
+              $this->db->select('T.name AS type');
+              $this->db->select('S.status AS status');
+              $this->db->from('items AS I');
+              $this->db->join('item_type AS T', 'T.id = I.item_type_id');
+              $this->db->join('item_status AS S', 'S.id = I.item_status_id');
+              $query = $this->db->where('I.code', $code)
+                              ->limit(1)
+                              ->get();
+              if(!empty($query->result()))
+              {
+                  return $query->result()[0];
+              }
+              else
+              {
+                  return NULL;
+              }
+        }
     }
 
+    //----------------------------
+    //  Vraca artikl prema kodu
+    //----------------------------
     public function getFromCode($code)
     {
       if($code != null)
@@ -72,28 +118,9 @@ Class Item extends CI_Model
       }
     }
 
-    //
-    //  Vraca sveukupno kolicinu artikla po svim lokacijama
-    //
-    public function getQuantitiesByLocation($id)
-    {
-        if($id != null)
-        {
-            $this->db->select('SUM(IF(INV.transaction_type_id = 1 OR INV.transaction_type_id = 3, IT.quantity, -IT.quantity)) AS SUM, IT.*, INV.*', FALSE);
-            $this->db->select('L.*', FALSE);
-            $this->db->from('item_transaction AS IT');
-            $this->db->join('inventory_transactions INV', 'IT.inventory_transaction_id = INV.id');
-            $this->db->join('locations L', 'L.id = INV.location_id');
-            $this->db->where('IT.item_id', $id);
-            $this->db->group_by('INV.location_id');
-            $query = $this->db->get();
-            return $query->result();
-        }
-    }
-
-    //
+    //----------------------------------
     //  Vraca sve transakcije za artikl
-    //
+    //----------------------------------
     public function getTransactions($id, $limit=null)
     {
         if($id != null)
@@ -119,17 +146,43 @@ Class Item extends CI_Model
         }
     }
 
+    //-----------------
+    //  Vraca duznike
+    //-----------------
     public function getDebtors($id)
     {
         if($id != null)
         {
+            $this->db->select("*");
+            $this->db->from("items");
+            $this->db->where("id", $id);
+            $this->db->limit(1);
+            $query = $this->db->get();
+            $result = $query->result()[0];
 
+            // return $result;
+
+            if($result->item_status_id == 2)
+            {
+                $this->db->select('U.*');
+                $this->db->select('IT.transaction_number AS TransNumber, IT.date_taken AS DateTaken, IT.deadline AS Deadline');
+                $this->db->from('item_transactions as IT');
+                $this->db->join('users AS U', 'IT.debtor_id = U.id');
+                $this->db->where('IT.status = 0');
+                $this->db->where('IT.item_id', $result->id);
+                $this->db->limit(1);
+                $query = $this->db->get();
+                return $query->result()[0];
+            }
+            else {
+                return NULL;
+            }
         }
     }
 
     /*
     *   Vraca artikle sa kolicinama za odredjenu transakciju
-    *   artikli koji nisu u transakciji imat ce kolicinu 0
+    *   Artikli koji nisu u transakciji imat ce kolicinu 0
     */
     public function getItemsQuantity($trans_id)
     {
@@ -146,6 +199,9 @@ Class Item extends CI_Model
         return $query->result();
     }
 
+    //-----------------------
+    //  Kreira novi artikl
+    //-----------------------
     public function create()
     {
         $this->load->helper('url');
@@ -163,6 +219,9 @@ Class Item extends CI_Model
         return $this->db->insert('items', $data);
     }
 
+    //----------------------------------------------
+    //  Provjera ako postoji artikl sa istim kodom
+    //----------------------------------------------
     public function checkCodeForDuplicate($code)
     {
         if($code != null)
@@ -186,16 +245,33 @@ Class Item extends CI_Model
 
     }
 
+    //----------------
+    //  Brise artikl
+    //----------------
     public function delete($id)
     {
         $this->db->select('COUNT(*) AS count');
-        $this->db->from('item_transaction');
+        $this->db->from('item_transactions');
         $this->db->where('item_id', $id);
         $query = $this->db->get();
 
         $result = $query->result()[0];
         if($result->count > 0)
         {
+            // Postavlja status artikla na otpisan
+            $data = array(
+                'item_status_id' => 3
+            );
+
+            $this->db->where('id', $id);
+            $this->db->update('items', $data);
+
+            // Vraca artikl ako je zauzet
+            $this->load->model('transaction');
+            $this->load->model('ModelHelper');
+            $transaction = $this->ModelHelper->getTransactionFromItemID($id);
+            if($transaction != null){ $this->transaction->returnItem($transaction->id);}
+
             return 'FALSE';
         }
         else {
@@ -205,6 +281,9 @@ Class Item extends CI_Model
         }
     }
 
+    //----------------------------
+    //  Uredjuje posojeci artikl
+    //----------------------------
     public function update()
     {
         $this->load->helper('url');
@@ -224,6 +303,38 @@ Class Item extends CI_Model
         return $this->db->update('items', $data);
     }
 
+    //----------------------------------------------
+    //  Mjenja status artikla iz otpisan u dostupan
+    //----------------------------------------------
+    public function changeStatus($id)
+    {
+        if($id != null)
+        {
+            $item = $this->get($id);
+
+            if($item != null && $item->item_status_id == 3)
+            {
+                $data = array(
+                    'item_status_id' => 1,
+                );
+
+                $this->db->where('id', $id);
+                if($this->db->update('items', $data))
+                    { return 'TRUE'; }
+                else
+                    { return 'FALSE'; }
+            }
+            else
+            {
+                return 'FALSE';
+            }
+        }
+        else
+        {
+            return 'FALSE';
+        }
+    }
+
     //----------------------------
     //  Vraca sve tipove artikala
     //----------------------------
@@ -235,9 +346,9 @@ Class Item extends CI_Model
         return $query->result();
     }
 
-    //----------------------------
+    //-----------------------
     //  Vraca odredjeni tip
-    //----------------------------
+    //-----------------------
     public function getType($id)
     {
         $this->db->select('*', FALSE);
@@ -260,9 +371,9 @@ Class Item extends CI_Model
         return $this->db->insert('item_type', $data);
     }
 
-    //---------------------------
+    //--------------------------------
     // Nadogradjuje novi tip artikala
-    //---------------------------
+    //--------------------------------
     public function updateItemType($user_id)
     {
         $id = $this->input->post('id');

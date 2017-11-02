@@ -23,16 +23,17 @@
                     </div>
                     <!-- <?php echo var_dump($query); ?> -->
                     <div class="box-body">
-                      <table id="users_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                      <table id="**users_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
-                                      <th style="width: 75px">ID</th>
-                                      <th style="width: 75px">Slika</th>
-                                      <th>Ime</th>
-                                      <th>Prezime</th>
-                                      <th>Tip Korisnika</th>
-                                      <th>Skladište</th>
-                                      <th style="width: 250px">Opcije</th>
+                                      <th style="width: 75px"><i class="fa fa-info"></i> ID</th>
+                                      <th style="width: 75px"><i class="fa fa-image"></i> Slika</th>
+                                      <th><i class="fa fa-user"></i> Ime</th>
+                                      <th><i class="fa fa-user-o"></i> Prezime</th>
+                                      <th><i class="fa fa-envelope"></i> E-mail</th>
+                                      <th><i class="fa fa-calendar"></i> Datum logiranja</th>
+                                      <th><i class="fa fa-user-secret"></i> Tip Korisnika</th>
+                                      <th style="width: 250px"><i class="fa fa-gears"></i> Opcije</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -52,8 +53,9 @@
                                           </td>
                                           <td><?php echo $user->name; ?></td>
                                           <td><?php echo $user->surname; ?></td>
+                                          <td><?php echo $user->email; ?></td>
+                                          <td><?php echo $user->login_date; ?></td>
                                           <td><?php echo $user->UserType; ?></td>
-                                          <td><?php echo $user->warehouse; ?></td>
                                           <td>
                                               <div class="btn-group btn-group-xs">
                                                   <a href=<?php echo current_url().'/view/'.$user->id; ?> type="button" class="btn btn-info"><i class="fa fa-search"></i> Pregled</a>

@@ -27,15 +27,15 @@
                               <div class="row">
                                 <div class="col-sm-4 border-right">
                                   <div class="description-block">
-                                    <h3 class="description-header"><?php echo $totalQuantity; ?></h3>
-                                    <span class="description-text">KOMADA</span>
+                                    <h3 class="description-header"><?php echo substr($item->description, 0, 50); ?></h3>
+                                    <span class="description-text">OPIS</span>
                                   </div>
                                   <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
                                 <div class="col-sm-4 border-right">
                                   <div class="description-block">
-                                    <h5 class="description-header"><?php echo $totalTransactions; ?></h5>
+                                    <h5 class="description-header">1</h5>
                                     <span class="description-text">TRANSAKCIJA</span>
                                   </div>
                                   <!-- /.description-block -->
@@ -75,58 +75,28 @@
                                     <li><a href="#"><i class="fa fa-gear"></i> Tip
                                       <span class="label label-primary pull-right"><?php echo $item->type; ?></span></a></li>
                                     <li><a href="#"><i class="fa fa-info"></i> Status
+                                        <?php if($item->item_status_id == 3): ?>
+                                            <button class="btn btn-xs btn-success pull-right" id="btn-change-item-status" type="button" name="button" data-item-id="<?php echo $item->id; ?>"
+                                                    data-toggle="tooltip" data-placement="bottom" data-original-title="Promjeni status"><i class="fa fa-refresh"></i> </button>
+                                        <?php endif;  ?>
                                         <span <?php
-                                                          if($item->status == 'dostupno'){
+                                                          if($item->status == 'Slobodan'){
                                                               echo "class='label label-success pull-right'";
                                                           }
-                                                          elseif($item->status == 'nedostupno'){
+                                                          elseif($item->status == 'Zauzet'){
                                                               echo "class='label label-warning pull-right'";
                                                           }
                                                           else {
-                                                              echo "class='label label-danger pull-right'";
+                                                              echo "class='label label-danger pull-right' style='margin-right: 5px;'";
                                                           }
-                                                  ?>><?php echo $item->status; ?></span></td>
+                                                  ?>><?php echo $item->status; ?></span>
                                     </a></li>
                                     <!-- <li><a href="#"><i class="fa fa-map-pin"></i> Lokacija <span class="label label-primary pull-right"><?php echo $item->location; ?></span></a></li> -->
-                                    <li><a href="#"><i class="fa fa-money"></i> Cijena <span class="label label-warning pull-right"><?php echo $item->price; ?> kn</span></a></li>
+                                    <li><a href="#"><i class="fa fa-money"></i> Cijena <span class="label label-info pull-right"><?php echo $item->price; ?> kn</span></a></li>
                                     <li><a href="#"><i class="fa fa-barcode"></i> Kod <span class="label label-default pull-right"><?php echo $item->code; ?></span></a></li>
                                 </ul>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Kolicine po lokacijama</h3>
-                            </div>
-                            <div class="box-body table-responsive no-padding">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th>ID</th>
-                                        <th>Lokacija</th>
-                                        <th>Kolicina</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($itemStocks as $item): ?>
-                                            <tr>
-                                                <td><?php echo $item->locationId; ?></td>
-                                                <td><?php echo $item->locationName; ?></td>
-                                                <td><?php if($item->quantity > 0)
-                                                            {
-                                                                echo "<span class='label label-success'>".$item->quantity."<span>";
-                                                            }
-                                                            else {
-                                                                echo "<span class='label label-danger'>".$item->quantity."<span>";
-                                                            }?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,19 +107,45 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title">Duznici</h3>
                             </div>
-                            <div class="box-body table-responsive no-padding">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th>ID</th>
-                                        <th>Artikl</th>
-                                        <th>Kolicina</th>
-                                        <th>Ime</th>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <?php if(count($debtor) != NULL){ ?>
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th><i class="fa fa-info"></i> ID</th>
+                                            <th style="width: 75px"><i class="fa fa-image"></i> Slika</th>
+                                            <th><i class="fa fa-user"></i> Ime</th>
+                                            <th><i class="fa fa-user-o"></i> Prezime</th>
+                                            <th>Datum Zaduženja</th>
+                                            <th>Rok vraćanja</th>
+                                            <th>ID Trans</th>
+                                        </thead>
+                                        <tbody>
+                                            <td>
+                                                <?php echo $debtor->id; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php if(!empty($debtor->image)){ ?>
+                                                    <img class="img img-responsive center-block" style="width: 75px; " id="image"
+                                                    <?php
+                                                    echo "src=".base_url()."assets/dropzone/uploads/".$debtor->image;
+                                                    ?>>
+                                                    <?php }else {?>
+                                                        <i class="fa fa-ban"></i>
+                                                        <?php }; ?>
+                                                    </td>
+                                                    <td><?php echo $debtor->name; ?></td>
+                                                    <td><?php echo $debtor->surname; ?></td>
+                                                    <td><?php echo $debtor->DateTaken; ?></td>
+                                                    <td><?php echo $debtor->Deadline; ?></td>
+                                                    <td><?php echo $debtor->TransNumber; ?></td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            <?php  } else { ?>
+                                <div class="box-body">
+                                    <p class="label label-success">Nema dužnika. Artikl je slobodan.</p>
+                                </div>
+                            <?php  } ?>
                         </div>
                     </div>
                 </div>
@@ -157,73 +153,11 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- <?php echo var_dump($transactions); ?> -->
-                    </div>
+                        <!-- <?php var_dump($item); ?> -->
                 </div>
 
             </div><!--col-md-6-->
 
-            <!--TIMELINE-->
-            <div class="col-md-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Transakcije</h3>
-                    </div>
-                    <div class="box-body">
-                        <ul class="timeline">
-                            <?php foreach ($transactions as $transaction): ?>
-                                <!-- <?php echo var_dump($transaction); ?> -->
-                                <?php $label_color = 'blue';
-                                      $label_icon = 'fa fa-arrow-left';
-                                    switch($transaction->transaction_type_id)
-                                    {
-                                        case 1:
-                                            $label_color = 'green';
-                                            $label_icon = 'fa fa-arrow-left';
-                                            break;
-                                        case 2:
-                                            $label_color = 'red';
-                                            $label_icon = 'fa fa-arrow-right';
-                                            break;
-                                        case 3:
-                                            $label_color = 'purple';
-                                            $label_icon = 'fa fa-exchange';
-                                            break;
-                                        case 7:
-                                            $label_color = 'yellow';
-                                            $label_icon = 'fa fa-info';
-                                            break;
-                                        default:
-                                            $label_color = 'green';
-                                            $label_icon = 'fa fa-arrow-left';
-                                    }
-                                ?>
-                                <li class="time-label">
-                                  <span class=<?php echo "bg-".$label_color ?>>
-                                    <?php echo $transaction->transaction_number;; ?>
-                                  </span>
-                                  <div class="btn-group">
-                                      <!-- <a class="btn btn-default btn-xs" href=<?php echo base_url(). "index.php/items/edit/". $item->id; ?>><i class="fa fa-eye"></i></a> -->
-                                      <!-- <a class="btn btn-default btn-xs"><i class="fa fa-folder-open-o"></i></a> -->
-                                  </div>
-                                </li>
-                                <li>
-                                    <i class=<?php echo '"'. $label_icon.' bg-'.$label_color.'"' ?>></i>
-                                    <div class="timeline-item">
-                                        <span class="time"><i class="fa fa-clock-o"></i><?php echo date_format(new DateTime($transaction->date), 'd.m.Y. H:m'); ?></span>
-                                        <!-- <h3 class="timeline-header"><?php echo "Transakcija br.".$transaction->transaction_number; ?></h3> -->
-                                        <div class="timeline-body">
-                                            <p>Tip transakcije: <?php echo $transaction->transaction_type_id." - ".$transaction->TransactionType; ?></p>
-                                            <p>Kolicina: <?php echo $transaction->quantity; ?></p>
-                                            <p>Lokacija: <?php echo $transaction->Location_IN; ?></p>
-                                            <b><?php echo $transaction->ClientName;?></b>
-                                        </div>
-                                    </div>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div><!--row-->
 
     </section>

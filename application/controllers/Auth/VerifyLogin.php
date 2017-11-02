@@ -47,15 +47,19 @@ class VerifyLogin extends CI_Controller {
      {
        $sess_array = array(
          'id' => $row->id,
-         'username' => $row->username
-       );
+         'username' => $row->username,
+         'name' => $row->name,
+         'surname' => $row->surname,
+         'userImage' => $row->image,
+         'role' => $row->role
+        );
        $this->session->set_userdata('logged_in', $sess_array);
      }
      return TRUE;
    }
    else
    {
-     $this->form_validation->set_message('check_database', 'Invalid username or password');
+     $this->form_validation->set_message('check_database', 'Neispravno korisničko ime ili lozinka!');
      return false;
    }
  }

@@ -47,8 +47,7 @@
                                 <ul class="nav nav-pills nav-stacked">
                                     <li><a href="#"><i class="fa fa-user"></i> Ime <span class="label label-success pull-right"><?php echo $user->name.' '.$user->surname; ?></span></a></li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> E-mail <span class="label label-primary pull-right"><?php echo $user->email; ?></span></a></li>
-                                    <li><a href="#"><i class="fa fa-envelope"></i> Role <span class="label label-warning pull-right"><?php echo $user->role; ?></span></a></li>
-                                    <li><a href="#"><i class="fa fa-map-pin"></i> Skladište <span class="label label-default pull-right"><?php echo $user->warehouse; ?></span></a></li>
+                                    <li><a href="#"><i class="fa fa-user-secret"></i> Tip Korisnika <span class="label label-warning pull-right"><?php echo $user->role; ?></span></a></li>
                                 </ul>
                             </div>
 
@@ -58,6 +57,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <h3>TO DO: Napravit popis zaduzenih artikala i zaostataka</h3>
                         <!-- <?php echo var_dump($transactions); ?> -->
                     </div>
                 </div>

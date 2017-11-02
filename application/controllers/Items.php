@@ -7,16 +7,11 @@ class Items extends My_Controller {
      {
        parent::__construct();
        $this->load->helper(array('form', 'security', 'url'));
-       $this->load->model(array('item', 'dbQueries', 'stock'));
+       $this->load->model(array('item', 'dbQueries'));
      }
 
     public function index()
     {
-        $session_data = $this->session->userdata('logged_in');
-
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-
         $viewData['query'] = $this->item->getAll();
 
         $headerscripts['header_scripts'] = array();
@@ -26,53 +21,26 @@ class Items extends My_Controller {
             '<script src="'.base_url().'assets/appjs/Items/deleteItem.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/items_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/items_view');
     }
 
     public function view($id = null)
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-
         $headerscripts['header_scripts'] = array();
-        $footerscripts['footer_scripts'] = array();
+        $footerscripts['footer_scripts'] = array(
+            '<script src="'.base_url().'assets/appjs/Items/viewItem.js"></script>'
+        );
 
         $viewData['item'] = $this->item->get($id);
-        // $viewData['quantities'] = $this->item->getQuantitiesByLocation($id);
-        $viewData['transactions'] = $this->item->getTransactions($id, 50);
-
-
-        $locations = $this->dbQueries->getLocations();
-        $viewData['itemStocks'] = [];
-
-        foreach ($locations as $location) {
-            $itemStocks = $this->stock->getItemStocks($location->id, $id);
-        }
-
-        $viewData['itemStocks'] = $itemStocks;
-
-        //Izracunaj sveukupnu kolicinu
-        $totalQuantity = 0;
-        for ($i = 0; $i < count($itemStocks); $i++) {
-            $n = $itemStocks[$i]->quantity;
-            $totalQuantity += $n;
-        }
-        $viewData['totalQuantity'] = $totalQuantity;
-        $viewData['totalTransactions'] = count($viewData['transactions']);
 
         // Vrati sve duznike za artikl
-        // $viewData['debtors'];
+        $viewData['debtor'] = $this->item->getDebtors($id);
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/view');
     }
 
     public function newItem()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-
         $headerscripts['header_scripts'] = array(
             '<link rel="stylesheet" href="'.base_url().'assets/css/dropzone.css">'
         );
@@ -84,33 +52,28 @@ class Items extends My_Controller {
         );
 
         $types = $this->dbQueries->getItemTypes();
-        $item_data = array("types" => $types);
+        $viewData['types'] = $types;
 
-        $this->load->view('templates/app_head_view', $headerscripts);
-        $this->load->view('templates/app_menu_view', $data);
-        $this->load->view('Items/new_item_view', $item_data);
-        $this->load->view('templates/app_footer_view', $footerscripts);
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/new_item_view');
     }
 
     public function create()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-
-        $headerscripts['header_scripts'] = array('');
+        $headerscripts['header_scripts'] = array('<link rel="stylesheet" href="'.base_url().'assets/css/dropzone.css">');
 
         $footerscripts['footer_scripts'] = array(
-            '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
-            '<script src="'.base_url().'assets/appjs/modals.js"></script>'
+            '<script src="'.base_url().'assets/appjs/barcode.js"></script>',
+            '<script src="'.base_url().'assets/appjs/dropzone.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Items/newItem.js"></script>'
         );
 
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('name', 'Ime', 'required');
+        $this->form_validation->set_rules('name', 'Ime', 'trim|required');
         $this->form_validation->set_rules('price', 'Cijena', 'required');
-        $this->form_validation->set_rules('code', 'Kod', 'required');
+        $this->form_validation->set_rules('item_type_id', 'Tip', 'required');
+        $this->form_validation->set_rules('code', 'Kod', 'trim|required');
 
         if ($this->form_validation->run() === FALSE)
         {
@@ -122,8 +85,10 @@ class Items extends My_Controller {
             );
 
             $viewData['alert'] = form_input($alertData);
+            $types = $this->dbQueries->getItemTypes();
+            $viewData['types'] = $types;
 
-            $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/new_item_view');
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/new_item_view');
         }
         else
         {
@@ -139,18 +104,11 @@ class Items extends My_Controller {
             $viewData['alert'] = form_input($alertData);
 
             redirect('/items');
-            // $viewData['query'] = $this->item->getAll();
-            //
-            // $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/items_view');
         }
     }
 
     public function edit($id = null)
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-
         $headerscripts['header_scripts'] = array(
             '<link rel="stylesheet" href="'.base_url().'assets/css/dropzone.css">'
         );
@@ -165,7 +123,7 @@ class Items extends My_Controller {
         $types = $this->dbQueries->getItemTypes();
         $viewData = array("item" => $item, "types" => $types );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/edit_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/edit_view');
     }
 
     public function update()
@@ -205,6 +163,14 @@ class Items extends My_Controller {
     {
         $id = $this->input->post('id');
         $result = $this->item->delete($id);
+
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function changeStatus()
+    {
+        $id = $this->input->post('id');
+        $result = $this->item->changeStatus($id);
 
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }

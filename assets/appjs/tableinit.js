@@ -5,12 +5,13 @@ $(document).ready(function() {
         "pageLength": 50
     });
     $('#add_items_table').DataTable();
-    $('#stocks_table').DataTable({
-        "pageLength": 25
-    });
 
     $('#entrance_table').DataTable({
         "pageLength": 25
+    });
+
+    $('#transactions_table').DataTable({
+        "pageLength": 50
     });
 
 

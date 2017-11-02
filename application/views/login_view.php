@@ -48,8 +48,12 @@ hr{
 
 <body>
 
+<?php
+    $avatarIsEmpty = empty(set_value('avatar'));
+    $nameIsEmpty = !empty(form_error('name'));
+?>
+
 <div class="container-login">
-	<?php echo validation_errors(); ?>
 
     <div class="row-fluid">
         <div class="centering text-center">
@@ -58,23 +62,29 @@ hr{
             echo form_open('verifylogin', $attributes);
           ?>
             <img class="img-responsive center-block" style="width:75%;" src=<?php echo base_url().'assets/images/Logo.png'; ?> alt="" />
-          <!--<form class="form-signin" role="form" method="POST" action="<?php echo base_url();?>index.php/verifylogin">-->
             <h1 class="form-signin-heading" style="text-align: center; color: #37779D;"><b>Fluent</b> Inventory</h1>
             <hr>
-            <label for="username" class="sr-only">Email address</label>
-            <input class="form-control" id="username" name="username" type="text" value="" placeholder="Username" required="" autofocus=""  >
-            <label for="password" class="sr-only">Password</label>
-            <input class="form-control" type="password" id="password" name="password" placeholder="Password" required="">
-            <!-- <div class="checkbox pull-left">
-              <label  style="color: #FFFFFF;">
-                <input value="remember-me" type="checkbox"> Remember me
-              </label>
-            </div> -->
-            <button style="background-color: #3C8DBC;" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+                    <label for="username" class="sr-only">Email address</label>
+                    <input class="form-control" id="username" name="username" type="text" value="" placeholder="Username" required="" autofocus=""  >
+                    <label for="password" class="sr-only">Password</label>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Password" required="">
+                    <button style="background-color: #3C8DBC;" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+                </div>
+            </div>
+            <br>
+            <?php if(!empty(validation_errors())): ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger" role="alert"><?php echo validation_errors(); ?></div>
+                </div>
+            </div>
+            <?php endif; ?>
           </form>
         </div>
     </div>
 </div>
-<!-- <h1>Base url =<?php echo base_url(); ?></h1>    -->
+<!-- <h1>Base url =<?php echo base_url(); ?></h1> -->
 
  </body>

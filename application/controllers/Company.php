@@ -16,13 +16,9 @@ class Company extends My_Controller {
 
     public function index()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['company'] = $this->companyModel->get();
         $viewData['contacts'] = $this->companyModel->getContacts();
         $viewData['users'] = $this->companyModel->getUsers();
-        $viewData['clients'] = $this->companyModel->getClients();
         $viewData['items'] = $this->companyModel->getItems();
 
         $headerscripts['header_scripts'] = array(
@@ -33,14 +29,11 @@ class Company extends My_Controller {
             '<script src="'.base_url().'assets/appjs/Company/company.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Company/company_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Company/company_view');
     }
 
     public function edit()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['company'] = $this->companyModel->get();
 
         $headerscripts['header_scripts'] = array(
@@ -51,14 +44,11 @@ class Company extends My_Controller {
             '<script src="'.base_url().'assets/appjs/Company/company.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Company/edit_company_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Company/edit_company_view');
     }
 
     public function editContacts()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['company'] = $this->companyModel->get();
         $viewData['CompanyContacts'] = $this->companyModel->getContacts();
         $viewData['contacts'] = $this->dbQueries->getContacts();
@@ -71,7 +61,7 @@ class Company extends My_Controller {
             '<script src="'.base_url().'assets/appjs/Company/company.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Company/edit_companyContacts_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Company/edit_companyContacts_view');
     }
 
     public function update()

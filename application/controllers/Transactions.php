@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
-*Employees contoler
+*Employees controler
 */
 class Transactions extends My_Controller {
 
@@ -10,44 +10,60 @@ class Transactions extends My_Controller {
      {
        parent::__construct();
        $this->load->helper('url');
-       $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'transaction'));
+       $this->load->helper(array("form", "security", "date", "url"));
+       $this->load->model(array('item', 'transaction', 'user', 'ModelHelper'));
      }
 
     public function index()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-        $data['query'] = $this->transaction->getAll();
-        //echo var_dump($data);
+        $viewData['items_due'] = $this->transaction->getAll(FALSE);
+        $viewData['items_due_deadline'] = $this->transaction->getAll(TRUE);
 
         $headerscripts['header_scripts'] = array(
-            '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> '
+            '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script>',
+            '<link rel="stylesheet" href="'.base_url().'assets/plugins/datepicker/datepicker3.css">',
         );
 
         $footerscripts['footer_scripts'] = array(
             '<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>',
             '<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>',
-            '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
-            '<script src="'.base_url().'assets/appjs/transactions.js"></script>',
+            '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>',
             '<script src="'.base_url().'assets/appjs/modals.js"></script>'
         );
 
-        //echo var_dump($data);
-
-        $this->load->view('templates/app_head_view', $headerscripts);
-        $this->load->view('templates/app_menu_view', $data);
-        $this->load->view('Transactions/transactions_view', $data);
-        $this->load->view('templates/app_footer_view', $footerscripts);
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/transactions_view');
     }
 
+    public function viewall()
+    {
+        $viewData['transactions'] = $this->transaction->getList();
+
+        $headerscripts['header_scripts'] = array(
+            '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script>',
+            '<link rel="stylesheet" href="'.base_url().'assets/plugins/datepicker/datepicker3.css">',
+        );
+
+        $footerscripts['footer_scripts'] = array(
+            '<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>',
+            '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>',
+            '<script src="'.base_url().'assets/appjs/modals.js"></script>'
+        );
+
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/transactions_view_all');
+    }
+
+    //--------------------------------------
+    //  Vraca view za unos nove transakcije
+    //--------------------------------------
     public function newTransaction()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
-        $data['query'] = $this->item->getAll();
+        $viewData['items'] = $this->item->getFree();
+        $viewData['users'] = $this->user->getAll();
 
         $headerscripts['header_scripts'] = array(
             '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> ',
@@ -62,67 +78,176 @@ class Transactions extends My_Controller {
             '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
             '<script src="'.base_url().'assets/appjs/modals.js"></script>',
             '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
-            '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>'
-            //'<script src="'.base_url().'assets/appjs/transaction.js"></script>',
-
+            '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>'
         );
 
-        $this->load->view('templates/app_head_view', $headerscripts);
-        $this->load->view('templates/app_menu_view', $data);
-        $this->load->view('Transactions/new_transaction_view', $data);
-        $this->load->view('templates/app_footer_view', $footerscripts);
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/new_transaction_view');
     }
 
-    //ajax called function
-    public function getTransactionInfo()
-    {
-        //$transactions = $this->input->get('transaction_id');
-        $id = $this->input->get('transaction_id');
-        $trans['data'] = $this->transaction->get($id);
-        //var_dump($trans);
-
-        echo json_encode($trans['data'], JSON_UNESCAPED_UNICODE);
-    }
-
-    // ajax called function
-    public function addItem()
-    {
-        $items = $this->input->get('items');
-        $data = array();
-        foreach ($items as $id)
-        {
-            $item = $this->item->get($id);
-            array_push($data, $item);
-        }
-
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-    }
-
+    //----------------------------
+    //  Kreira novu transakciju
+    //----------------------------
     public function create()
     {
-        /*$date = $this->input->post('date');
-        $location = $this->input->post('location');
-        $items = $this->input->post('item_id');
-        echo json_encode([ $date, $location, $items ], JSON_UNESCAPED_UNICODE);*/
+        $this->load->library('form_validation');
 
-        $session_data = $this->session->userdata('logged_in');
-        $user_id = $session_data['id'];
-        $this->transaction->create($user_id);
+        $this->form_validation->set_rules('item-taken', 'Artikl', 'required');
 
+        if($this->form_validation->run() == FALSE)
+        {
+            //Field validation failed.
+            $viewData['items'] = $this->item->getFree();
+            $viewData['users'] = $this->user->getAll();
+
+            $headerscripts['header_scripts'] = array(
+                '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> ',
+                '<link rel="stylesheet" href="'.base_url().'assets/plugins/datepicker/datepicker3.css">',
+                '<link rel="stylesheet" href="'.base_url().'assets/plugins/select2/select2.css">'
+            );
+
+            $footerscripts['footer_scripts'] = array(
+                '<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>',
+                '<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>',
+                '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
+                '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
+                '<script src="'.base_url().'assets/appjs/modals.js"></script>',
+                '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
+                '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
+                '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>'
+            );
+
+            $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transactions/new_transaction_view');
+        }
+        else // Validacije je prosla
+        {
+          $session_data = $this->session->userdata('logged_in');
+          $user_id = $session_data['id'];
+          $this->transaction->create($user_id);
+
+          redirect('/transactions');
+        }
+    }
+
+    //--------------------------------------
+    //  Edit
+    //--------------------------------------
+    public function edit($id = null)
+    {
+        $viewData['items'] = $this->item->getFree();
+        $viewData['users'] = $this->user->getAll();
+        $viewData['transaction'] = $this->ModelHelper->getTransactionFromID($id);
+        $viewData['item'] = $this->ModelHelper->getItemFromTransactionID($id);
+
+        $headerscripts['header_scripts'] = array(
+            '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> ',
+            '<link rel="stylesheet" href="'.base_url().'assets/plugins/datepicker/datepicker3.css">',
+            '<link rel="stylesheet" href="'.base_url().'assets/plugins/select2/select2.css">'
+        );
+
+        $footerscripts['footer_scripts'] = array(
+            '<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>',
+            '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
+            '<script src="'.base_url().'assets/appjs/modals.js"></script>',
+            '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
+            '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
+            '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>'
+        );
+
+        if($viewData['transaction']->status == 0)
+        {
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/edit_transaction_view');
+        }
+        else {
+            redirect('/transactions/viewall');
+        }
+    }
+
+    //------------------------
+    //  Uredjuje transakciju
+    //------------------------
+    public function update()
+    {
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('item-taken', 'Artikl', 'required');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            //Field validation failed.
+            $viewData['items'] = $this->item->getFree();
+            $viewData['users'] = $this->user->getAll();
+
+            $headerscripts['header_scripts'] = array(
+                '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> ',
+                '<link rel="stylesheet" href="'.base_url().'assets/plugins/datepicker/datepicker3.css">',
+                '<link rel="stylesheet" href="'.base_url().'assets/plugins/select2/select2.css">'
+            );
+
+            $footerscripts['footer_scripts'] = array(
+                '<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>',
+                '<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>',
+                '<script src="'.base_url().'assets/plugins/datepicker/bootstrap-datepicker.js"></script>',
+                '<script src="'.base_url().'assets/appjs/datepicker.js"></script>',
+                '<script src="'.base_url().'assets/appjs/modals.js"></script>',
+                '<script src="'.base_url().'assets/appjs/tableinit.js"></script>',
+                '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>',
+                '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>'
+            );
+
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/edit_transaction_view');
+        }
+        else // Validacije je prosla
+        {
+          $session_data = $this->session->userdata('logged_in');
+          $user_id = $session_data['id'];
+          $this->transaction->update($user_id);
+
+          redirect('/transactions');
+        }
+    }
+
+    public function returnItem($id)
+    {
+        if($id != null)
+        {
+            $this->transaction->returnItem($id);
+            redirect('/transactions');
+        }
+    }
+
+    public function postponeItem()
+    {
+        $this->transaction->postponeItem($id);
         redirect('/transactions');
+    }
+
+    //----------------------------------
+    //  Vraca artikl citanjem RFID koda
+    //----------------------------------
+    public function returnItemFromCode()
+    {
+        $code = $this->input->post('code');
+        $item['data'] = $this->transaction->returnItemFromCode($code);
+
+        echo json_encode($item['data'], JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getItemFromCode()
+    {
+        $code = $this->input->post('code');
+        $item['data'] = $this->item->getAvailableFromCode($code);
+
+        echo json_encode($item['data'], JSON_UNESCAPED_UNICODE);
     }
 
     public function delete()
     {
-    }
+        $transId = $this->input->post('transaction-id');
+        $data['data'] = $this->transaction->delete($transId);
 
-    public function edit()
-    {
-        $trans['first'] = $this->transaction->get('5803b283cb497');
-        var_dump($trans);
-    }
-
-    public function update()
-    {
+        echo json_encode($data['data'], JSON_UNESCAPED_UNICODE);
     }
 }

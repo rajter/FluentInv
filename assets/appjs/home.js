@@ -18,28 +18,25 @@ function loadChartData(){
         success:
         function(result){
             MonthlyData = JSON.parse(result);                   //parsira text u polje objekata
+            // alert(result);
             for (var key in MonthlyData) {
                 if (MonthlyData.hasOwnProperty(key)) {
                     // alert(key + " -> " + MonthlyData[key]);
                     var year =  MonthlyData[key][0].year;
                     var month =  MonthlyData[key][0].month;
-                    var Nprimke =  MonthlyData[key][0].totalTransactions;
-                    var Nizdatnice =  MonthlyData[key][1].totalTransactions;
-                    var Nmedjuskladisnice =  MonthlyData[key][2].totalTransactions;
-                    chartData.push({mjesec: year+'-'+month, primke: Nprimke, izdatnice: Nizdatnice, medjuskladisnice: Nmedjuskladisnice});
-
+                    var transactions =  MonthlyData[key][0].totalTransactions;
+                    chartData.push({mjesec: year+'-'+month, transactions: transactions});
                 }
             }
             home_chart = Morris.Area({
                 element: 'items-chart',
                 data: chartData,
                 xkey: 'mjesec',
-                ykeys: ['primke', 'izdatnice', 'medjuskladisnice'],
-                labels: ['Primke', 'Izdatnice', 'Međuskladišnice'],
-                pointSize: 2,
-                hideHover: 'auto',
+                ykeys: ['transactions'],
+                labels: ['Transakcije'],
                 resize: true
             });
+
             // alert(JSON.stringify(chartData));
         },
         error: function(jqXHR, textStatus, errorThrown) {

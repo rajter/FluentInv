@@ -28,14 +28,14 @@
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="<?php echo base_url(); ?>assets/dist/img/avatar.png" class="user-image" alt="User Image">
+                <img src="<?php echo base_url()."assets/dropzone/uploads/".$userImage; ?>" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs"><?php echo $username; ?></span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="<?php echo base_url(); ?>assets/dist/img/avatar.png" class="img-circle" alt="User Image">
+                  <img src="<?php echo base_url()."assets/dropzone/uploads/".$userImage; ?>" class="img-circle" alt="User Image">
                   <p>
                     <?php echo $username; ?>
                     <small>Zaposlen od 2016</small>
@@ -93,27 +93,16 @@
               <span>Artikli</span>
             </a>
           </li>
-          <!-- <li class="treeview">
-            <!-- <a href="#"><i class="fa fa-tags"></i> <span>Artikli</span> <i class="fa fa-angle-left pull-right"></i></a> -->
-            <!-- <ul class="treeview-menu"> -->
-              <!-- <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-check"></i>Artikli na skladištu</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/items"><i class="fa fa-ban"></i>Izdani artikli</a></li> -->
-            <!-- </ul>
-          </li> -->
-          <li class="treeview">
-            <a href="#"><i class="fa fa-archive"></i> <span>Dokumenti</span> <i class="fa fa-angle-left pull-right"></i></a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url(); ?>index.php/Deposits"><i class="fa fa-book"></i>Polozi</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/Issues"><i class="fa fa-external-link"></i>Izdatnice</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/Receipts"><i class="fa fa-reply"></i>Povratnice</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/Transfers"><i class="fa fa-exchange"></i>Međuskladišnica</a></li>
-              <li><a href="<?php echo base_url(); ?>index.php/stocks/viewStocks/1"><i class="fa fa-bar-chart"></i>Stanje Zaliha</a></li>
-            </ul>
+          <li>
+            <a href="<?php echo base_url(); ?>index.php/transactions">
+              <i class="fa fa-book"></i>
+              <span>Praćenje artikala</span>
+            </a>
           </li>
           <li>
-            <a href="<?php echo base_url(); ?>index.php/stockTakings">
-              <i class="fa fa-list"></i>
-              <span>Inventura</span>
+            <a href="<?php echo base_url(); ?>index.php/transactions/viewall">
+              <i class="fa fa-archive"></i>
+              <span>Popis Transakcija</span>
             </a>
           </li>
           <!--SIFRARNICI-->
@@ -121,18 +110,19 @@
               <a href="#"><i class="fa fa-database"></i> <span>Šifrarnici</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                   <li><a href=<?php echo base_url()."index.php/itemTypes"; ?> ><i class="fa fa-tags"></i> Tipovi Artikala</a></li>
-                  <li><a href=<?php echo base_url()."index.php/clients"; ?> ><i class="fa fa-user"></i> Klijenti</a></li>
-                  <li><a href=<?php echo base_url()."index.php/warehouses"; ?> ><i class="fa fa-map-pin"></i> Skladišta</a></li>
+                  <li><a href="<?php echo base_url(); ?>index.php/users"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
+                  <!-- <li><a href=<?php echo base_url()."index.php/warehouses"; ?> ><i class="fa fa-map-pin"></i> Skladišta</a></li> -->
+                  <!-- <li><a href=<?php echo base_url()."index.php/clients"; ?> ><i class="fa fa-user"></i> Klijenti</a></li> -->
               </ul>
           </li>
           <!--LJUDSKI RESURSI-->
-          <li class="treeview">
+          <!-- <li class="treeview">
             <a href="#"><i class="fa fa-users"></i> <span>Ljudski resursi</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
                 <!-- <li><a href="<?php echo base_url(); ?>index.php/administrators"><i class="fa fa-user-plus"></i><span>Administratori</span></a></li> -->
-                <li><a href="<?php echo base_url(); ?>index.php/users"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
+                <!-- <li><a href="<?php echo base_url(); ?>index.php/users"><i class="fa fa-user"></i><span>Korisnici</span></a></li>
             </ul>
-          </li>
+          </li> -->
           <li>
             <a href="<?php echo base_url(); ?>index.php/company">
               <i class="fa fa-bank"></i>

@@ -47,5 +47,73 @@ Class ModelHelper extends CI_Model
         $r = $query->result();
         return $query->result();
     }
+
+    //----------------------------------------
+    //  Vraca transakciju po id-u transakcije
+    //----------------------------------------
+    public function getTransactionFromID($id)
+    {
+        $this->db->select('*');
+        $this->db->from('item_transactions');
+        $this->db->where('id', $id);
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result()[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    //----------------------------------------
+    //  Vraca artikl transakcije po id-u transakcije
+    //----------------------------------------
+    public function getItemFromTransactionID($id)
+    {
+        $this->db->select('I.*');
+        $this->db->from('items AS I');
+        $this->db->join('item_transactions AS IT', 'I.id = IT.item_id');
+        $this->db->where('IT.id', $id);
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result()[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    //----------------------------------------
+    //  Vraca transakciju po id-u transakcije
+    //----------------------------------------
+    public function getTransactionFromItemID($id)
+    {
+        $this->db->select('*');
+        $this->db->from('item_transactions');
+        $this->db->where('item_id', $id);
+        $this->db->where('status', 0);
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result()[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 ?>

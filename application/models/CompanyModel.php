@@ -27,7 +27,6 @@ Class CompanyModel extends CI_Model
     {
         $this->db->select('C.*');
         $this->db->from('contacts AS C');
-        $this->db->join('company_has_contacts AS CHC', 'C.id = CHC.contacts_id');
         $query = $this->db->get();
 
         return $query->result();
@@ -37,15 +36,6 @@ Class CompanyModel extends CI_Model
     {
         $this->db->select('U.*');
         $this->db->from('users AS U');
-        $query = $this->db->get();
-
-        return $query->result();
-    }
-
-    public function getClients()
-    {
-        $this->db->select('C.*');
-        $this->db->from('clients AS C');
         $query = $this->db->get();
 
         return $query->result();
@@ -128,29 +118,16 @@ Class CompanyModel extends CI_Model
             'email' => $this->input->post('email')
         );
         $this->db->insert('contacts', $contactData);
-
-        $newContactId = $this->db->insert_id();
-        $companyHasContactData = array(
-            'company_id' => 1,
-            'contacts_id' => $newContactId,
-        );
-        $this->db->insert('company_has_contacts', $companyHasContactData);
     }
 
     public function removeContact()
     {
         $id = $this->input->post('contact_id');
 
-        $this->db->select('COUNT(*) AS count');
-        $this->db->from('company_has_contacts');
-        $this->db->where('contacts_id', $id);
-        $query = $this->db->get();
+        $this->db->where('id', $id);
 
-        $result = $query->result()[0];
-        if($result->count > 0)
+        if($this->db->delete('contacts'))
         {
-            $this->db->where('contacts_id', $id);
-            $this->db->delete('company_has_contacts');
             return 'TRUE';
         }
         else {

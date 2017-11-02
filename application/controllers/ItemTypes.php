@@ -16,9 +16,6 @@ class ItemTypes extends My_Controller {
 
     public function index()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['item_types'] = $this->item->getAllTypes();
 
         $headerscripts['header_scripts'] = array(
@@ -29,7 +26,7 @@ class ItemTypes extends My_Controller {
             '<script src="'.base_url().'assets/appjs/Items/modals.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/item_type_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/item_type_view');
     }
 
     //------------
@@ -37,9 +34,6 @@ class ItemTypes extends My_Controller {
     //------------
     public function newItemType()
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['null'] = 'null';
 
         $headerscripts['header_scripts'] = array(
@@ -54,7 +48,7 @@ class ItemTypes extends My_Controller {
             '<script src="'.base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.hr-HR.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/new_item_type_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/new_item_type_view');
     }
 
 
@@ -75,9 +69,6 @@ class ItemTypes extends My_Controller {
     //--------------------
     public function editItemType($id=null)
     {
-        $session_data = $this->session->userdata('logged_in');
-        $data['id'] = $session_data['id'];
-        $data['username'] = $session_data['username'];
         $viewData['item_type'] = $this->item->getType($id);
 
         $headerscripts['header_scripts'] = array(
@@ -87,7 +78,7 @@ class ItemTypes extends My_Controller {
             '<script src="'.base_url().'assets/plugins/bootbox/bootbox.min.js"></script>'
         );
 
-        $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Items/edit_item_type_view');
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/edit_item_type_view');
     }
 
     //------------

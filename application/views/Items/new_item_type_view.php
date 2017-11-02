@@ -23,7 +23,16 @@
                                     <div class="box-body">
                                         <?php echo validation_errors(); ?>
                                         <div class="form-group">
-                                            <label for="name">Ime</label>
+                                            <label for="name">Naziv</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <input class="form-control" type="text" name="name" value="" placeholder="Ime">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Naziv</label>
                                             <input class="form-control" type="text" name="name" value="" placeholder="Ime Novog Tipa">
                                         </div>
                                         <div class="form-group">

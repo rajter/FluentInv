@@ -1,17 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-          Artikl
-          <small>- <?php // TODO: fali opis ?></small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> LogTrack</a></li>
-          <li class="active">Artikl</li>
-        </ol>
-    </section>
-
     <section class="content">
         <div class="row">
             <div class="col-md-12">
@@ -25,43 +14,68 @@
                             <div class="col-md-6">
                                 <div class="box-body">
                                     <?php echo validation_errors(); ?>
-                                    <input type="hidden" name="id" value=<?php echo $item->id ?>>
+                                    <input type="hidden" name="id" value=<?php echo $item->id; ?>>
                                     <div class="form-group">
                                         <label for="name">Ime</label>
-                                        <input class="form-control" type="text" name="name" value=<?php echo $item->name; ?> placeholder="Ime">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-tag"></i>
+                                            </div>
+                                            <input class="form-control" type="text" name="name" value="<?php echo $item->name; ?>" placeholder="Ime Artikla">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Opis</label>
-                                        <textarea class="form-control" name="description" rows="3" cols="40"><?php echo $item->description; ?></textarea>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-binoculars"></i>
+                                            </div>
+                                            <textarea class="form-control" name="description" rows="3" cols="40"><?php echo $item->description; ?></textarea>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="price">Cijena</label>
                                         <span class="text-green"> -> Koristiti decimalnu točku umjesto zareza!</span>
-                                        <input class="form-control" type="number" min="0.01" step="0.01" name="price" value=<?php echo $item->price ?>>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-money"></i>
+                                            </div>
+                                            <input class="form-control" type="number" min="0.01" step="0.01" name="price" value=<?php echo $item->price ?>>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Tip</label>
-                                        <select class="form-control" name="item_type_id">
-                                            <?php
-                                            foreach ($types as $type) {
-                                                if($item->item_type_id == $type->id){
-                                                    echo "<option selected='selected' value=". $type->id .">". $type->id . " - ". $type->name . "</option>";
-                                                }else{
-                                                    echo "<option value=". $type->id .">". $type->id . " - ". $type->name . "</option>";
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-info"></i>
+                                            </div>
+                                            <select class="form-control" name="item_type_id">
+                                                <?php
+                                                foreach ($types as $type) {
+                                                    if($item->item_type_id == $type->id){
+                                                        echo "<option selected='selected' value=". $type->id .">". $type->id . " - ". $type->name . "</option>";
+                                                    }else{
+                                                        echo "<option value=". $type->id .">". $type->id . " - ". $type->name . "</option>";
+                                                    }
                                                 }
-                                            }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="code">Kod</label>
-                                        <div class="row">
-                                            <div class="col col-md-9">
-                                                <input class="form-control" id="item_code" type="text" name="code" value=<?php echo $item->code; ?> placeholder="Jedinstven kod artikla" readonly>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-barcode"></i>
                                             </div>
-                                            <div class="col col-md-3">
-                                                <a href="#modal_code" data-toggle="modal"
-                                                type="button" class="btn btn-default"><i class="fa fa-barcode"></i>  Učitaj kod</a>
+                                            <div class="row">
+                                                <div class="col col-md-9">
+                                                    <input class="form-control" id="item_code" type="text" name="code" value=<?php echo $item->code; ?> placeholder="Jedinstven kod artikla" readonly>
+                                                </div>
+                                                <div class="col col-md-3">
+                                                    <a href="#modal_code" data-toggle="modal"
+                                                    type="button" class="btn btn-default"><i class="fa fa-barcode"></i>  Učitaj kod</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +92,7 @@
                             <div class="col-md-6">
                                 <br>
                                 <div class="form-group" id="div-image">
-                                    <label for="Image">Slika:</label>
+                                    <label for="Image"><i class="fa fa-image"></i>  Slika:</label>
                                     <p class="hidden" id="base_url"><?php echo base_url(); ?></p>
                                     <?php if(!empty($item->image)){ ?>
                                             <img class="img img-responsive center-block" style="width: 250px; height: 250px;" id="image"
