@@ -67,7 +67,7 @@ hr{
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
                     <label for="username" class="sr-only">Email address</label>
-                    <input class="form-control" id="username" name="username" type="text" value="" placeholder="Username" required="" autofocus=""  >
+                    <input class="form-control" id="username" name="username" type="text" value="" placeholder="Username" required="">
                     <label for="password" class="sr-only">Password</label>
                     <input class="form-control" type="password" id="password" name="password" placeholder="Password" required="">
                     <button style="background-color: #3C8DBC;" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>

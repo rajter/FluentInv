@@ -15,10 +15,8 @@
                     <div class="box-body">
                         <div class="col-md-12">
                             <div class="box box-widget widget-user">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
                             <div class="widget-user-header bg-aqua-active">
                                 <h2><i class="fa fa-tag"></i> <?php echo $company->name; ?></h2>
-                                <!-- <h5 class="widget-user-desc"> -->
                             </div>
                             <div class="widget-user-image">
                                 <img class="" src=<?php echo base_url().'assets/images/Logo.png'; ?> alt="slika poduzeca" style="border:none;">

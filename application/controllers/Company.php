@@ -66,8 +66,38 @@ class Company extends My_Controller {
 
     public function update()
     {
-        $this->companyModel->update();
-        redirect('/company');
+        $headerscripts['header_scripts'] = array(
+            '<script src="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css"></script> '
+        );
+
+        $footerscripts['footer_scripts'] = array(
+            '<script src="'.base_url().'assets/appjs/Company/company.js"></script>'
+        );
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Ime', 'trim|required');
+        $this->form_validation->set_rules('tel', 'Telefon', 'required');
+        $this->form_validation->set_rules('fax', 'Fax', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('address', 'Adresa', 'required');
+        $this->form_validation->set_rules('city', 'Gread', 'required');
+        $this->form_validation->set_rules('zipcode', 'Posta', 'required');
+        $this->form_validation->set_rules('state', 'Pokrajina', 'required');
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            $viewData['company'] = $this->companyModel->get();
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Company/edit_company_view');
+        }
+        else
+        {
+            $this->companyModel->update();
+            redirect('/company');
+        }
+
+
     }
 
     public function getContactInfo()

@@ -11,12 +11,12 @@ class Test extends My_Controller {
        parent::__construct();
        $this->load->helper('url');
        $this->load->helper(array("form", "security", "date"));
-       $this->load->model(array('item', 'testModel', 'dbQueries', 'receipt', 'issue', 'transfer', 'modelHelper', 'homeModel', 'StockTaking'));
+       $this->load->model(array('item', 'dbQueries', 'modelHelper', 'homeModel', 'transaction'));
      }
 
     public function index()
     {
-        $data = $this->item->getDebtors(1);
+        $data = $this->transaction->get(20);
         echo $this->db->last_query();
         echo var_dump($data);
 

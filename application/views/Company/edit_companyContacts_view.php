@@ -25,18 +25,18 @@
                         <div class="row" id="company-contacts-list">
                             <!-- <?php echo var_dump($company); ?>-->
                                 <?php for($i = 0; $i<count($CompanyContacts); $i++) { ?>
-                                    <div class="col-md-3" id=<?php echo "contact-".$CompanyContacts[$i]->id; ?>>
+                                    <div class="col-md-3" id="<?php echo "contact-".$CompanyContacts[$i]->id; ?>">
                                         <div class="box box-solid box-primary">
                                             <!-- <div class="box-header with-border" style="background-color: #F001A5;"> -->
                                             <div class="box-header with-border">
                                                 <h3 class="box-title"><i class="fa fa-user"></i> <?php echo $CompanyContacts[$i]->name." ".$CompanyContacts[$i]->surname;?></h3>
                                                 <div class="box-tools pull-right">
                                                     <button class="btn btn-box-tool btn-edit-contact" data-toggle="tooltip" data-placement="bottom" title="Uredi"
-                                                    id=<?php echo $CompanyContacts[$i]->id; ?>>
+                                                    id="<?php echo $CompanyContacts[$i]->id; ?>">
                                                         <i class="fa fa-edit"></i>
                                                     </button>
                                                     <button class="btn btn-box-tool btn-remove-contact" type="button" name="button"
-                                                    data-toggle="tooltip" data-placement="bottom" title="Makni Kontakt" id=<?php echo $CompanyContacts[$i]->id; ?>>
+                                                        data-toggle="tooltip" data-placement="bottom" title="Makni Kontakt" id="<?php echo $CompanyContacts[$i]->id; ?>">
                                                         <i class="fa fa-remove"></i>
                                                     </button>
                                                 </div><!-- /.box-tools -->

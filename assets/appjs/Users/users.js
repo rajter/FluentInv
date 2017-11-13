@@ -20,8 +20,7 @@ $(document).ready(function(){
         // Skriva modalni dialog
         $('#modal_choose_image').modal('hide');
     });
-
-
+    
     //-----------------------
     //  Resetiranje lozinke
     //-----------------------
@@ -36,7 +35,6 @@ $(document).ready(function(){
 
     $("#btn-change-password").on('click', function(){
         $("#modal_password").modal('toggle');
-
         // var userId = $("#user-id").val(); // Nije potrebno jer je user id u formi input elementa name='user-id'
         var password = inputPassword.val();
         if(password !== '')
@@ -77,3 +75,4 @@ $(document).ready(function(){
         }
     });
 });
+  

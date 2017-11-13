@@ -1,4 +1,15 @@
-<!-- Content Wrapper. Contains page content -->
+<?php
+
+    $nameIsEmpty = !empty(form_error('name'));
+    $telIsEmpty = !empty(form_error('tel'));
+    $faxIsEmpty = !empty(form_error('fax'));
+    $emailIsEmpty = !empty(form_error('email'));
+    $addressIsEmpty = !empty(form_error('address'));
+    $cityIsEmpty = !empty(form_error('city'));
+    $zipcodeIsEmpty = !empty(form_error('zipcode'));
+    $stateIsEmpty = !empty(form_error('state'));
+
+ ?>
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -22,9 +33,8 @@
                             <?php echo form_open_multipart('company/update'); ?>
                                 <div class="col-md-6">
                                     <div class="box-body">
-                                        <?php echo validation_errors(); ?>
                                         <input type="hidden" name="id" value=<?php echo $company->id ?>>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($nameIsEmpty){ echo "has-error";} ?>">
                                             <label for="name">Ime</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -33,7 +43,7 @@
                                                 <input class="form-control" type="text" name="name" value="<?php echo $company->name; ?>" placeholder="Ime Poduzeća">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($telIsEmpty){ echo "has-error";} ?>">
                                             <label for="tel">Tel</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -42,7 +52,7 @@
                                                 <input class="form-control" type="text" name="tel" value="<?php echo $company->tel; ?>" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($faxIsEmpty){ echo "has-error";} ?>">
                                             <label for="fax">Fax</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -51,7 +61,7 @@
                                                 <input class="form-control" type="text" name="fax" value="<?php echo $company->fax; ?>" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($emailIsEmpty){ echo "has-error";} ?>">
                                             <label for="email">Email</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -60,7 +70,7 @@
                                                 <input class="form-control" type="text" name="email" value="<?php echo $company->email; ?>" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($addressIsEmpty){ echo "has-error";} ?>">
                                             <label for="address">Adresa</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -69,7 +79,7 @@
                                                 <input class="form-control" type="text" name="address" value="<?php echo $company->address; ?>" placeholder="Adresa">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($cityIsEmpty){ echo "has-error";} ?>">
                                             <label for="city">Grad</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -78,7 +88,7 @@
                                                 <input class="form-control" type="text" name="city" value="<?php echo $company->city; ?>" placeholder="Ime Grada">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($zipcodeIsEmpty){ echo "has-error";} ?>">
                                             <label for="zipcode">Pošta</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
@@ -87,7 +97,7 @@
                                                 <input class="form-control" type="text" name="zipcode" value="<?php echo $company->zipcode; ?>" placeholder="Poštanski broj npr. 40000 za Čakovec">
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group <?php if($stateIsEmpty){ echo "has-error";} ?>">
                                             <label for="state">Pokrajina</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">

@@ -8,6 +8,25 @@ Class Transaction extends CI_Model
         parent::__construct();
     }
 
+    public function get($id)
+    {
+        // $statusQuery = "SELECT status FROM items JOIN item_status ON items.id = item_status.id WHERE items.id = 1";
+        $this->db->select('T.*');
+        $this->db->select('T.status AS TransactionStatus');
+        $this->db->select('U.id AS userID, U.name AS user, U.image AS userImage');
+        $this->db->select('UD.id AS debtorID, UD.name AS debtor, UD.image AS debtorImage');
+        $this->db->select('I.id AS ItemId, I.name AS ItemName, I.description AS ItemDescription, I.price AS ItemPrice, I.code AS ItemCode, I.image AS ItemImage, I.item_type_id, I.item_status_id');
+        $this->db->from('item_transactions AS T');
+        $this->db->join('users AS U', 'T.user_id = U.id');
+        $this->db->join('users AS UD', 'T.debtor_id = UD.id');
+        $this->db->join('items AS I', 'T.item_id = I.id');
+        $this->db->where('T.id', $id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        return $query->result()[0];
+    }
+
     //--------------------------------
     //  Vraca popis svih transakcija
     //--------------------------------
@@ -20,7 +39,7 @@ Class Transaction extends CI_Model
         $this->db->from('item_transactions AS T');
         $this->db->join('users AS U', 'T.user_id = U.id');
         $this->db->join('users AS UD', 'T.debtor_id = UD.id');
-        $this->db->join('items AS I', 'T.item_id = I.id');
+        $this->db->join('items AS I', 'T.item_id = I.id');        
         $this->db->order_by('T.date_taken', 'DESC');
         $query = $this->db->get();
 

@@ -24,7 +24,6 @@
                                 ?> alt="slika artikla">
                             </div>
                             <div class="box-footer">
-
                             </div>
                         </div>
                     </div>

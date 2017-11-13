@@ -6,7 +6,6 @@
         <h1>
           <i class="fa fa-book"></i>
           Transakcije
-          <small>- <?php // TODO: fali opis ?></small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-ticket"></i> FluentInventory</a></li>
@@ -39,7 +38,7 @@
                                         <th style="width: 150px;"><i class="fa fa-calendar-check-o"></i> Vraćeno</th>
                                         <th ><i class="fa fa-commenting-o"></i> Napomena</th>
                                         <th ><i class="fa fa-info"></i> Status</th>
-                                        <th style="width: 90px"><i class="fa fa-gears"></i> Opcije</th>
+                                        <th style="width: 115px"><i class="fa fa-gears"></i> Opcije</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -116,17 +115,20 @@
                                             <td>
                                                 <div class="btn-group btn-group-xs">
                                                     <!-- <?php if($trans->status == 1) ?> -->
+                                                    <a href="<?php echo base_url().'index.php/transactions/view/'.$trans->id; ?>"
+                                                    data-toggle="tooltip"  data-placement="bottom" title="Pregled"
+                                                    type="button" class="btn btn-info"><i class="fa fa-search"></i></a>
                                                     <a href="<?php echo base_url().'index.php/transactions/edit/'.$trans->id; ?>"
                                                         data-toggle="tooltip"  data-placement="bottom" title="Uredi"
                                                         type="button" class=
                                                             <?php
                                                                 if($trans->status == 1)
                                                                 {
-                                                                    echo "'btn btn-primary disabled'";
+                                                                    echo "'btn btn-success disabled'";
                                                                 }
                                                                 else
                                                                 {
-                                                                    echo "'btn btn-primary'";
+                                                                    echo "'btn btn-success'";
                                                                 }
                                                             ?>
                                                          ><i class="fa fa-edit"></i></a>

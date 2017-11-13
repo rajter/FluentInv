@@ -36,7 +36,7 @@
               <div class="icon">
                 <i class="fa fa-book"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/Receipts" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -49,7 +49,7 @@
               <div class="icon">
                 <i class="fa fa-exchange"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/Transfers" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -62,7 +62,7 @@
               <div class="icon">
                 <i class="fa fa-external-link"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/Issues" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -203,7 +203,7 @@
                           <?php foreach ($users as $user) {?>
                             <li>
                                 <img src="<?php echo base_url()."assets/dropzone/uploads/".$user->image; ?>" alt="User Image">
-                                <a class="users-list-name" href="#"><?php echo $user->name;?></a>
+                                <a class="users-list-name" href="<?php echo base_url().'index.php/users/view/'.$user->id; ?>" target="blank"><?php echo $user->name;?></a>
                                 <span class="users-list-date"><?php echo $user->login_date; ?></span>
                             </li>
                           <?php } ?>

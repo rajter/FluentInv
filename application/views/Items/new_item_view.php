@@ -130,7 +130,7 @@
                         <span class="sr-only">Loading...</span> -->
                     </p>
                   <input class="text-center form-control" id="input-code" type="text" name="code" value=""
-                        style="font-size: 50px; height: 75px;" autofocus>
+                        style="font-size: 50px; height: 75px;">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

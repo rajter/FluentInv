@@ -142,7 +142,6 @@
         <div class="row">
             <div class="modal fade" id="modal_choose_image" role="dialog">
                 <div class="modal-dialog modal-lg">
-                  <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -172,37 +171,32 @@
 
         <!-- Modni dialog za promjenu lozinke -->
         <div class="row">
-          <div class="modal fade" id="modal_password" role="dialog">
-            <div class="modal-dialog">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Upiši novu Lozinku</h4>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center">
-                    </p>
-                  <input class="text-center form-control" id="input-password" type="password" name="password" value=""
-                        style="font-size: 50px; height: 75px;" autofocus>
-                </div>
-                <div class="modal-footer">
-                    <?php
-                      $attributes = array('id' => 'ajaxform');
-                      echo form_open('', $attributes);
-                    ?>
-                    <!-- <?php echo $this->security->get_csrf_token_name(); ?>
-                    <?php echo $this->security->get_csrf_hash(); ?> -->
-                     <input id="" name="user-id" type="hidden" value="<?php echo $user->id; ?>">
-                    <button type="button" class="btn btn-primary" id="btn-change-password">Promjeni lozinku</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <?php echo form_close(); ?>
-                  </form>
-                </div>
-              </div>
+            <div class="modal fade" id="modal_password" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Upiši novu Lozinku</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input class="text-center form-control" id="input-password" type="password" name="password" value=""
+                            style="font-size: 50px; height: 75px;">
+                    </div>
+                    <div class="modal-footer">
+                        <?php
+                            $attributes = array('id' => 'ajaxform');
+                            echo form_open('', $attributes);
+                        ?>
+                        <input id="" name="user-id" type="hidden" value="<?php echo $user->id; ?>">
+                        <button type="button" class="btn btn-primary" id="btn-change-password">Promjeni lozinku</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <?php echo form_close(); ?>
+                        </form>
+                    </div>
+                    </div>
 
+                </div>
             </div>
-          </div>
         </div>
     </section>
 

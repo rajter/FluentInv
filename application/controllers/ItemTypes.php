@@ -59,9 +59,29 @@ class ItemTypes extends My_Controller {
     {
         $session_data = $this->session->userdata('logged_in');
         $user_id = $session_data['id'];
-        $this->item->createItemType($user_id);
 
-        redirect('/itemTypes');
+        $headerscripts['header_scripts'] = array();
+
+        $footerscripts['footer_scripts'] = array();
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Naziv', 'trim|required');
+        $this->form_validation->set_rules('description', 'Opis', 'trim|required');;
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            $viewData['empty'] = null;
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/new_item_type_view');
+        }
+        else
+        {
+            $this->item->createItemType($user_id);
+    
+            redirect('/itemTypes');
+        }
+        
     }
 
     //--------------------
@@ -84,13 +104,32 @@ class ItemTypes extends My_Controller {
     //------------
     //  Kreiranje novog tipa
     //------------
-    public function updateItemType()
+    public function updateItemType($id=null)
     {
         $session_data = $this->session->userdata('logged_in');
         $user_id = $session_data['id'];
-        $this->item->updateItemType($user_id);
 
-        redirect('/itemTypes');
+        $headerscripts['header_scripts'] = array();
+
+        $footerscripts['footer_scripts'] = array();
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Naziv', 'trim|required');
+        $this->form_validation->set_rules('description', 'Opis', 'trim|required');;
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            $viewData['item_type'] = $this->item->getType($id);
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/edit_item_type_view');
+        }
+        else
+        {
+            $this->item->updateItemType($user_id);    
+            redirect('/itemTypes');
+        }       
+
     }
 
     //------------

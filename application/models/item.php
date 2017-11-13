@@ -125,18 +125,15 @@ Class Item extends CI_Model
     {
         if($id != null)
         {
-            $this->db->select('IT.*, INV.*', FALSE);
-            $this->db->select('LIN.name AS Location_IN, LOUT.name AS Location_OUT');
-            $this->db->select('TT.description AS TransactionType');
-            $this->db->select('C.name AS ClientName');
-            $this->db->from('item_transaction AS IT');
-            $this->db->join('inventory_transactions INV', 'IT.inventory_transaction_id = INV.id');
-            $this->db->join('locations LIN', 'INV.location_id = LIN.id');
-            $this->db->join('locations LOUT', 'INV.from_location_id = LOUT.id');
-            $this->db->join('transaction_type AS TT', 'TT.id = INV.transaction_type_id');
-            $this->db->join('clients as C', 'INV.client_id = C.id');
+            $this->db->select('IT.*', FALSE);
+            $this->db->select('U.id AS UserId, U.Name AS User,U.surname AS UserSurname, U.email AS UserEmail, U.image AS UserImage', FALSE);
+            $this->db->select('D.id AS DebtorId, D.Name AS Debtor,D.surname AS DebtorSurname, D.email AS DebtorEmail, D.image AS DebtorImage', FALSE);
+            $this->db->from('item_transactions AS IT');
+            $this->db->join('Users AS U', 'U.id = IT.user_id');
+            $this->db->join('Users AS D', 'D.id = IT.debtor_id');
             $this->db->where('IT.item_id', $id);
-            $this->db->order_by('INV.date DESC');
+            $this->db->where('IT.status', 1);
+            $this->db->order_by('IT.date_taken DESC');
             if(!is_null($limit))
             {
                 $this->db->limit($limit);
@@ -178,25 +175,6 @@ Class Item extends CI_Model
                 return NULL;
             }
         }
-    }
-
-    /*
-    *   Vraca artikle sa kolicinama za odredjenu transakciju
-    *   Artikli koji nisu u transakciji imat ce kolicinu 0
-    */
-    public function getItemsQuantity($trans_id)
-    {
-        $this->db->select("I.*");
-        $this->db->select("T.name AS type");
-        $this->db->select("IT.inventory_transaction_id, SUM(IF(IT.inventory_transaction_id = $trans_id, IT.quantity, 0)) AS quantity");
-        $this->db->from("items AS I");
-        $this->db->join("item_type AS T", "T.id = I.item_type_id");
-        $this->db->join("item_transaction AS IT", " I.id = IT.item_id");
-        $this->db->group_by("I.id");
-
-        $query = $this->db->get();
-
-        return $query->result();
     }
 
     //-----------------------

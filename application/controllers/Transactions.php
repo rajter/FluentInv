@@ -36,6 +36,19 @@ class Transactions extends My_Controller {
         $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/transactions_view');
     }
 
+    public function view($id)
+    {
+        $viewData['transaction'] = $this->transaction->get($id);
+
+        $headerscripts['header_scripts'] = array(
+        );
+
+        $footerscripts['footer_scripts'] = array(
+        );
+
+        $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/view');
+    }
+
     public function viewall()
     {
         $viewData['transactions'] = $this->transaction->getList();

@@ -91,7 +91,7 @@ Class HomeModel extends CI_Model
 
     public function getUsers($limit = 10)
     {
-        $this->db->select('U.name, U.surname, U.image, U.login_date');
+        $this->db->select('U.id, U.name, U.surname, U.image, U.login_date');
         $this->db->from('users AS U');
         $this->db->limit($limit);
 

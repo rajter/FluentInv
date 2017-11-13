@@ -176,7 +176,7 @@ $(function () {
     }).css("width", "100%");
   }
 
-  Activate sidebar push menu
+  //Activate sidebar push menu
   if (o.sidebarPushMenu) {
     $.AdminLTE.pushMenu.activate(o.sidebarToggleSelector);
   }

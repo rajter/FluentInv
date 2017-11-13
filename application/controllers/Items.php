@@ -24,6 +24,9 @@ class Items extends My_Controller {
         $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/items_view');
     }
 
+    //---------------------
+    //  Vraca sve artikle
+    //---------------------
     public function view($id = null)
     {
         $headerscripts['header_scripts'] = array();
@@ -35,6 +38,7 @@ class Items extends My_Controller {
 
         // Vrati sve duznike za artikl
         $viewData['debtor'] = $this->item->getDebtors($id);
+        $viewData['transactions'] = $this->item->getTransactions($id, 10);        
 
         $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/view');
     }
@@ -57,6 +61,9 @@ class Items extends My_Controller {
         $this->load_views($headerscripts, $footerscripts, $viewData, 'Items/new_item_view');
     }
 
+    //----------------------------
+    //  Kreira novi artikl
+    //----------------------------
     public function create()
     {
         $headerscripts['header_scripts'] = array('<link rel="stylesheet" href="'.base_url().'assets/css/dropzone.css">');
@@ -174,5 +181,6 @@ class Items extends My_Controller {
 
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
+
 
 }

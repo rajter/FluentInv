@@ -15,8 +15,6 @@
       <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/AdminLTE.min.css">
       <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/skins/skin-blue.min.css">
       <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/morris/morris.css">
-      <!-- JQUERY -->
-      <!-- <script src="<?php echo base_url(); ?>assets/js/jquery.js"></script> -->
      <!-- SKRIPTE  -->
       <?php
           if(isset($header_scripts)){

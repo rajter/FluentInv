@@ -35,7 +35,7 @@
                                 <!-- /.col -->
                                 <div class="col-sm-4 border-right">
                                   <div class="description-block">
-                                    <h5 class="description-header">1</h5>
+                                    <h5 class="description-header"><?php echo count($transactions); ?></h5>
                                     <span class="description-text">TRANSAKCIJA</span>
                                   </div>
                                   <!-- /.description-block -->
@@ -43,7 +43,6 @@
                                 <!-- /.col -->
                                 <div class="col-sm-4">
                                   <div class="description-block">
-                                    <!-- <h5 class="description-header">Transakcija</h5> -->
                                     <h5 class="description-header"><?php echo $item->id; ?></h5>
                                     <span class="description-text">ID</span>
                                   </div>
@@ -56,6 +55,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-primary">
@@ -135,8 +135,8 @@
                                                     </td>
                                                     <td><?php echo $debtor->name; ?></td>
                                                     <td><?php echo $debtor->surname; ?></td>
-                                                    <td><?php echo $debtor->DateTaken; ?></td>
-                                                    <td><?php echo $debtor->Deadline; ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($debtor->DateTaken)); ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($debtor->Deadline)); ?></td>
                                                     <td><?php echo $debtor->TransNumber; ?></td>
                                                 </tbody>
                                             </table>
@@ -149,14 +149,49 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- <?php echo var_dump($transactions); ?> -->
-                        <!-- <?php var_dump($item); ?> -->
-                </div>
-
             </div><!--col-md-6-->
+
+            <div class="col-md-6">
+                <h3>Transakcije</h3>
+                <div class="box box-success">
+                    <div class="box-body">
+                        <?php foreach ($transactions as $trans): ?>
+                            <div class="post">
+                                <div class="user-block">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <img class="img-circle img-bordered-sm" <?php echo "src=".base_url()."assets/dropzone/uploads/".$trans->DebtorImage; ?>>
+                                            <span class="username">
+                                            <a href="<?php echo base_url().'index.php/users/view/'.$trans->DebtorId ?>" target="blank"><?php echo $trans->Debtor; ?></a>
+                                            </span>
+                                            <span class="description"><i class="fa fa-calendar-check-o"></i>  Vraceno - <?php echo date('d/m/Y', strtotime($trans->date_returned)); ?></span>
+
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <img class="pull-right img-circle img-bordered-sm" <?php echo "src=".base_url()."assets/dropzone/uploads/".$trans->UserImage; ?>>
+                                            <span class="username">
+                                            <a href="<?php echo base_url().'index.php/users/view/'.$trans->UserId ?>" target="blank"><?php echo $trans->User; ?></a>
+                                            </span>
+                                            <span class="description"><i class="fa fa-calendar"></i>  Izdano - <?php echo date('d/m/Y', strtotime($trans->date_taken)); ?></span>
+                                        </div>
+                                    </div>
+
+                                </div><!-- /.user-block -->
+                                <p>
+                                    <?php 
+                                        if(empty($trans->footnote)){ echo "-"; }
+                                        else{ echo $trans->footnote; }
+                                    ?>
+                                </p>
+                                <ul class="list-inline">                                    
+                                    <li><a href="<?php echo base_url().'index.php/transactions/view/'.$trans->id; ?>" class="link-black text-sm"><i class="fa fa-search margin-r-5"></i> Transakcija br. <?php echo $trans->id; ?></a></li>
+                                    <li class="pull-right"><p href="#" class="link-black text-sm"><i class="fa fa-calendar-times-o margin-r-5"></i> Rok vraćanja - <?php echo date('d/m/Y', strtotime($trans->deadline)); ?></p></li>
+                                </ul>
+                            </div><!-- /.post -->
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
 
         </div><!--row-->
 

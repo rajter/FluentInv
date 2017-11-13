@@ -1,4 +1,9 @@
-<!-- Content Wrapper. Contains page content -->
+<?php
+
+    $nameIsEmpty = !empty(form_error('name'));
+    $descriptionIsEmpty = !empty(form_error('description'));
+
+ ?>
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -18,18 +23,27 @@
                 <div class="box box-info">
                     <div class="box-body">
                         <div class="row">
-                            <?php echo form_open_multipart('itemTypes/updateItemType'); ?>
+                            <?php  echo form_open_multipart('itemTypes/updateItemType/'.$item_type->id); ?>
                                 <div class="col-md-6">
                                     <div class="box-body">
-                                        <?php echo validation_errors(); ?>
-                                        <input type="hidden" name="id" value=<?php echo $item_type->id ?>>
-                                        <div class="form-group">
+                                        <input type="hidden" name="id" value=<?php echo $item_type->id; ?>>
+                                        <div class="form-group <?php if($nameIsEmpty){ echo "has-error";} ?>">
                                             <label for="name">Ime</label>
-                                            <input class="form-control" type="text" name="name" value="<?php echo $item_type->name; ?>">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-key"></i>
+                                                </div>
+                                                <input class="form-control" type="text" name="name" value="<?php echo $item_type->name; ?>">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="description">Opis</label>
-                                            <textarea class="form-control" name="description" rows="3" cols="40"><?php echo $item_type->description; ?></textarea>
+                                        <div class="form-group <?php if($descriptionIsEmpty){ echo "has-error";} ?>">
+                                            <label for="description">Opis <?php if($descriptionIsEmpty){ echo "ne smije biti prazan!";} ?></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </div>
+                                                <textarea class="form-control" name="description" rows="3" cols="40"><?php echo $item_type->description; ?></textarea>
+                                            </div>
                                         </div>
                                     </div><!--box body-->
                                     <div class="box-footer with-border">
@@ -59,7 +73,7 @@
                         <span class="sr-only">Loading...</span> -->
                     </p>
                   <input class="text-center form-control" id="input-code" type="text" name="code" value=""
-                        style="font-size: 50px; height: 75px;" autofocus>
+                        style="font-size: 50px; height: 75px;">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
