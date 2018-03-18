@@ -18,7 +18,7 @@
             <div class="small-box bg-aqua">
               <div class="inner">
                 <h3>#<?php echo $itemCount; ?></h3>
-                <p>Ukupno artikala</p>
+                <p>Artikli</p>
               </div>
               <div class="icon">
                 <i class="fa fa-tags"></i>
@@ -30,39 +30,39 @@
           <div class="col-md-3 col-sm-6 col-sx-12">
             <div class="small-box bg-green">
               <div class="inner">
-                <h3>#<?php echo $freeItemsCount; ?></h3>
-                <p>Slobodni artikli</p>
+                <h3>#</h3>
+                <p>Praćenje artikala</p>
               </div>
               <div class="icon">
                 <i class="fa fa-book"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/transactions" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6 col-sx-12">
             <div class="small-box bg-yellow">
               <div class="inner">
-                <h3>#<?php echo $issuedItemCount ?></h3>
-                <p>Zaduženi artikli</p>
+                <h3>#</h3>
+                <p>Popis transakcija</p>
               </div>
               <div class="icon">
                 <i class="fa fa-exchange"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/transactions/viewall" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6 col-sx-12">
-            <div class="small-box bg-red">
+            <div class="small-box bg-purple">
               <div class="inner">
-                <h3>#<?php echo $canceledItemCount; ?></h3>
-                <p>Otpisani artikli</p>
+                <h3>#</h3>
+                <p>Poduzeće</p>
               </div>
               <div class="icon">
-                <i class="fa fa-external-link"></i>
+                <i class="fa fa-bank"></i>
               </div>
-              <a href="<?php echo base_url(); ?>index.php/items" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
+              <a href="<?php echo base_url(); ?>index.php/company" class="small-box-footer">Više informacija <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
 

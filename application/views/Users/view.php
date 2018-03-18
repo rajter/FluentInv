@@ -56,7 +56,6 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>TO DO: Napravit popis zaduzenih artikala i zaostataka</h3>
                         <!-- <?php echo var_dump($transactions); ?> -->
                     </div>
                 </div>

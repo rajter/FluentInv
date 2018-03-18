@@ -80,10 +80,11 @@ class Items extends My_Controller {
         $this->form_validation->set_rules('name', 'Ime', 'trim|required');
         $this->form_validation->set_rules('price', 'Cijena', 'required');
         $this->form_validation->set_rules('item_type_id', 'Tip', 'required');
-        $this->form_validation->set_rules('code', 'Kod', 'trim|required');
+        $this->form_validation->set_rules('code', 'Kod', 'trim|required'); 
 
         if ($this->form_validation->run() === FALSE)
         {
+
             $alertData = array(
                 'id' => 'alertData',
                 'data-alerttype' => 'error',

@@ -130,7 +130,7 @@ class Transactions extends My_Controller {
                 '<script src="'.base_url().'assets/appjs/Transactions/transactions.js"></script>'
             );
 
-            $this->load_views($headerscripts, $footerscripts, $data, $viewData, 'Transactions/new_transaction_view');
+            $this->load_views($headerscripts, $footerscripts, $viewData, 'Transactions/new_transaction_view');
         }
         else // Validacije je prosla
         {

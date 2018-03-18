@@ -33,7 +33,7 @@
                                             type="button" class="btn btn-info " id="btn-choose-item-manually"><i class="fa fa-tags"></i> Izaberi artikl</a>
 
                                             <a href="#modal_code" data-toggle="modal" data-id=""
-                                            type="button" class="btn btn-success" id="btn-choose-item-via-code"><i class="fa fa-barcode"></i> Izaberi artikl</a>
+                                            type="button" class="btn btn-success" id="btn-choose-item-via-code"><i class="fa fa-barcode"></i> Skeniraj artikl</a>
                                         </div>
 
                                         <!-- <?php echo var_dump($transaction); ?>

@@ -72,7 +72,7 @@
             <img src="<?php echo base_url(); ?>assets/dist/img/avatar.png" class="img-circle" alt="Admin Image">
           </div>
           <div class="pull-left info">
-            <p>Username</p>
+            <p><?php echo $username; ?></p>
             <!-- Status -->
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
