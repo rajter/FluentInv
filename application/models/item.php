@@ -129,8 +129,8 @@ Class Item extends CI_Model
             $this->db->select('U.id AS UserId, U.Name AS User,U.surname AS UserSurname, U.email AS UserEmail, U.image AS UserImage', FALSE);
             $this->db->select('D.id AS DebtorId, D.Name AS Debtor,D.surname AS DebtorSurname, D.email AS DebtorEmail, D.image AS DebtorImage', FALSE);
             $this->db->from('item_transactions AS IT');
-            $this->db->join('Users AS U', 'U.id = IT.user_id');
-            $this->db->join('Users AS D', 'D.id = IT.debtor_id');
+            $this->db->join('users AS U', 'U.id = IT.user_id');
+            $this->db->join('users AS D', 'D.id = IT.debtor_id');
             $this->db->where('IT.item_id', $id);
             $this->db->where('IT.status', 1);
             $this->db->order_by('IT.date_taken DESC');
