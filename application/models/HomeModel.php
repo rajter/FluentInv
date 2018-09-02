@@ -114,7 +114,7 @@ Class HomeModel extends CI_Model
 
         for ($i = 1; $i < ($month+1); $i++) {
 
-            $transactions = $this->itemsTakenByMonth('2017', $i);
+            $transactions = $this->itemsTakenByMonth($year, $i);
 
             $transactionsByMonth['transaction'.$i] = array();
             array_push($transactionsByMonth['transaction'.$i], $transactions);

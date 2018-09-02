@@ -4,7 +4,6 @@ function loadChartData(){
 
     MonthlyData = [];
     chartData =[];
-    // alert("jebena funkcija");
     var BASE_URL = $("#base_url").text();
     var _form = $("#ajaxform").serializeArray();
     // var data = {name:"id", value:ID};
